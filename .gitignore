@@ -3,8 +3,14 @@ addon/doc/en/
 *_docHandler.py
 *.html
 *.ini
-*.mo
-*.pot
-*.py[co]
 *.nvda-addon
 .sconsign.dblite
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Translations
+*.mo
+*.pot
