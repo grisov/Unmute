@@ -7,16 +7,25 @@
 import addonHandler
 from logHandler import log
 try:
-    addonHandler.initTranslation()
+	addonHandler.initTranslation()
 except addonHandler.AddonError:
-    log.warning("Unable to initialise translations. This may be because the addon is running from NVDA scratchpad.")
+	log.warning("Unable to initialise translations. This may be because the addon is running from NVDA scratchpad.")
 
 import os
 _addonDir = os.path.join(os.path.dirname(__file__), "..", "..")
 if isinstance(_addonDir, bytes):
-    _addonDir = _addonDir.decode("mbcs")
+	_addonDir = _addonDir.decode("mbcs")
 _curAddon = addonHandler.Addon(_addonDir)
 _addonName = _curAddon.manifest['name']
 _addonSummary = _curAddon.manifest['summary']
 
 import globalPluginHandler
+
+
+class GlobalPlugin(globalPluginHandler.GlobalPlugin):
+	"""Implementation global commands of NVDA add-on"""
+	scriptCategory = str(_addonSummary)
+
+	def __init__(self, *args, **kwargs):
+		"""Initializing initial configuration values ​​and other fields"""
+		super(GlobalPlugin, self).__init__(*args, **kwargs)
