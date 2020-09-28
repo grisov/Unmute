@@ -20,6 +20,7 @@ _addonName = _curAddon.manifest['name']
 _addonSummary = _curAddon.manifest['summary']
 
 import globalPluginHandler
+from .sound import Sound
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -29,3 +30,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def __init__(self, *args, **kwargs):
 		"""Initializing initial configuration values ​​and other fields"""
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
+		if Sound.is_muted() or Sound.current_volume()<15:
+			Sound.volume_up()
+			Sound.volume_max()
