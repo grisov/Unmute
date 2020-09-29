@@ -20,7 +20,11 @@ _addonName = _curAddon.manifest['name']
 _addonSummary = _curAddon.manifest['summary']
 
 import globalPluginHandler
+import synthDriverHandler
+from threading import Thread
+from time import sleep
 from .sound import Sound
+import config
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -33,3 +37,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if Sound.is_muted() or Sound.current_volume()<15:
 			Sound.volume_up()
 			Sound.volume_max()
+		Thread(target=self.resetSynth).start()
+
+	def resetSynth(self) -> None:
+		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
+		if not synthDriverHandler.getSynth():
+			synthDriverHandler.initialize()
+			while not synthDriverHandler.getSynth():
+				synthDriverHandler.setSynth(config.conf['speech']['synth'])
+				sleep(1)
