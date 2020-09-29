@@ -4,10 +4,15 @@
 * Version: 1.0
 * Download [stable version][1]
 
-This add-on checks the status of the Windows audio system when NVDA starts.
-And, if it turns out that the sound is muted - the add-on forcibly turns it on.
+This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.
+The add-on also checks the status of the speech synthesizer. If there are problems with its initialization, attempts are made to start the synthesizer, which is specified in the NVDA settings.
 
 ## Change log
+
+### Version 1.0.1
+* Performs repeated attempts to enabling the synth driver in case of its failed initialization;
+* Vietnamese translation added by Dang Manh Cuong;
+* Ukrainian translation added.
 
 ### Version 1.0. Features of implementation
 The add-on uses a third-party module [Windows Sound Manager][2].

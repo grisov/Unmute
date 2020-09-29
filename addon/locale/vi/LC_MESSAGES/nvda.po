@@ -21,13 +21,11 @@ msgstr ""
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
 #. to be shown on installation and add-on information found in Add-ons Manager.
-#: buildVars.py:23
 msgid "Unmute Windows audio"
 msgstr "Bật âm thanh của Windows"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-#: buildVars.py:26
 msgid ""
 "When NVDA starts, this add-on checks the status of the Windows 10 sound "
 "system and, if the sound is turned off, turns it on."
