@@ -23,6 +23,7 @@ import globalPluginHandler
 import synthDriverHandler
 from threading import Thread
 from time import sleep
+from tones import beep
 from .sound import Sound
 import config
 
@@ -34,10 +35,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def __init__(self, *args, **kwargs):
 		"""Initializing initial configuration values ​​and other fields"""
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
+		Thread(target=self.unmuteAudio).start()
+		Thread(target=self.resetSynth).start()
+
+	def unmuteAudio(self) -> None:
+		"""Turns on Windows sound if it is muted or low."""
 		if Sound.is_muted() or Sound.current_volume()<15:
 			Sound.volume_up()
 			Sound.volume_max()
-		Thread(target=self.resetSynth).start()
 
 	def resetSynth(self) -> None:
 		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
@@ -46,3 +51,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			while not synthDriverHandler.getSynth():
 				synthDriverHandler.setSynth(config.conf['speech']['synth'])
 				sleep(1)
+			else:
+				self.audioEnabled()
+
+	def audioEnabled(self) -> None:
+		"""The signal when the audio is successfully turned on and the synthesizer is enabled."""
+		for p,t,s in [(300,100,0.1),(500,80,0.1),(700,60,0.1)]:
+			beep(p, t)
+			sleep(s)
