@@ -9,6 +9,11 @@ Nếu nhận thấy rằng âm thanh bị tắt thì add-on sẽ  bật nó lên
 
 ## Các thay đổi
 
+### Phiên bản 1.0.1
+* Thực hiện lặp đi lặp lại việc nỗ lực bật trình điều khiển bộ đọc trong trường hợp bị lỗi khi được gọi;
+* Dịch ra tiếng Việt bởi Đặng Mạnh Cường;
+* Thêm bản dịch tiếng Ugraina.
+
 ### Phiên bản 1.0. Thực hiện tính năng
 Add-on sử dụng một module của bên thứ ba [Windows Sound Manager][2].
 
