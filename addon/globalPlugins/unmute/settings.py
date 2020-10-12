@@ -45,26 +45,26 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 
 		customVolumeSizer = wx.BoxSizer(wx.HORIZONTAL)
 		# Translators: A setting in addon settings dialog.
-		self._customVolumeSlider = guiHelper.LabeledControlHelper(self, _("Set custom volume level:"), nvdaControls.EnhancedInputSlider,
+		self._customVolumeSlider = guiHelper.LabeledControlHelper(self, _("Set &custom volume level:"), nvdaControls.EnhancedInputSlider,
 			value=config.conf[_addonName]['volume'], minValue=0, maxValue=100, size=(250, -1)).control
 		customVolumeSizer.Add(self._customVolumeSlider, flag=wx.EXPAND)
 		soundSizer.Add(customVolumeSizer, flag=wx.EXPAND)
 		self._maxVolumeChk.Bind(wx.EVT_CHECKBOX, lambda evt, s1=soundSizer, s2=customVolumeSizer: s1.Show(s2, show=not evt.IsChecked()) and s1.Layout())
 
 		# Translators: A setting in addon settings dialog.
-		self._minVolumeSlider = guiHelper.LabeledControlHelper(self, _("Increase the volume if it is lower than:"), nvdaControls.EnhancedInputSlider,
+		self._minVolumeSlider = guiHelper.LabeledControlHelper(self, _("Increase the volume if it is &lower than:"), nvdaControls.EnhancedInputSlider,
 			value=config.conf[_addonName]['minlevel'], minValue=0, maxValue=100, size=(250, -1)).control
 		soundSizer.Add(self._minVolumeSlider)
 		sizer.Add(soundSizer, flag=wx.EXPAND)
 
 		driverSizer = wx.BoxSizer(wx.VERTICAL)
 		# Translators: A setting in addon settings dialog.
-		self._driverChk = wx.CheckBox(self, label=_("Repeat attempts to initialize the voice synthesizer driver"))
+		self._driverChk = wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver"))
 		driverSizer.Add(self._driverChk)
 		self._driverChk.SetValue(config.conf[_addonName]['reinit'])
 
 		# Translators: A setting in addon settings dialog.
-		self._retriesCountSpin = guiHelper.LabeledControlHelper(self, _("Number of retries (0 - infinitely):"), nvdaControls.SelectOnFocusSpinCtrl,
+		self._retriesCountSpin = guiHelper.LabeledControlHelper(self, _("&Number of retries (0 - infinitely):"), nvdaControls.SelectOnFocusSpinCtrl,
 			value=str(config.conf[_addonName]['retries']), min=0, max=10000000).control
 		driverSizer.Add(self._retriesCountSpin)
 		self._driverChk.Bind(wx.EVT_CHECKBOX, lambda evt, sz=driverSizer: sz.Show(self._retriesCountSpin, show=evt.IsChecked()))
