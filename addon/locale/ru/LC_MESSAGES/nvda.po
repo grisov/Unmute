@@ -1,0 +1,71 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'unmute' '1.1'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2020-10-13 00:10+0300\n"
+"PO-Revision-Date: 2020-10-13 00:26+0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"Last-Translator: Oleksandr Gryshchenko <grisov.nvaccess@mailnull.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Language: ru\n"
+
+#. Translators: Help message for a dialog.
+#: addon\globalPlugins\unmute\settings.py:35
+msgid ""
+"Select the initial sound system settings that will be set when NVDA starts:"
+msgstr ""
+"Выберите начальные настройки звуковой системы, которые будут установлены "
+"при запуске NVDA:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:41
+msgid "Set the &maximum volume of the Windows system audio when starting NVDA"
+msgstr ""
+"Установить &максимальную громкость системного звука Windows при запуске NVDA"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:48
+msgid "Set &custom volume level:"
+msgstr "Установить предварительно &заданный уровень громкости:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:55
+msgid "Increase the volume if it is &lower than:"
+msgstr "Увеличить громкость, если она &ниже чем:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:62
+msgid "&Repeat attempts to initialize the voice synthesizer driver"
+msgstr "&Повторять попытки инициализации драйвера синтезатора голоса"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:67
+msgid "&Number of retries (0 - infinitely):"
+msgstr "&Количество попыток (0 - бесконечно):"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: buildVars.py:23
+msgid "Unmute Windows audio"
+msgstr "Автовключение звука"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:26
+msgid ""
+"When NVDA starts, this add-on checks the status of the Windows 10 sound "
+"system and, if the sound is turned off, turns it on."
+msgstr ""
+"При запуске NVDA это дополнение проверяет состояние звуковой системы "
+"Windows 10 и, если звук выключен, включает его."
