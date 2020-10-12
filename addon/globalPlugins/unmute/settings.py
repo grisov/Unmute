@@ -57,6 +57,19 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		soundSizer.Add(self._minVolumeSlider)
 		sizer.Add(soundSizer, flag=wx.EXPAND)
 
+		driverSizer = wx.BoxSizer(wx.VERTICAL)
+		# Translators: A setting in addon settings dialog.
+		self._driverChk = wx.CheckBox(self, label=_("Repeat attempts to initialize the voice synthesizer driver"))
+		driverSizer.Add(self._driverChk)
+		self._driverChk.SetValue(config.conf[_addonName]['reinit'])
+
+		# Translators: A setting in addon settings dialog.
+		self._retriesCountSpin = guiHelper.LabeledControlHelper(self, _("Number of retries (0 - infinitely):"), nvdaControls.SelectOnFocusSpinCtrl,
+			value=str(config.conf[_addonName]['retries']), min=0, max=10000000).control
+		driverSizer.Add(self._retriesCountSpin)
+		self._driverChk.Bind(wx.EVT_CHECKBOX, lambda evt, sz=driverSizer: sz.Show(self._retriesCountSpin, show=evt.IsChecked()))
+		sizer.Add(driverSizer, flag=wx.EXPAND)
+
 	def postInit(self):
 		"""Set system focus to source language selection dropdown list."""
 		self._maxVolumeChk.SetFocus()
@@ -66,3 +79,5 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		config.conf[_addonName]['max'] = self._maxVolumeChk.GetValue()
 		config.conf[_addonName]['volume'] = self._customVolumeSlider.GetValue()
 		config.conf[_addonName]['minlevel'] = self._minVolumeSlider.GetValue()
+		config.conf[_addonName]['reinit'] = self._driverChk.GetValue()
+		config.conf[_addonName]['retries'] = self._retriesCountSpin.GetValue()

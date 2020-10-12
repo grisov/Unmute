@@ -1,4 +1,4 @@
-﻿#-*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 # A part of NonVisual Desktop Access (NVDA)
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
@@ -40,12 +40,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		confspec = {
 			"max": "boolean(default=true)",
 			"volume": "integer(default=100,min=0,max=100)",
-			"minlevel": "integer(default=20,min=0,max=100)"
+			"minlevel": "integer(default=20,min=0,max=100)",
+			"reinit": "boolean(default=true)",
+			"retries": "integer(default=0,min=0,max=10000000)"
 		}
 		config.conf.spec[_addonName] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
 		Thread(target=self.unmuteAudio).start()
-		Thread(target=self.resetSynth).start()
+		if config.conf[_addonName]['reinit']:
+			Thread(target=self.resetSynth).start()
 
 	def terminate(self, *args, **kwargs):
 		"""This will be called when NVDA is finished with this global plugin"""
@@ -68,13 +71,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
 		if not synthDriverHandler.getSynth():
 			synthDriverHandler.initialize()
-			while not synthDriverHandler.getSynth():
+			i = 0
+			while not synthDriverHandler.getSynth() and i<=config.conf[_addonName]['retries']:
 				synthDriverHandler.setSynth(config.conf['speech']['synth'])
 				sleep(1)
+				if config.conf[_addonName]['retries']!=0:
+					i+=1
 			else:
-				self.audioEnabled()
+				self.audioEnabledSound()
 
-	def audioEnabled(self) -> None:
+	def audioEnabledSound(self) -> None:
 		"""The signal when the audio is successfully turned on and the synthesizer is enabled."""
 		for p,t,s in [(300,100,0.1),(500,80,0.1),(700,60,0.1)]:
 			beep(p, t)
