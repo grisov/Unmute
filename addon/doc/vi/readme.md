@@ -4,10 +4,15 @@
 * Phiên bản: 1.0
 * Tải về [phiên bản chính thức][1]
 
-Add-on này kiểm tra trạng thái âm thanh hệ thống của Windows khi khởi động NVDA.
-Nếu nhận thấy rằng âm thanh bị tắt thì add-on sẽ  bật nó lên.
+Add-on này kiểm tra trạng thái âm thanh hệ thống của Windows khi khởi động NVDA. Nếu nhận thấy rằng âm thanh bị tắt thì add-on sẽ  bật nó lên.
+Add-on cũng kiểm tra trạng thái của bộ phát âm. Nếu có trục trặc với việc gọi chạy nó, add-on sẽ nỗ lực gọi bộ đọc đó lênvới các thiết lập trong cài đặt của NVDA.
 
 ## Các thay đổi
+
+### Phiên bản 1.0.1
+* Thực hiện lặp đi lặp lại việc nỗ lực bật trình điều khiển bộ đọc trong trường hợp bị lỗi khi được gọi;
+* Dịch ra tiếng Việt bởi Đặng Mạnh Cường;
+* Thêm bản dịch tiếng Ugraina.
 
 ### Phiên bản 1.0. Thực hiện tính năng
 Add-on sử dụng một module của bên thứ ba [Windows Sound Manager][2].
