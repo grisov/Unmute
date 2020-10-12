@@ -51,6 +51,10 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		soundSizer.Add(customVolumeSizer, flag=wx.EXPAND)
 		self._maxVolumeChk.Bind(wx.EVT_CHECKBOX, lambda evt, s1=soundSizer, s2=customVolumeSizer: s1.Show(s2, show=not evt.IsChecked()) and s1.Layout())
 
+		# Translators: A setting in addon settings dialog.
+		self._minVolumeSlider = guiHelper.LabeledControlHelper(self, _("Increase the volume if it is lower than:"), nvdaControls.EnhancedInputSlider,
+			value=config.conf[_addonName]['minlevel'], minValue=0, maxValue=100, size=(250, -1)).control
+		soundSizer.Add(self._minVolumeSlider)
 		sizer.Add(soundSizer, flag=wx.EXPAND)
 
 	def postInit(self):
@@ -61,3 +65,4 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		"""Update Configuration when clicking OK."""
 		config.conf[_addonName]['max'] = self._maxVolumeChk.GetValue()
 		config.conf[_addonName]['volume'] = self._customVolumeSlider.GetValue()
+		config.conf[_addonName]['minlevel'] = self._minVolumeSlider.GetValue()
