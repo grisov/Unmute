@@ -1,4 +1,4 @@
-﻿#-*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 # A part of NonVisual Desktop Access (NVDA)
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
@@ -24,8 +24,10 @@ import synthDriverHandler
 from threading import Thread
 from time import sleep
 from tones import beep
-from .sound import Sound
+import gui
 import config
+from .sound import Sound
+from .settings import UnmuteSettingsPanel
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -35,14 +37,32 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def __init__(self, *args, **kwargs):
 		"""Initializing initial configuration values ​​and other fields"""
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
+		confspec = {
+			"max": "boolean(default=true)",
+			"volume": "integer(default=100,min=0,max=100)",
+			"minlevel": "integer(default=20,min=0,max=100)"
+		}
+		config.conf.spec[_addonName] = confspec
+		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
 		Thread(target=self.unmuteAudio).start()
 		Thread(target=self.resetSynth).start()
 
+	def terminate(self, *args, **kwargs):
+		"""This will be called when NVDA is finished with this global plugin"""
+		super().terminate(*args, **kwargs)
+		try:
+			gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(UnmuteSettingsPanel)
+		except IndexError:
+			log.warning("Can't remove %s Settings panel from NVDA settings dialogs", _addonSummary)
+
 	def unmuteAudio(self) -> None:
 		"""Turns on Windows sound if it is muted or low."""
-		if Sound.is_muted() or Sound.current_volume()<15:
+		if Sound.is_muted() or Sound.current_volume()<config.conf[_addonName]['minlevel']:
 			Sound.volume_up()
-			Sound.volume_max()
+			if config.conf[_addonName]['max']:
+				Sound.volume_max()
+			else:
+				Sound.volume_set(config.conf[_addonName]['volume'])
 
 	def resetSynth(self) -> None:
 		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
