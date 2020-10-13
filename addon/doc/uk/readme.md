@@ -49,6 +49,6 @@
 1. Відкрийте командний рядок, перейдіть до кореневого каталогу цього репозиторія.
 2. Запустіть на виконання команду **scons**. Якщо не виникло помилок, згенерований додаток розміщується в поточному каталозі.
 
-[1]: https://github.com/grisov/Unmute/releases/download/v1.0/unmute-1.0.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/v1.0/unmute-1.0.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/v1.1/unmute-1.1.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/v1.1/unmute-1.1.nvda-addon
 [3]: https://github.com/Paradoxis/Windows-Sound-Manager
