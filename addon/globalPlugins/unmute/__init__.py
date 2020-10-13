@@ -39,7 +39,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
 		confspec = {
 			"max": "boolean(default=true)",
-			"volume": "integer(default=100,min=0,max=100)",
+			"volume": "integer(default=90,min=0,max=100)",
 			"minlevel": "integer(default=20,min=0,max=100)",
 			"reinit": "boolean(default=true)",
 			"retries": "integer(default=0,min=0,max=10000000)"
