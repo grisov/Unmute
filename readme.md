@@ -1,7 +1,7 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.1
+* Version: 1.2
 * Download [stable version][1]
 * Download [development version][2]
 
@@ -23,7 +23,13 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 
 5. In this field you can specify the number of attempts to re-initialize the voice synthesizer driver. Attempts are performed cyclically with an interval of 1 second. A value of 0 means that attempts will be performed indefinitely until the procedure is successfully completed.
 
+6. The next checkbox turns on or off playing the startup sound  when the operation is successful.
+
 ## Change log
+
+### Version 1.2
+* switched to using the ** pycaw ** module instead of ** Windows Sound Manager **;
+* added startup sound playback when audio is successfully turned on by add-on.
 
 ### Version 1.1
 * added add-on settings dialog;
@@ -35,7 +41,7 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 * Ukrainian translation added.
 
 ### Version 1.0. Features of implementation
-The add-on uses a third-party module [Windows Sound Manager][3].
+The add-on uses a third-party module Windows Sound Manager.
 
 ## Altering NVDA Unmute
 You may clone this repo to make alteration to NVDA Unmute.
@@ -50,6 +56,5 @@ These can be installed with pip:
 1. Open a command line, change to the root of this repo
 2. Run the **scons** command. The created add-on, if there were no errors, is placed in the current directory.
 
-[1]: https://github.com/grisov/Unmute/releases/download/v1.1/unmute-1.1.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/v1.1/unmute-1.1.nvda-addon
-[3]: https://github.com/Paradoxis/Windows-Sound-Manager
+[1]: https://github.com/grisov/Unmute/releases/download/v1.2/unmute-1.2.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/v1.2/unmute-1.2.nvda-addon
