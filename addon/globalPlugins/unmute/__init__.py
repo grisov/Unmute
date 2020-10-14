@@ -42,7 +42,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			"volume": "integer(default=90,min=0,max=100)",
 			"minlevel": "integer(default=20,min=0,max=100)",
 			"reinit": "boolean(default=true)",
-			"retries": "integer(default=0,min=0,max=10000000)"
+			"retries": "integer(default=0,min=0,max=10000000)",
+			"playsound": "boolean(default=true)"
 		}
 		config.conf.spec[_addonName] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
@@ -73,7 +74,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				volume.SetMasterVolumeLevelScalar(1.0, None)
 			else:
 				volume.SetMasterVolumeLevelScalar(float(config.conf[_addonName]['volume'])/100, None)
-			self.audioEnabledSound()
+			if config.conf[_addonName]['playsound']:
+				self.audioEnabledSound()
 
 	def resetSynth(self) -> None:
 		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
@@ -86,7 +88,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if config.conf[_addonName]['retries']!=0:
 					i+=1
 			else:
-				self.audioEnabledSound()
+				if config.conf[_addonName]['playsound']:
+					self.audioEnabledSound()
 
 	def audioEnabledSound(self) -> None:
 		"""The sound when the audio is successfully turned on and the synthesizer is enabled."""

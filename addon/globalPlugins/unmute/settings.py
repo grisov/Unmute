@@ -70,6 +70,11 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		self._driverChk.Bind(wx.EVT_CHECKBOX, lambda evt, sz=driverSizer: sz.Show(self._retriesCountSpin, show=evt.IsChecked()))
 		sizer.Add(driverSizer, flag=wx.EXPAND)
 
+		# Translators: A setting in addon settings dialog.
+		self._playSoundChk = wx.CheckBox(self, label=_("Play sound when audio has been successfully turned on"))
+		sizer.Add(self._playSoundChk, flag=wx.EXPAND)
+		self._playSoundChk.SetValue(config.conf[_addonName]['playsound'])
+
 	def postInit(self):
 		"""Set system focus to source language selection dropdown list."""
 		self._maxVolumeChk.SetFocus()
@@ -81,3 +86,4 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		config.conf[_addonName]['minlevel'] = self._minVolumeSlider.GetValue()
 		config.conf[_addonName]['reinit'] = self._driverChk.GetValue()
 		config.conf[_addonName]['retries'] = self._retriesCountSpin.GetValue()
+		config.conf[_addonName]['playsound'] = self._playSoundChk.GetValue()
