@@ -71,7 +71,7 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		sizer.Add(driverSizer, flag=wx.EXPAND)
 
 		# Translators: A setting in addon settings dialog.
-		self._playSoundChk = wx.CheckBox(self, label=_("Play sound when audio has been successfully turned on"))
+		self._playSoundChk = wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on"))
 		sizer.Add(self._playSoundChk, flag=wx.EXPAND)
 		self._playSoundChk.SetValue(config.conf[_addonName]['playsound'])
 
