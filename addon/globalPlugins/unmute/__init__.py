@@ -21,6 +21,7 @@ _addonSummary = _curAddon.manifest['summary']
 
 import globalPluginHandler
 import synthDriverHandler
+import nvwave
 from threading import Thread
 from time import sleep
 from tones import beep
@@ -72,6 +73,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				volume.SetMasterVolumeLevelScalar(1.0, None)
 			else:
 				volume.SetMasterVolumeLevelScalar(float(config.conf[_addonName]['volume'])/100, None)
+			self.audioEnabledSound()
 
 	def resetSynth(self) -> None:
 		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
@@ -87,7 +89,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				self.audioEnabledSound()
 
 	def audioEnabledSound(self) -> None:
-		"""The signal when the audio is successfully turned on and the synthesizer is enabled."""
-		for p,t,s in [(300,100,0.1),(500,80,0.1),(700,60,0.1)]:
-			beep(p, t)
-			sleep(s)
+		"""The sound when the audio is successfully turned on and the synthesizer is enabled."""
+		try:
+			nvwave.playWaveFile(os.path.join(os.path.dirname(__file__), "start.wav"))
+		except:
+			pass
