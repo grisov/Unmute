@@ -26,7 +26,6 @@ from time import sleep
 from tones import beep
 import gui
 import config
-from .sound import Sound
 from .settings import UnmuteSettingsPanel
 
 
@@ -60,12 +59,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def unmuteAudio(self) -> None:
 		"""Turns on Windows sound if it is muted or low."""
-		if Sound.is_muted() or Sound.current_volume()<config.conf[_addonName]['minlevel']:
-			Sound.volume_up()
+		from ctypes import cast, POINTER
+		from comtypes import CLSCTX_ALL
+		from .pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+		devices = AudioUtilities.GetSpeakers()
+		interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+		volume = cast(interface, POINTER(IAudioEndpointVolume))
+		if volume.GetMute():
+			volume.SetMute(False, None)
+		if volume.GetMasterVolumeLevelScalar()*100 < config.conf[_addonName]['minlevel']:
 			if config.conf[_addonName]['max']:
-				Sound.volume_max()
+				volume.SetMasterVolumeLevelScalar(1.0, None)
 			else:
-				Sound.volume_set(config.conf[_addonName]['volume'])
+				volume.SetMasterVolumeLevelScalar(float(config.conf[_addonName]['volume'])/100, None)
 
 	def resetSynth(self) -> None:
 		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
