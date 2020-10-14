@@ -28,7 +28,7 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 ## Change log
 
 ### Version 1.2
-* switched to using the ** pycaw ** module instead of ** Windows Sound Manager **;
+* switched to using the **pycaw** module instead of **Windows Sound Manager**;
 * added startup sound playback when audio is successfully turned on by add-on.
 
 ### Version 1.1
