@@ -24,8 +24,8 @@ import synthDriverHandler
 import nvwave
 import gui
 import ui
+from scriptHandler import script
 from threading import Thread
-from tones import beep
 from time import sleep
 import config
 from .settings import UnmuteSettingsPanel
@@ -58,10 +58,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		Thread(target=self.unmuteAudio).start()
 		if config.conf[_addonName]['reinit']:
 			Thread(target=self.resetSynth).start()
-		# Values for adjusting the volume of the system sound
-		self._volumeLevel = 0
+		# Value for adjusting the volume of the system sound
 		self._stepChange = 0.01
-		self._beepFrequency = 200
 
 	def terminate(self, *args, **kwargs):
 		"""This will be called when NVDA is finished with this global plugin"""
@@ -104,28 +102,40 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except:
 			pass
 
+	def setVolumeLevel(self, volumeLevel: float) -> None:
+		"""Set the device volume to the specified value and announce it.
+		@param volumeLevel: value of volume level
+		@type volumeLevel: float, must be between 0.0 and 1.0
+		"""
+		self._volume.SetMasterVolumeLevelScalar(volumeLevel, None)
+		# Translators: The message is announced during volume control
+		ui.message("%s %d%%" % (_("Volume"), int(volumeLevel*100)))
+
+	# Translators: The name of the method that displayed in the NVDA input gestures dialog
+	@script(description=_("Increase the volume"))
 	def script_volumeUp(self, gesture):
+		"""Increase the volume of the selected sound source.
+		@param gesture: the input gesture in question
+		@type gesture: L{inputCore.InputGesture}
+		"""
 		volumeLevel = self._volume.GetMasterVolumeLevelScalar()
 		volumeLevel += self._stepChange
-		if volumeLevel >= 1.0:
+		if volumeLevel > 1.0:
 			volumeLevel = 1.0
-		self._volume.SetMasterVolumeLevelScalar(volumeLevel, None)
-		if volumeLevel < 1.0:
-			beepFrequency = int(volumeLevel*1e3) + 200
-			beep(beepFrequency, 30)
-		else:
-			# Translators: The message is announced when the maximum volume is reached
-			ui.message(_("The maximum volume is set"))
+		self.setVolumeLevel(volumeLevel)
 
+	# Translators: The name of the method that displayed in the NVDA input gestures dialog
+	@script(description=_("Decrease the volume"))
 	def script_volumeDown(self, gesture):
+		"""Decrease the volume of the selected sound source.
+		@param gesture: the input gesture in question
+		@type gesture: L{inputCore.InputGesture}
+		"""
 		volumeLevel = self._volume.GetMasterVolumeLevelScalar()
 		volumeLevel -= self._stepChange
-		if volumeLevel <= 0.0:
+		if volumeLevel < 0.0:
 			volumeLevel = 0.0
-		self._volume.SetMasterVolumeLevelScalar(volumeLevel, None)
-		if volumeLevel > 0.0:
-			beepFrequency = int(volumeLevel*1e3) + 200
-			beep(beepFrequency, 30)
+		self.setVolumeLevel(volumeLevel)
 
 	__gestures = {
 		"kb:NVDA+control+shift+upArrow": "volumeUp",
