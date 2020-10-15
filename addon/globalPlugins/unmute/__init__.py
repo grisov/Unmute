@@ -42,7 +42,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""Initializing initial configuration values ​​and other fields"""
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
 		confspec = {
-			"max": "boolean(default=true)",
 			"volume": "integer(default=90,min=0,max=100)",
 			"minlevel": "integer(default=20,min=0,max=100)",
 			"reinit": "boolean(default=true)",
@@ -74,10 +73,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if self._volume.GetMute():
 			self._volume.SetMute(False, None)
 		if self._volume.GetMasterVolumeLevelScalar()*100 < config.conf[_addonName]['minlevel']:
-			if config.conf[_addonName]['max']:
-				self._volume.SetMasterVolumeLevelScalar(1.0, None)
-			else:
-				self._volume.SetMasterVolumeLevelScalar(float(config.conf[_addonName]['volume'])/100, None)
+			self._volume.SetMasterVolumeLevelScalar(float(config.conf[_addonName]['volume'])/100, None)
 			if config.conf[_addonName]['playsound']:
 				self.audioEnabledSound()
 
@@ -98,7 +94,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def audioEnabledSound(self) -> None:
 		"""The sound when the audio is successfully turned on and the synthesizer is enabled."""
 		try:
-			nvwave.playWaveFile(os.path.join(os.path.dirname(__file__), "start.wav"))
+			nvwave.playWaveFile(os.path.join(os.path.dirname(__file__), "unmuted.wav"))
 		except:
 			pass
 

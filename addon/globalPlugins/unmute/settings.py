@@ -35,21 +35,12 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		helpLabel = wx.StaticText(self, label=_("Select the initial sound system settings that will be set when NVDA starts:"), style=wx.ALIGN_LEFT)
 		helpLabel.Wrap(helpLabel.GetSize()[0])
 		sizer.Add(helpLabel, flag=wx.EXPAND)
-		soundSizer = wx.BoxSizer(wx.VERTICAL)
-		maxVolumeSizer = wx.BoxSizer(wx.HORIZONTAL)
-		# Translators: A setting in addon settings dialog.
-		self._maxVolumeChk = wx.CheckBox(self, label=_("Set the &maximum volume of the Windows system audio when starting NVDA"))
-		maxVolumeSizer.Add(self._maxVolumeChk)
-		soundSizer.Add(maxVolumeSizer, flag=wx.EXPAND)
-		self._maxVolumeChk.SetValue(config.conf[_addonName]['max'])
 
-		customVolumeSizer = wx.BoxSizer(wx.HORIZONTAL)
+		soundSizer = wx.BoxSizer(wx.VERTICAL)
 		# Translators: A setting in addon settings dialog.
 		self._customVolumeSlider = guiHelper.LabeledControlHelper(self, _("Set &custom volume level:"), nvdaControls.EnhancedInputSlider,
 			value=config.conf[_addonName]['volume'], minValue=0, maxValue=100, size=(250, -1)).control
-		customVolumeSizer.Add(self._customVolumeSlider, flag=wx.EXPAND)
-		soundSizer.Add(customVolumeSizer, flag=wx.EXPAND)
-		self._maxVolumeChk.Bind(wx.EVT_CHECKBOX, lambda evt, s1=soundSizer, s2=customVolumeSizer: s1.Show(s2, show=not evt.IsChecked()) and s1.Layout())
+		soundSizer.Add(self._customVolumeSlider)
 
 		# Translators: A setting in addon settings dialog.
 		self._minVolumeSlider = guiHelper.LabeledControlHelper(self, _("Increase the volume if it is &lower than:"), nvdaControls.EnhancedInputSlider,
@@ -77,11 +68,10 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 
 	def postInit(self):
 		"""Set system focus to source language selection dropdown list."""
-		self._maxVolumeChk.SetFocus()
+		self._customVolumeSlider.SetFocus()
 
 	def onSave(self):
 		"""Update Configuration when clicking OK."""
-		config.conf[_addonName]['max'] = self._maxVolumeChk.GetValue()
 		config.conf[_addonName]['volume'] = self._customVolumeSlider.GetValue()
 		config.conf[_addonName]['minlevel'] = self._minVolumeSlider.GetValue()
 		config.conf[_addonName]['reinit'] = self._driverChk.GetValue()
