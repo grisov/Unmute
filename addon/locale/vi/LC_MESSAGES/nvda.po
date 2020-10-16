@@ -7,16 +7,70 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 'unmute' '1.0'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2020-09-29 08:00+0300\n"
-"PO-Revision-Date: 2020-09-29 14:35+0700\n"
+"POT-Creation-Date: 2020-10-15 22:19+0300\n"
+"PO-Revision-Date: 2020-10-16 14:07+0700\n"
 "Last-Translator: Dang Manh Cuong <dangmanhcuong@gmail.com>\n"
 "Language-Team: Vietnamese <dangmanhcuong@gmail.com>\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.11\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: vi\n"
+
+#. Translators: Used as the default audio device name when the device name could not be determined
+msgid "Default audio device"
+msgstr "Thiết bị âm thanh mặc định"
+
+#. Translators: The message is announced during volume control
+msgid "Volume"
+msgstr "Âm lượng"
+
+#. Translators: The message is announced during volume control
+msgid "The sound is muted"
+msgstr "Âm thanh đã bị tắt"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Increase the volume"
+msgstr "Tăng âm lượng"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Decrease the volume"
+msgstr "Giảm âm lượng"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Switch to the next audio source"
+msgstr "Chuyển đến nguồn âm thanh kế tiếp"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Switch to the previous audio source"
+msgstr "Chuyển đến nguồn âm thanh trước"
+
+#. Translators: Help message for a dialog.
+msgid ""
+"Select the initial sound system settings that will be set when NVDA starts:"
+msgstr ""
+"Chọn các thiết lập âm thanh ban đầu sẽ được thực hiện khi khởi động NVDA:"
+
+#. Translators: A setting in addon settings dialog.
+msgid "Set &custom volume level:"
+msgstr "Thiết &lập mức độ âm thanh:"
+
+#. Translators: A setting in addon settings dialog.
+msgid "Increase the volume if it is &lower than:"
+msgstr "Tăng âm lượng nếu nó nhỏ hơn:"
+
+#. Translators: A setting in addon settings dialog.
+msgid "&Repeat attempts to initialize the voice synthesizer driver"
+msgstr "&Nỗ lực lặp lại việc khởi động trình điều khiển bộ đọc"
+
+#. Translators: A setting in addon settings dialog.
+msgid "&Number of retries (0 - infinitely):"
+msgstr "&Số lần thử lại (0 đến vô cực)"
+
+#. Translators: A setting in addon settings dialog.
+msgid "Play &sound when audio has been successfully turned on"
+msgstr "Phát â&m báo khi đã bật âm thanh"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
