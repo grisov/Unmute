@@ -77,6 +77,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if self._volume.GetMute():
 			self._volume.SetMute(False, None)
 		if self._volume.GetMasterVolumeLevelScalar()*100 < config.conf[_addonName]['minlevel']:
+			config.conf[_addonName]['volume'] = max(config.conf[_addonName]['volume'], config.conf[_addonName]['minlevel'])
 			self._volume.SetMasterVolumeLevelScalar(float(config.conf[_addonName]['volume'])/100, None)
 			if config.conf[_addonName]['playsound']:
 				self.audioEnabledSound()

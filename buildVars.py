@@ -23,7 +23,7 @@ addon_info = {
 	"addon_summary": _("Unmute Windows audio"),
 	# Add-on description
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-	"addon_description": _("""When NVDA starts, this add-on checks the status of the Windows 10 sound system and, if the sound is turned off, turns it on."""),
+	"addon_description": _("""When NVDA starts, this add-on checks the status of the Windows sound system and, if the sound is turned off, turns it on."""),
 	# version
 	"addon_version": "1.3",
 	# Author(s)
