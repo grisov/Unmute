@@ -208,8 +208,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		ui.message(title)
 
 	__gestures = {
-		"kb:NVDA+control+shift+upArrow": "volumeUp",
-		"kb:NVDA+control+shift+downArrow": "volumeDown",
-		"kb:NVDA+control+shift+rightArrow": "nextProcess",
-		"kb:NVDA+control+shift+leftArrow": "prevProcess"
+		"kb:NVDA+windows+upArrow": "volumeUp",
+		"kb:NVDA+windows+downArrow": "volumeDown",
+		"kb:NVDA+windows+rightArrow": "nextProcess",
+		"kb:NVDA+windows+leftArrow": "prevProcess"
 	}
