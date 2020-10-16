@@ -1,71 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'unmute' '1.2'\n"
+"Project-Id-Version: 'unmute' '1.3'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2020-10-14 19:19+0300\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
+"POT-Creation-Date: 2020-10-16 13:56+0300\n"
+"PO-Revision-Date: 2020-10-16 14:17+0300\n"
 "Language-Team: \n"
-"Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.4.1\n"
+"Last-Translator: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Language: uk_UA\n"
+
+#. Translators: Used as the default audio device name when the device name could not be determined
+msgid "Default audio device"
+msgstr "Аудіо-пристрій за замовчуванням"
+
+#. Translators: The message is announced during volume control
+msgid "Volume"
+msgstr "Гучність"
+
+#. Translators: The message is announced during volume control
+msgid "The sound is muted"
+msgstr "Звук вимкнено"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Increase the volume"
+msgstr "Збільшити гучність"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Decrease the volume"
+msgstr "Зменшити гучність"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Switch to the next audio source"
+msgstr "Перейти до наступного джерела звуку"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Switch to the previous audio source"
+msgstr "Перейти до попереднього джерела звуку"
 
 #. Translators: Help message for a dialog.
-#: addon\globalPlugins\unmute\settings.py:35
 msgid ""
 "Select the initial sound system settings that will be set when NVDA starts:"
 msgstr ""
-"Виберіть початкові налаштування звукової системи, які будуть встановлені при "
-"запуску NVDA:"
+"Виберіть початкові налаштування звукової системи, які будуть встановлені "
+"при запуску NVDA:"
 
 #. Translators: A setting in addon settings dialog.
-#: addon\globalPlugins\unmute\settings.py:41
-msgid "Set the &maximum volume of the Windows system audio when starting NVDA"
-msgstr ""
-"Встановити &максимальну гучність звуку в системі Windows під час запуску NVDA"
-
-#. Translators: A setting in addon settings dialog.
-#: addon\globalPlugins\unmute\settings.py:48
 msgid "Set &custom volume level:"
 msgstr "Встановити &власне значення рівня гучності:"
 
 #. Translators: A setting in addon settings dialog.
-#: addon\globalPlugins\unmute\settings.py:55
 msgid "Increase the volume if it is &lower than:"
 msgstr "Збільшувати гучність, якщо вона &нижча ніж:"
 
 #. Translators: A setting in addon settings dialog.
-#: addon\globalPlugins\unmute\settings.py:62
 msgid "&Repeat attempts to initialize the voice synthesizer driver"
 msgstr "&Повторювати спроби ініціалізувати драйвер синтезатора голосу"
 
 #. Translators: A setting in addon settings dialog.
-#: addon\globalPlugins\unmute\settings.py:67
 msgid "&Number of retries (0 - infinitely):"
 msgstr "&Кількість повторних спроб (0 - нескінченна):"
 
 #. Translators: A setting in addon settings dialog.
-#: addon\globalPlugins\unmute\settings.py:74
 msgid "Play &sound when audio has been successfully turned on"
 msgstr "Відтворювати &звук, коли аудіо було успішно увімкнено"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
 #. to be shown on installation and add-on information found in Add-ons Manager.
-#: buildVars.py:23
 msgid "Unmute Windows audio"
 msgstr "Автоувімкнення звуку Windows"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-#: buildVars.py:26
 msgid ""
 "When NVDA starts, this add-on checks the status of the Windows 10 sound "
 "system and, if the sound is turned off, turns it on."
 msgstr ""
-"Коли NVDA запускається, цей додаток перевіряє стан звукової системи Windows "
-"10 і, якщо звук вимкнено, вмикає його."
+"Коли NVDA запускається, цей додаток перевіряє стан звукової системи "
+"Windows і, якщо звук вимкнено, вмикає його."
