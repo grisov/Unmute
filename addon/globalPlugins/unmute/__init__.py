@@ -102,7 +102,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		@return: human friendly name of transferred device instance
 		@rtype: str
 		"""
-		for dev in AudioUtilities.GetAllDevices():
+		try:
+			devices = AudioUtilities.GetAllDevices()
+		except Exception as e:
+			devices = []
+		for dev in devices:
 			if device.GetId()==dev.id:
 				return dev.FriendlyName
 		# Translators: Used as the default audio device name when the device name could not be determined
