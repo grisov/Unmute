@@ -23,9 +23,9 @@ addon_info = {
 	"addon_summary": _("Unmute Windows audio"),
 	# Add-on description
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-	"addon_description": _("""When NVDA starts, this add-on checks the status of the Windows 10 sound system and, if the sound is turned off, turns it on."""),
+	"addon_description": _("""When NVDA starts, this add-on checks the status of the Windows sound system and, if the sound is turned off, turns it on."""),
 	# version
-	"addon_version": "1.0.1",
+	"addon_version": "1.3",
 	# Author(s)
 	"addon_author": "Oleksandr Gryshchenko <grisov.nvaccess@mailnull.com>",
 	# URL for the add-on documentation support
@@ -51,7 +51,7 @@ addon_info = {
 # For more information on SCons Glob expressions please take a look at:
 # https://scons.org/doc/production/HTML/scons-user/apd.html
 pythonSources = [
-	"addon/globalPlugins/*.py",
+	"addon/globalPlugins/*/*.py",
 ]
 
 # Files that contain strings for translation. Usually your python sources

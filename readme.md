@@ -8,6 +8,7 @@
 This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.
 The add-on also checks the status of the speech synthesizer. If there are problems with its initialization, attempts are made to start the synthesizer, which is specified in the NVDA settings.
 An additional feature is the ability to adjust the volume of the main audio device and separately for each running process using convenient keyboard shortcuts.
+
 ## Add-on settings dialog
 The following options are available in the add-on settings dialog:
 
@@ -32,9 +33,9 @@ The function works similarly to the NVDA settings circle. Use the left and right
 If you reduce the volume to zero for a certain program and press the down arrow again, this sound source will be muted.
 
 Note: The list of audio sources changes dynamically and depends on the currently running programs.
- 
+
 ## Change log
- 
+
 ### Version 1.3
 * added the ability to control the volume of the main audio device and separately for each running program;
 * updated translation into Vietnamese (thanks to Dang Manh Cuong);
@@ -48,8 +49,7 @@ Note: The list of audio sources changes dynamically and depends on the currently
 ### Version 1.1
 * added add-on settings dialog;
 * updated Ukrainian translation.
-+
- 
+
 ### Version 1.0.1
 * Performs repeated attempts to enabling the synth driver in case of its failed initialization;
 * Vietnamese translation added by Dang Manh Cuong;
@@ -73,4 +73,3 @@ These can be installed with pip:
 
 [1]: https://github.com/grisov/Unmute/releases/download/v1.3/unmute-1.3.nvda-addon
 [2]: https://github.com/grisov/Unmute/releases/download/v1.3/unmute-1.3.nvda-addon
-
