@@ -7,6 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 'unmute' '1.3'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+
 "POT-Creation-Date: 2020-10-15 22:19+0300\n"
 "PO-Revision-Date: 2020-10-16 23:37+0300\n"
 "Last-Translator: Dang Manh Cuong <dangmanhcuong@gmail.com>\n"
@@ -65,6 +66,7 @@ msgid "&Repeat attempts to initialize the voice synthesizer driver"
 msgstr "&Nỗ lực lặp lại việc khởi động trình điều khiển bộ đọc"
 
 #. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:58
 msgid "&Number of retries (0 - infinitely):"
 msgstr "&Số lần thử lại (0 đến vô cực)"
 
@@ -85,4 +87,5 @@ msgid ""
 "and, if the sound is turned off, turns it on."
 msgstr ""
 "Khi khởi động NVDA, add-on này sẽ kiểm tra trạng thái hệ thống âm thanh của "
-"Windows 10. Nếu nó bị tắt thì bật lên."
+"Windows. Nếu nó bị tắt thì bật lên."
+ 
