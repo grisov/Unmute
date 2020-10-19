@@ -8,10 +8,10 @@ from ctypes.wintypes import (BOOL, DWORD, INT, LONG, LPCWSTR, LPWSTR, UINT,
 from enum import Enum
 
 import comtypes
-from .. import psutil
+from . import psutil
 from comtypes import COMMETHOD, GUID, IUnknown
 from comtypes.automation import VARTYPE, VT_BOOL, VT_CLSID, VT_LPWSTR, VT_UI4
-#from ..future.utils import python_2_unicode_compatible
+#from .future.utils import python_2_unicode_compatible
 
 IID_Empty = GUID(
     '{00000000-0000-0000-0000-000000000000}')
