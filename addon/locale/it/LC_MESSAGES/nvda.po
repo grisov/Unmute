@@ -1,0 +1,105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'unmute' '1.3'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2020-10-20 10:44+0200\n"
+"PO-Revision-Date: 2020-10-20 10:58+0100\n"
+"Last-Translator: Chris <llajta2012@gmail.com>\n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.11\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Translators: Used as the default audio device name when the device name could not be determined
+#: addon\globalPlugins\unmute\__init__.py:114
+msgid "Default audio device"
+msgstr "Dispositivo audio predefinito"
+
+#. Translators: The message is announced during volume control
+#: addon\globalPlugins\unmute\__init__.py:129
+msgid "Volume"
+msgstr "Volume"
+
+#. Translators: The message is announced during volume control
+#: addon\globalPlugins\unmute\__init__.py:134
+msgid "The sound is muted"
+msgstr "Il suono è disattivato"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+#: addon\globalPlugins\unmute\__init__.py:137
+msgid "Increase the volume"
+msgstr "Aumenta il volume"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+#: addon\globalPlugins\unmute\__init__.py:161
+msgid "Decrease the volume"
+msgstr "Abbassa il volume"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+#: addon\globalPlugins\unmute\__init__.py:190
+msgid "Switch to the next audio source"
+msgstr "Passa alla sorgente audio successiva"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+#: addon\globalPlugins\unmute\__init__.py:203
+msgid "Switch to the previous audio source"
+msgstr "Passa alla sorgente audio precedente"
+
+#. Translators: Help message for a dialog.
+#: addon\globalPlugins\unmute\settings.py:35
+msgid ""
+"Select the initial sound system settings that will be set when NVDA starts:"
+msgstr ""
+"Seleziona le impostazioni iniziali del sistema audio che verranno impostate "
+"all'avvio di NVDA:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:41
+msgid "Set &custom volume level:"
+msgstr "Imposta un &livello di volume personalizzato:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:46
+msgid "Increase the volume if it is &lower than:"
+msgstr "&Aumenta il volume se è  inferiore a:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:53
+msgid "&Repeat attempts to initialize the voice synthesizer driver"
+msgstr ""
+"&Ripeti i tentativi di inizializzazione del driver del sintetizzatore vocale"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:58
+msgid "&Number of retries (0 - infinitely):"
+msgstr "&Numero di tentativi (0 - infinito):"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:65
+msgid "Play &sound when audio has been successfully turned on"
+msgstr "Riproduci un &suono quandoè riuscito il ripristino del volume."
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: buildVars.py:23
+msgid "Unmute Windows audio"
+msgstr "Unmute Windows audio"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:26
+msgid ""
+"When NVDA starts, this add-on checks the status of the Windows sound system "
+"and, if the sound is turned off, turns it on."
+msgstr ""
+"Controlla all'avvio di NVDA lo stato del sistema audio di Windows, se il "
+"volume è disattivato verrà riattivato."
