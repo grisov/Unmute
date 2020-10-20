@@ -42,8 +42,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""Initializing initial configuration values ​​and other fields"""
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
 		confspec = {
-			"volume": "integer(default=90,min=0,max=100)",
-			"minlevel": "integer(default=20,min=0,max=100)",
+			"volume": "integer(default=20,min=0,max=100)",
+			"minlevel": "integer(default=5,min=0,max=100)",
 			"reinit": "boolean(default=true)",
 			"retries": "integer(default=0,min=0,max=10000000)",
 			"playsound": "boolean(default=true)"
