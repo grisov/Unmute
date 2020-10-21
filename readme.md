@@ -41,6 +41,7 @@ Note: The list of audio sources changes dynamically and depends on the currently
 * updated translation into Vietnamese (thanks to Dang Manh Cuong);
 * Turkish translation added (thanks to Cagri Dogan);
 * Italian translation added (thanks to Christianlm);
+* added simplified Chinese translation (thanks to Cary Rowen);
 * updated Ukrainian translation;
 * updated ReadMe.
 
