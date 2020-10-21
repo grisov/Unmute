@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'unmute' '1.3'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2020-10-16 13:56+0300\n"
+"PO-Revision-Date: 2020-10-21 09:07+0800\n"
+"Language-Team: Cary-rowen <manchen_0528@outlook.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"Last-Translator: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: zh_CN\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. Translators: Used as the default audio device name when the device name could not be determined
+msgid "Default audio device"
+msgstr "默认音频设备"
+
+#. Translators: The message is announced during volume control
+msgid "Volume"
+msgstr "音量"
+
+#. Translators: The message is announced during volume control
+msgid "The sound is muted"
+msgstr "已静音"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Increase the volume"
+msgstr "增大音量"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Decrease the volume"
+msgstr "降低音量"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Switch to the next audio source"
+msgstr "切换到下一个音频源"
+
+#. Translators: The name of the method that displayed in the NVDA input gestures dialog
+msgid "Switch to the previous audio source"
+msgstr "切换到上一个音频源"
+
+#. Translators: Help message for a dialog.
+msgid ""
+"Select the initial sound system settings that will be set when NVDA starts:"
+msgstr "选择在 NVDA 启动时要设置的系统初始音量："
+
+#. Translators: A setting in addon settings dialog.
+msgid "Set &custom volume level:"
+msgstr "要恢复到的音量级别："
+
+#. Translators: A setting in addon settings dialog.
+msgid "Increase the volume if it is &lower than:"
+msgstr "如果音量小于或等于以下值，则增大音量："
+
+#. Translators: A setting in addon settings dialog.
+msgid "&Repeat attempts to initialize the voice synthesizer driver"
+msgstr "尝试初始化语音合成器驱动程序(&R)"
+
+#. Translators: A setting in addon settings dialog.
+msgid "&Number of retries (0 - infinitely):"
+msgstr "尝试次数（（0为无限次）："
+
+#. Translators: A setting in addon settings dialog.
+msgid "Play &sound when audio has been successfully turned on"
+msgstr "成功恢复音量后播放声音(&S)"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+msgid "Unmute Windows audio"
+msgstr "取消系统静音"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+msgid ""
+"When NVDA starts, this add-on checks the status of the Windows sound "
+"system and, if the sound is turned off, turns it on."
+msgstr ""
+"当 NVDA 启动时，此插件会检查 Windows 系统声音状态，如果已静音，则将其打开。"
