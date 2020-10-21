@@ -36,9 +36,10 @@ Lưu ý: danh sách các nguồn âm thanh sẽ thay đổi tùy thuộc vào c�
 
 ### Phiên bản 1.3
 * Thêm khả năng điều khiển âm thanh của thiết bị chính độc lập với các chương trình khác đang chạy;
-* Cập nhật bản địa hóa cho tiếng Việt (cảm ơn Đặng Mạnh Cường);
-* Đã thêm bản dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan); 
-* Cập nhật bản địa hóa cho tiếng Ukraina;
+* Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
+* Đã thêm bản phiên dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan);
+* Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
+* Cập nhật bản phiên dịch tiếng Ukraina;
 * Cập nhật tập tin Readme.
 
 ### Phiên bản 1.2
