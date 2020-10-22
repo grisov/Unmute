@@ -39,6 +39,7 @@ Lưu ý: danh sách các nguồn âm thanh sẽ thay đổi tùy thuộc vào c�
 * Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
 * Đã thêm bản phiên dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan);
 * Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
+* Đã thêm bản phiên dịch tiếng Trung Quốc giản thể (Cảm ơn Cary Rowen); 
 * Cập nhật bản phiên dịch tiếng Ukraina;
 * Cập nhật tập tin Readme.
 
