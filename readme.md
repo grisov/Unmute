@@ -39,9 +39,10 @@ Note: The list of audio sources changes dynamically and depends on the currently
 ### Version 1.3
 * added the ability to control the volume of the main audio device and separately for each running program;
 * updated translation into Vietnamese (thanks to Dang Manh Cuong);
-* Turkish translation added (thanks to Cagri Dogan);
+* added Turkish translation (thanks to Cagri Dogan);
 * Italian translation added (thanks to Christianlm);
 * added simplified Chinese translation (thanks to Cary Rowen);
+* Polish translation added (thanks to Stefan Banita);
 * updated Ukrainian translation;
 * updated ReadMe.
 
