@@ -31,6 +31,7 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		@param sizer: The sizer to which to add the settings controls.
 		@type sizer: wx._core.BoxSizer
 		"""
+		self.sizer = sizer
 		# Translators: Help message for a dialog.
 		helpLabel = wx.StaticText(self, label=_("Select the initial sound system settings that will be set when NVDA starts:"), style=wx.ALIGN_LEFT)
 		helpLabel.Wrap(helpLabel.GetSize()[0])
@@ -58,13 +59,25 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		self._retriesCountSpin = guiHelper.LabeledControlHelper(self, _("&Number of retries (0 - infinitely):"), nvdaControls.SelectOnFocusSpinCtrl,
 			value=str(config.conf[_addonName]['retries']), min=0, max=10000000).control
 		driverSizer.Add(self._retriesCountSpin)
-		self._driverChk.Bind(wx.EVT_CHECKBOX, lambda evt, sz=driverSizer: sz.Show(self._retriesCountSpin, show=evt.IsChecked()))
+		self._retriesCountSpin.Show(self._driverChk.GetValue())
+		self._driverChk.Bind(wx.EVT_CHECKBOX, self.onDriverChk)
 		sizer.Add(driverSizer, flag=wx.EXPAND)
+		self.sizer.Fit(self)
 
 		# Translators: A setting in addon settings dialog.
 		self._playSoundChk = wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on"))
 		sizer.Add(self._playSoundChk, flag=wx.EXPAND)
 		self._playSoundChk.SetValue(config.conf[_addonName]['playsound'])
+		sizer.Fit(self)
+
+	def onDriverChk(self, event) -> None:
+		"""Performed when a "self._driverChk" check box is selected or removed.
+		@param event: event binder object which processes changing of the wx.Checkbox
+		@type event: wx.core.PyEventBinder
+		"""
+		self._retriesCountSpin.Show(self._driverChk.GetValue())
+		self._retriesCountSpin.GetParent().Layout()
+		self.sizer.Fit(self)
 
 	def postInit(self):
 		"""Set system focus to source language selection dropdown list."""

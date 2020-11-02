@@ -1,13 +1,13 @@
 ﻿# NVDA Bật âm thanh
 
 * Tác giả: Oleksandr Gryshchenko
-* Phiên bản: 1.3
+* Phiên bản: 1.4
 * Tải về [phiên bản chính thức][1]
 * Tải về [phiên bản thử nghiệm][2]
 
 Add-on này kiểm tra trạng thái âm thanh hệ thống của Windows khi khởi động NVDA. Nếu nhận thấy rằng âm thanh bị tắt thì add-on sẽ  bật nó lên.
+Cùng thời điểm, mức độ âm lượng cũng được kiểm tra riêng biệt cho NVDA.
 Add-on cũng kiểm tra trạng thái của bộ phát âm. Nếu có trục trặc với việc gọi chạy nó, add-on sẽ nỗ lực gọi bộ đọc đó lênvới các thiết lập trong cài đặt của NVDA.
-Một tính năng bổ sung nữa là khả năng điều chỉnh âm lượng của thiết bị âm thanh chính và độc lập với các chương trình  đang chạy bằng phím tắt.
 
 ## Hộp thoại cài đặt Add-on
 Hiện tại, có các tùy chọn sau đây trong hộp thoại cài đặt Add-on:
@@ -24,24 +24,28 @@ Việc này chỉ thực hiện khi nhận thấy rằng NVDA khởi động mà
 
 5. Hộp kiểm tiếp theo bật / tắt việc phát âm thanh khởi động  khi hoàn thành việc khởi động lại trình điều khiển bộ đọc.
 
-## Điều chỉnh mức độ âm thanh
-Add-on này cho phép bạn chỉnh âm lượng thiết bị chính của Windows độc lập với các chương trình đang chạy.
-Để làm điều này, dùng phím tắt NVDA+Windows+ các phím mũi tên.
-Tính năng này hoạt động tương tự với vòng thiết lập tham số của NVDA. Dùng mũi tên trái / phải để chọn thiết bị hay ứng dụng, rồi dùng mũi tên lên / xuống để điều chỉnh âm lượng cho thành phần đã chọn.
-Nếu chỉnh âm lượng thành 0 cho một chương trình nhất định và bấm mũi tên xuống một lần nữa, âm thanh từ thành phần này sẽ bị tắt.
-
-Lưu ý: danh sách các nguồn âm thanh sẽ thay đổi tùy thuộc vào các chương trình đang chạy.
-
 ## Các thay đổi
+
+### Phiên bản 1.4
+* Thêm phương thức để tăng âm lượng khởi động một cáchh  riêng lẽ cho NVDA;
+* Tất cả các chức năng  điều khiểm âm lượng thủ công đã được chuyển sang to add-on tên NVDA Volume Adjustment.
 
 ### Phiên bản 1.3
 * Thêm khả năng điều khiển âm thanh của thiết bị chính độc lập với các chương trình khác đang chạy;
-* Cập nhật bản địa hóa cho tiếng Việt (cảm ơn Đặng Mạnh Cường);
+<<<<<<< HEAD
+* Cập nhật bản dịch  tiếng Việt (cảm ơn Đặng Mạnh Cường);
 * Đã thêm bản dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan); 
 * Đã thêm bản dịch tiếng Ý (cảm ơn Christianlm);
 * Đã thêm bản dịch tiếng Trung Hoa giản thể (cảm ơn Cary Rowen);
 * Đã thêm bản dịch tiếng Ba Lan (cảm ơn Stefan Banita);
 * Cập nhật bản địa hóa cho tiếng Ukraina;
+=======
+* Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
+* Đã thêm bản phiên dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan);
+* Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
+* Đã thêm bản phiên dịch tiếng Trung Quốc giản thể (Cảm ơn Cary Rowen); 
+* Cập nhật bản phiên dịch tiếng Ukraina;
+>>>>>>> 39dd78f99873b21bd718a8f1c3b7e7e88e6f492a
 * Cập nhật tập tin Readme.
 
 ### Phiên bản 1.2
