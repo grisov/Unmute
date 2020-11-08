@@ -5,7 +5,8 @@
 * Pobierz [wersja stabilna][1]
 * Pobierz [wersja rozwojowa][2]
 
-Ten dodatek sprawdza stan systemu audio Windows podczas uruchamiania NVDA. Jjeśli okaże się, że dźwięk jest wyciszony - dodatek na siłę go włącza.
+Ten dodatek sprawdza stan systemu audio Windows podczas uruchamiania NVDA. Jeśli okaże się, że dźwięk jest wyciszony - dodatek na siłę go włącza.
+W tym samym czasie poziom głośności jest sprawdzany oddzielnie dla procesu NVDA.
 Dodatek sprawdza również stan syntezatora mowy. W przypadku problemów z jego inicjalizacją podejmowane są próby uruchomienia syntezatora, co jest określone w ustawieniach NVDA.
 
 ## Okno dialogowe ustawień dodatku
@@ -27,7 +28,7 @@ Ta procedura rozpocznie się tylko wtedy, gdy zostanie podczas uruchamiania NVDA
 
 ## Lista zmian
 
-### Version 1.4
+### Wersja 1.4
 * dodano metodę zwiększania głośności startowej oddzielnie dla procesu NVDA;
 * wszystkie funkcje ręcznej regulacji głośności zostały przeniesione do dodatku NVDA Volume Adjustment.
 
