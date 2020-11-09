@@ -1,13 +1,13 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.3
+* Version: 1.4
 * Download [stable version][1]
 * Download [development version][2]
 
 This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.
+At the same time, the volume level is checked separately for the NVDA process.
 The add-on also checks the status of the speech synthesizer. If there are problems with its initialization, attempts are made to start the synthesizer, which is specified in the NVDA settings.
-An additional feature is the ability to adjust the volume of the main audio device and separately for each running process using convenient keyboard shortcuts.
 
 ## Add-on settings dialog
 The following options are available in the add-on settings dialog:
@@ -26,22 +26,19 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 
 5. The next checkbox turns on or off playing the startup sound  when the operation is successful.
 
-## Adjust the volume level
-This add-on allows you to adjust the volume of the main audio device of Windows and separately for each currently running program.
-To do this, use the keyboard shortcuts NVDA+Windows+ arrow keys.
-The function works similarly to the NVDA settings circle. Use the left and right arrows to select a device or application. Then use the up and down arrows to adjust the volume level of the selected audio source.
-If you reduce the volume to zero for a certain program and press the down arrow again, this sound source will be muted.
-
-Note: The list of audio sources changes dynamically and depends on the currently running programs.
-
 ## Change log
+
+### Version 1.4
+* added a method to increase the startup volume separately for the NVDA process;
+* all manual volume control functions have been transferred to the NVDA Volume Adjustment add-on.
 
 ### Version 1.3
 * added the ability to control the volume of the main audio device and separately for each running program;
 * updated translation into Vietnamese (thanks to Dang Manh Cuong);
-* Turkish translation added (thanks to Cagri Dogan);
+* added Turkish translation (thanks to Cagri Dogan);
 * Italian translation added (thanks to Christianlm);
 * added simplified Chinese translation (thanks to Cary Rowen);
+* Polish translation added (thanks to Stefan Banita);
 * updated Ukrainian translation;
 * updated ReadMe.
 
@@ -74,5 +71,5 @@ These can be installed with pip:
 1. Open a command line, change to the root of this repo
 2. Run the **scons** command. The created add-on, if there were no errors, is placed in the current directory.
 
-[1]: https://github.com/grisov/Unmute/releases/download/v1.3/unmute-1.3.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/v1.3/unmute-1.3.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon

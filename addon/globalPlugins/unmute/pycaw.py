@@ -1,4 +1,4 @@
-﻿"""
+"""
 Python wrapper around the Core Audio Windows API.
 """
 from ctypes import (HRESULT, POINTER, Structure, Union, c_float, c_longlong,
