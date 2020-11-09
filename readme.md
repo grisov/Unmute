@@ -30,6 +30,7 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 
 ### Version 1.4
 * added a method to increase the startup volume separately for the NVDA process;
+* changed the sound notification of a successful operation (thanks to Manolo);
 * all manual volume control functions have been transferred to the NVDA Volume Adjustment add-on.
 
 ### Version 1.3

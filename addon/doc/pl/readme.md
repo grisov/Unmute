@@ -1,13 +1,13 @@
 # NVDA Unmute
 
-* Author: Oleksandr Gryshchenko
-* Version: 1.3
-* Download [stable version][1]
-* Download [development version][2]
+* Autor: Oleksandr Gryshchenko
+* Wersja: 1.4
+* Pobierz [wersja stabilna][1]
+* Pobierz [wersja rozwojowa][2]
 
-Ten dodatek sprawdza stan systemu audio Windows podczas uruchamiania NVDA. Jjeśli okaże się, że dźwięk jest wyciszony - dodatek na siłę go włącza.
+Ten dodatek sprawdza stan systemu audio Windows podczas uruchamiania NVDA. Jeśli okaże się, że dźwięk jest wyciszony - dodatek na siłę go włącza.
+W tym samym czasie poziom głośności jest sprawdzany oddzielnie dla procesu NVDA.
 Dodatek sprawdza również stan syntezatora mowy. W przypadku problemów z jego inicjalizacją podejmowane są próby uruchomienia syntezatora, co jest określone w ustawieniach NVDA.
-Dodatkową funkcją jest możliwość regulacji głośności głównego urządzenia audio oraz osobno dla każdego uruchomionego procesu za pomocą wygodnych skrótów klawiszowych.
 
 ## Okno dialogowe ustawień dodatku
 W oknie dialogowym ustawień dodatku dostępne są następujące opcje:
@@ -26,19 +26,19 @@ Ta procedura rozpocznie się tylko wtedy, gdy zostanie podczas uruchamiania NVDA
 
 5. Następne pole wyboru włącza lub wyłącza odtwarzanie dźwięku startowego, gdy operacja zakończy się pomyślnie.
 
-## Regulacja poziomu głośności
-Ten dodatek umożliwia regulację głośności głównego urządzenia audio systemu Windows i osobno dla każdego aktualnie uruchomionego programu.
-Aby to zrobić, użyj skrótów klawiaturowych NVDA + Windows + klawisze strzałek.
-Funkcja działa podobnie do pierścienia szybkich ustawień NVDA. Użyj strzałek w lewo i w prawo, aby wybrać urządzenie lub aplikację. Następnie użyj strzałek w górę i w dół, aby wyregulować poziom głośności wybranego źródła dźwięku.
-Jeśli zmniejszysz głośność do zera dla określonego programu i ponownie naciśniesz strzałkę w dół, to źródło dźwięku zostanie wyciszone.
-
-Uwaga: Lista źródeł dźwięku zmienia się dynamicznie i zależy od aktualnie uruchomionych programów.
-
 ## Lista zmian
+
+### Wersja 1.4
+* dodano metodę zwiększania głośności startowej oddzielnie dla procesu NVDA;
+* wszystkie funkcje ręcznej regulacji głośności zostały przeniesione do dodatku NVDA Volume Adjustment.
 
 ### Wersja 1.3
 * dodano możliwość sterowania głośnością głównego urządzenia audio i osobno dla każdego uruchomionego programu;
 * zaktualizowano tłumaczenie na język wietnamski (podziękowania dla Dang Manh Cuong);
+* dodano tłumaczenie na język turecki (podziękowania dla Cagri Dogan);
+* dodano tłumaczenie na język włoski (podziękowania dla Christianlm);
+* dodano tłumaczenie na język chiński uproszczony (podziękowania dla Cary Rowen);
+* dodano tłumaczenie na język polski (podziękowania dla Stefan Banita);
 * zaktualizowano tłumaczenie na język ukraiński;
 * zaktualizowano plik ReadMe.
 
@@ -71,5 +71,5 @@ Można je zainstalować za pomocą pip:
 1. Otwórz wiersz poleceń, przejdź do katalogu głównego tego repozytorium
 2. Uruchom polecenie **scons**. Utworzony dodatek, jeśli nie było błędów, jest umieszczony w bieżącym katalogu.
 
-[1]: https://github.com/grisov/Unmute/releases/download/v1.3/unmute-1.3.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/v1.3/unmute-1.3.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon
