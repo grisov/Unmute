@@ -1,4 +1,4 @@
-﻿# NVDA Bật âm thanh
+﻿    # NVDA Bật âm thanh
 
 * Tác giả: Oleksandr Gryshchenko
 * Phiên bản: 1.4
@@ -26,20 +26,12 @@ Việc này chỉ thực hiện khi nhận thấy rằng NVDA khởi động mà
 
 ## Các thay đổi
 
-### Phiên bản 1.4
-* Thêm phương thức để tăng âm lượng khởi động một cáchh  riêng lẽ cho NVDA;
-* Tất cả các chức năng  điều khiểm âm lượng thủ công đã được chuyển sang to add-on tên NVDA Volume Adjustment.
+ ### Phiên bản 1.4
+* Đã thêm phương ghức tăng âm lượng khởi động độc lập cho việc vận hành NVDA;
+* Thay đổi âm thanh thông báo cho các hoạt động thành công (cảm ơn Manolo);
+* Tất cả các chức năng điều khiển âm lượng thủ công đã được chuyển qua add-on NVDA Volume Adjustment.
 
 ### Phiên bản 1.3
-* Thêm khả năng điều khiển âm thanh của thiết bị chính độc lập với các chương trình khác đang chạy;
-<<<<<<< HEAD
-* Cập nhật bản dịch  tiếng Việt (cảm ơn Đặng Mạnh Cường);
-* Đã thêm bản dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan); 
-* Đã thêm bản dịch tiếng Ý (cảm ơn Christianlm);
-* Đã thêm bản dịch tiếng Trung Hoa giản thể (cảm ơn Cary Rowen);
-* Đã thêm bản dịch tiếng Ba Lan (cảm ơn Stefan Banita);
-* Cập nhật bản địa hóa cho tiếng Ukraina;
-=======
 * Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
 * Đã thêm bản phiên dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan);
 * Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
