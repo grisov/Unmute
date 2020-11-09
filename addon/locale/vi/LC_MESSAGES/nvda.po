@@ -6,8 +6,13 @@ msgstr ""
 "Project-Id-Version: 'unmute' '1.4'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
 <<<<<<< HEAD
+<<<<<<< HEAD
 "POT-Creation-Date: 2020-11-09 15:21+0700\n"
 "PO-Revision-Date: 2020-11-09 15:22+0700\n"
+=======
+"POT-Creation-Date: 2020-11-02 23:41+0700\n"
+"PO-Revision-Date: 2020-11-02 23:42+0700\n"
+>>>>>>> ccd5f95d604e55f5e99e848e6467f5300d10e430
 =======
 "POT-Creation-Date: 2020-11-02 23:41+0700\n"
 "PO-Revision-Date: 2020-11-02 23:42+0700\n"
@@ -21,6 +26,7 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 #. Translators: Used as the default audio device name when the device name could not be determined
 #: addon\globalPlugins\unmute\__init__.py:114
@@ -57,6 +63,8 @@ msgstr "Chuyển đến nguồn âm thanh kế tiếp"
 msgid "Switch to the previous audio source"
 msgstr "Chuyển đến nguồn âm thanh trước"
 
+=======
+>>>>>>> ccd5f95d604e55f5e99e848e6467f5300d10e430
 =======
 >>>>>>> ccd5f95d604e55f5e99e848e6467f5300d10e430
 #. Translators: Help message for a dialog.

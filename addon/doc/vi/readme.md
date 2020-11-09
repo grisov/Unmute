@@ -6,7 +6,7 @@
 * Tải về [phiên bản thử nghiệm][2]
 
 Add-on này kiểm tra trạng thái âm thanh hệ thống của Windows khi khởi động NVDA. Nếu nhận thấy rằng âm thanh bị tắt thì add-on sẽ  bật nó lên.
-Cùng thời điểm, mức âm lượng cho NVDA cũng được kiểm tra một cách riêng biệt.
+Cùng thời điểm, mức độ âm lượng cũng được kiểm tra riêng biệt cho NVDA.
 Add-on cũng kiểm tra trạng thái của bộ phát âm. Nếu có trục trặc với việc gọi chạy nó, add-on sẽ nỗ lực gọi bộ đọc đó lênvới các thiết lập trong cài đặt của NVDA.
 
 ## Hộp thoại cài đặt Add-on
@@ -25,27 +25,13 @@ Việc này chỉ thực hiện khi nhận thấy rằng NVDA khởi động mà
 5. Hộp kiểm tiếp theo bật / tắt việc phát âm thanh khởi động  khi hoàn thành việc khởi động lại trình điều khiển bộ đọc.
 
 ## Các thay đổi
- 
-### Phiên bản 1.4
+
+ ### Phiên bản 1.4
 * Đã thêm phương ghức tăng âm lượng khởi động độc lập cho việc vận hành NVDA;
 * Thay đổi âm thanh thông báo cho các hoạt động thành công (cảm ơn Manolo);
 * Tất cả các chức năng điều khiển âm lượng thủ công đã được chuyển qua add-on NVDA Volume Adjustment.
 
-
-### Phiên bản 1.4
-* Thêm phương thức để tăng âm lượng khởi động một cáchh  riêng lẽ cho NVDA;
-* Tất cả các chức năng  điều khiểm âm lượng thủ công đã được chuyển sang to add-on tên NVDA Volume Adjustment.
-
 ### Phiên bản 1.3
-* Thêm khả năng điều khiển âm thanh của thiết bị chính độc lập với các chương trình khác đang chạy;
-<<<<<<< HEAD
-* Cập nhật bản dịch  tiếng Việt (cảm ơn Đặng Mạnh Cường);
-* Đã thêm bản dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan); 
-* Đã thêm bản dịch tiếng Ý (cảm ơn Christianlm);
-* Đã thêm bản dịch tiếng Trung Hoa giản thể (cảm ơn Cary Rowen);
-* Đã thêm bản dịch tiếng Ba Lan (cảm ơn Stefan Banita);
-* Cập nhật bản địa hóa cho tiếng Ukraina;
-=======
 * Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
 * Đã thêm bản phiên dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan);
 * Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
