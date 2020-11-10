@@ -19,6 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Translators: Used as the default audio device name when the device name could not be determined
+
 msgid "Default audio device"
 msgstr "Thiết bị âm thanh mặc định"
 
