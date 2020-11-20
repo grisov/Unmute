@@ -4,17 +4,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'unmute' '1.4'\n"
+"Project-Id-Version: 'unmute' '1.5'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2020-11-02 08:26+0200\n"
-"PO-Revision-Date: 2020-11-02 08:35+0200\n"
+"POT-Creation-Date: 2020-11-20 19:01+0200\n"
+"PO-Revision-Date: 2020-11-20 20:33+0200\n"
 "Last-Translator: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
 "Language-Team: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
 "Language: uk_UA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
@@ -40,6 +40,10 @@ msgstr "&Повторювати спроби ініціалізувати дра
 #. Translators: A setting in addon settings dialog.
 msgid "&Number of retries (0 - infinitely):"
 msgstr "&Кількість повторних спроб (0 - нескінченна):"
+
+#. Translators: A setting in addon settings dialog.
+msgid "Switch to the default audio output &device"
+msgstr "Перемикати вивід звуку NVDA на &аудіо-пристрій за замовчуванням"
 
 #. Translators: A setting in addon settings dialog.
 msgid "Play &sound when audio has been successfully turned on"

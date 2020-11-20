@@ -1,13 +1,14 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.4
+* Version: 1.5
 * Download [stable version][1]
 * Download [development version][2]
 
 This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.
 At the same time, the volume level is checked separately for the NVDA process.
 The add-on also checks the status of the speech synthesizer. If there are problems with its initialization, attempts are made to start the synthesizer, which is specified in the NVDA settings.
+There is an additional opportunity to check on which audio device the NVDA sound is output. And, if this device differs from the default device, the output automatically switches to the audio device installed in the system as the main one.
 
 ## Add-on settings dialog
 The following options are available in the add-on settings dialog:
@@ -24,9 +25,14 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 
 4. In this field you can specify the number of attempts to re-initialize the voice synthesizer driver. Attempts are performed cyclically with an interval of 1 second. A value of 0 means that attempts will be performed indefinitely until the procedure is successfully completed.
 
-5. The next checkbox turns on or off playing the startup sound  when the operation is successful.
+5. The "Switch to the default output audio device" option allows to check at startup the audio device on which NVDA sound is output. And, if this device differs from the default device, the output automatically switches to the audio device installed in the system as the main one.
+
+6. The next checkbox turns on or off playing the startup sound  when the operation is successful.
 
 ## Change log
+
+### Version 1.5
+* added "Switch to the default output audio device" feature.
 
 ### Version 1.4
 * added a method to increase the startup volume separately for the NVDA process;
@@ -72,5 +78,5 @@ These can be installed with pip:
 1. Open a command line, change to the root of this repo
 2. Run the **scons** command. The created add-on, if there were no errors, is placed in the current directory.
 
-[1]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/v1.5/unmute-1.5.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/v1.5/unmute-1.5.nvda-addon
