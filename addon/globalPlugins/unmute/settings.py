@@ -1,5 +1,5 @@
 #settings.py
-# A part of NonVisual Desktop Access (NVDA)
+# A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
 # Copyright (C) 2020 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
@@ -65,6 +65,12 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		self.sizer.Fit(self)
 
 		# Translators: A setting in addon settings dialog.
+		self._switchDeviceChk = wx.CheckBox(self, label=_("Switch to the default audio output &device"))
+		sizer.Add(self._switchDeviceChk, flag=wx.EXPAND)
+		self._switchDeviceChk.SetValue(config.conf[_addonName]['switchdevice'])
+		sizer.Fit(self)
+
+		# Translators: A setting in addon settings dialog.
 		self._playSoundChk = wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on"))
 		sizer.Add(self._playSoundChk, flag=wx.EXPAND)
 		self._playSoundChk.SetValue(config.conf[_addonName]['playsound'])
@@ -89,4 +95,5 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		config.conf[_addonName]['minlevel'] = self._minVolumeSlider.GetValue()
 		config.conf[_addonName]['reinit'] = self._driverChk.GetValue()
 		config.conf[_addonName]['retries'] = self._retriesCountSpin.GetValue()
+		config.conf[_addonName]['switchdevice'] = self._switchDeviceChk.GetValue()
 		config.conf[_addonName]['playsound'] = self._playSoundChk.GetValue()
