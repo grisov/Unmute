@@ -10,6 +10,12 @@ At the same time, the volume level is checked separately for the NVDA process.
 The add-on also checks the status of the speech synthesizer. If there are problems with its initialization, attempts are made to start the synthesizer, which is specified in the NVDA settings.
 There is an additional opportunity to check on which audio device the NVDA sound is output. And, if this device differs from the default device, the output automatically switches to the audio device installed in the system as the main one.
 
+Note: If the add-on startup sound always plays even if the NVDA volume is online. That is, the add-on switches the output to the main audio device each time you start NVDA.
+This occurs when the audio output device is in the NVDA settings is differ from the default output device or "Microsoft Sound Mapper".
+This can be easily solved in one of the following ways:
+1. After restarting NVDA, just save the current configuration using NVDA+Ctrl+C. The default audio device will be saved in the NVDA settings and switching will not occur each time when NVDA starts.
+2. If you don't want to change the NVDA configuration - just disable the function of switching audio devices in the Unmute settings panel.
+
 ## Add-on settings dialog
 The following options are available in the add-on settings dialog:
 
