@@ -1,13 +1,14 @@
 ﻿    # NVDA Bật âm thanh
 
 * Tác giả: Oleksandr Gryshchenko
-* Phiên bản: 1.4
+* Phiên bản: 1.5
 * Tải về [phiên bản chính thức][1]
 * Tải về [phiên bản thử nghiệm][2]
 
 Add-on này kiểm tra trạng thái âm thanh hệ thống của Windows khi khởi động NVDA. Nếu nhận thấy rằng âm thanh bị tắt thì add-on sẽ  bật nó lên.
 Cùng thời điểm, mức độ âm lượng cũng được kiểm tra riêng biệt cho NVDA.
-Add-on cũng kiểm tra trạng thái của bộ phát âm. Nếu có trục trặc với việc gọi chạy nó, add-on sẽ nỗ lực gọi bộ đọc đó lênvới các thiết lập trong cài đặt của NVDA.
+Add-on cũng kiểm tra trạng thái của bộ phát âm. Nếu có trục trặc với việc gọi chạy nó, add-on sẽ nỗ lực gọi bộ đọc đó lên với các thiết lập trong cài đặt của NVDA.
+Có một tính năng bổ sung để kiểm tra xem thiết bị âm thanh nào đang là đầu ra âm thanh của NVDA. Nếu thiết bị này khác với thiết bị mặc định, đầu ra sẽ tự chuyển sang thiết bị mặc định.
 
 ## Hộp thoại cài đặt Add-on
 Hiện tại, có các tùy chọn sau đây trong hộp thoại cài đặt Add-on:
@@ -22,14 +23,24 @@ Việc này chỉ thực hiện khi nhận thấy rằng NVDA khởi động mà
 
 4. Ở trường này, bạn có thể thiết lập số lần  nỗ lực khởi động lại trình điều khiển bộ đọc. Việc này được thực hiện theo chu kì với mỗi lần cách nhau 1 giây.
 
-5. Hộp kiểm tiếp theo bật / tắt việc phát âm thanh khởi động  khi hoàn thành việc khởi động lại trình điều khiển bộ đọc.
+5. Tùy chọn "Chuyển sang thiết bị âm thanh mặc định" cho phép kiểm tra khi khởi động xem NVDA đang dùng thiết bị nào cho đầu ra âm thanh của mình. Nếu thiết bị này khác với thiết bị âm thanh mặc định, đầu ra sẽ tự chuyển sang thiết bị âm thanh mặc định.
+6. Hộp kiểm tiếp theo bật hoặc tắt việc phát âm thanh khởi động khi mọi thứ được xử lý xong.
 
 ## Các thay đổi
 
+<<<<<<< Updated upstream
  ### Phiên bản 1.4
 * Đã thêm phương ghức tăng âm lượng khởi động độc lập cho việc vận hành NVDA;
 * Thay đổi âm thanh thông báo cho các hoạt động thành công (cảm ơn Manolo);
 * Tất cả các chức năng điều khiển âm lượng thủ công đã được chuyển qua add-on NVDA Volume Adjustment.
+=======
+### Phiên bản 1.5
+* Thêm tính năng "Chuyển sang thiết bị âm thanh mặc định".
++
+### Phiên bản 1.4
+* Thêm phương thức để tăng âm lượng khởi động một cáchh  riêng lẽ cho NVDA;
+* Tất cả các chức năng  điều khiểm âm lượng thủ công đã được chuyển sang to add-on tên NVDA Volume Adjustment.
+>>>>>>> Stashed changes
 
 ### Phiên bản 1.3
 * Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
