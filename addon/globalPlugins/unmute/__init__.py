@@ -1,5 +1,5 @@
 #-*- coding:utf-8 -*-
-# A part of NonVisual Desktop Access (NVDA)
+# A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
 # Copyright (C) 2020 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
@@ -24,6 +24,7 @@ import synthDriverHandler
 import nvwave
 import gui
 import ui
+import tones
 from threading import Thread
 from time import sleep
 import config
@@ -45,13 +46,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			"minlevel": "integer(default=5,min=0,max=100)",
 			"reinit": "boolean(default=true)",
 			"retries": "integer(default=0,min=0,max=10000000)",
+			"switchdevice": "boolean(default=true)",
 			"playsound": "boolean(default=true)"
 		}
 		config.conf.spec[_addonName] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
 		# Variables initialization for using Core Audio Windows API
-		device = AudioUtilities.GetSpeakers()
-		interface = device.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+		self._device = AudioUtilities.GetSpeakers()
+		interface = self._device.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 		self._volume = cast(interface, POINTER(IAudioEndpointVolume))
 		Thread(target=self.unmuteAudio).start()
 		if config.conf[_addonName]['reinit']:
@@ -75,6 +77,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if config.conf[_addonName]['playsound']:
 				self.audioEnabledSound()
 		self.unmuteNvdaProcess()
+		if config.conf[_addonName]['switchdevice']:
+			self.switchToDefaultOutputDevice()
 
 	def unmuteNvdaProcess(self) -> None:
 		"""Turn on NVDA process sound if it is muted or low."""
@@ -100,6 +104,33 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if config.conf[_addonName]['retries']!=0:
 					i+=1
 			else:
+				if config.conf[_addonName]['playsound']:
+					self.audioEnabledSound()
+
+	def getDefaultDeviceName(self) -> str:
+		"""Obtain the default output audio device name.
+		@return: default output audio device name
+		@rtype: str
+		"""
+		try:
+			devices = AudioUtilities.GetAllDevices()
+		except Exception:
+			devices = []
+		defaultDevice = next(filter(lambda dev: dev.id==self._device.GetId(), devices), None)
+		defaultDeviceName = defaultDevice.FriendlyName if defaultDevice else '[undefined device]'
+		devices = nvwave.getOutputDeviceNames()
+		if devices[0] in ("", "Microsoft Sound Mapper"):
+			devices[0] = "Microsoft Sound Mapper"
+		return next(filter(lambda name: name in defaultDeviceName or defaultDeviceName in name, devices), devices[0])
+
+	def switchToDefaultOutputDevice(self) -> None:
+		"""Switch NVDA audio output to the default audio device."""
+		device = self.getDefaultDeviceName()
+		if config.conf['speech']['outputDevice'] not in ["Microsoft Sound Mapper", device]:
+			config.conf['speech']['outputDevice'] = device
+			if synthDriverHandler.setSynth(synthDriverHandler.getSynth().name):
+				tones.terminate()
+				tones.initialize()
 				if config.conf[_addonName]['playsound']:
 					self.audioEnabledSound()
 
