@@ -3,49 +3,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'unmute' '1.4'\n"
+"Project-Id-Version: 'unmute' '1.5'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-
-"POT-Creation-Date: 2020-11-09 15:21+0700\n"
-"PO-Revision-Date: 2020-11-09 15:22+0700\n"
-
+"POT-Creation-Date: 2020-11-22 12:02+0700\n"
+"PO-Revision-Date: 2020-11-22 12:04+0700\n"
 "Last-Translator: Dang Manh Cuong <dangmanhcuong@gmail.com>\n"
 "Language-Team: Vietnamese <dangmanhcuong@gmail.com>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 1.6.11\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#. Translators: Used as the default audio device name when the device name could not be determined
-
-msgid "Default audio device"
-msgstr "Thiết bị âm thanh mặc định"
-
-#. Translators: The message is announced during volume control
-msgid "Volume"
-msgstr "Âm lượng"
-
-#. Translators: The message is announced during volume control
-msgid "The sound is muted"
-msgstr "Âm thanh đã tắt"
-
-#. Translators: The name of the method that displayed in the NVDA input gestures dialog
-msgid "Increase the volume"
-msgstr "Tăng âm lượng"
-
-#. Translators: The name of the method that displayed in the NVDA input gestures dialog
-msgid "Decrease the volume"
-msgstr "Giảm âm lượng"
-
-#. Translators: The name of the method that displayed in the NVDA input gestures dialog
-msgid "Switch to the next audio source"
-msgstr "Chuyển đến nguồn âm thanh kế tiếp"
-
-#. Translators: The name of the method that displayed in the NVDA input gestures dialog
-msgid "Switch to the previous audio source"
-msgstr "Chuyển đến nguồn âm thanh trước"
 
 #. Translators: Help message for a dialog.
 msgid ""
@@ -70,6 +39,10 @@ msgid "&Number of retries (0 - infinitely):"
 msgstr "&Số lần thử lại (0 đến vô cực)"
 
 #. Translators: A setting in addon settings dialog.
+msgid "Switch to the default audio output &device"
+msgstr "Chuyển đến &thiết bị âm thanh mặc định"
+
+#. Translators: A setting in addon settings dialog.
 msgid "Play &sound when audio has been successfully turned on"
 msgstr "Phát â&m báo khi đã bật âm thanh"
 
@@ -87,4 +60,3 @@ msgid ""
 msgstr ""
 "Khi khởi động NVDA, add-on này sẽ kiểm tra trạng thái hệ thống âm thanh của "
 "Windows. Nếu nó bị tắt thì bật lên."
-        

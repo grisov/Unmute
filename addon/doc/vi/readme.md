@@ -10,6 +10,12 @@ Cùng thời điểm, mức độ âm lượng cũng được kiểm tra riêng 
 Add-on cũng kiểm tra trạng thái của bộ phát âm. Nếu có trục trặc với việc gọi chạy nó, add-on sẽ nỗ lực gọi bộ đọc đó lên với các thiết lập trong cài đặt của NVDA.
 Có một tính năng bổ sung để kiểm tra xem thiết bị âm thanh nào đang là đầu ra âm thanh của NVDA. Nếu thiết bị này khác với thiết bị mặc định, đầu ra sẽ tự chuyển sang thiết bị mặc định.
 
+Lưu ý: nếu âm thanh khởi động của add-on luôn phát ngay cả khi âm thanh của NVDA là trực tuyến. Điều đó là do add-on đã chuyển đầu ra âm thanh sang thiết bị âm thanh mặc định mỗi lần bạn khởi động NVDA.
+Điều này diễn ra khi đầu ra thiết bị âm thanh trong cài đặt NVDA khác với thiết bị mặc định hoặc không phải là "Microsoft Sound Mapper".
+Có thể khắc phục dễ dàng bằng một trong những cách sau:
+1. Sau khi khởi động lại NVDA, chỉ việc lưu cấu hình hiện tại bằng lệnh NVDA+Ctrl+C. Thiết bị âm thanh mặc định sẽ được lưu trong cài đặt NVDA  và việc chuyển thiết bị sẽ không xảy ra mỗi khi khởi động NVDA.
+2. Nếu không muốn thay đổi cấu hình của NVDA - chỉ việc tắt  tính năng chuyển thiết bị âm thanh trong bảng cài đặt bật âm thanh.
+
 ## Hộp thoại cài đặt Add-on
 Hiện tại, có các tùy chọn sau đây trong hộp thoại cài đặt Add-on:
 1. Tùy chọn cho phép bật âm thanh hệ thống với mức âm lượng lớn nhất khi khởi động NVDA.
