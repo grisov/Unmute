@@ -1,12 +1,14 @@
-# This file is distributed under the same license as the PACKAGE package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the 'unmute' package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'unmute' '1.4'\n"
+"Project-Id-Version: 'unmute' '1.5'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2020-10-16 13:56+0300\n"
-"PO-Revision-Date: 2020-11-02 08:48+0200\n"
+"POT-Creation-Date: 2020-11-21 18:27+0100\n"
+"PO-Revision-Date: 2020-11-21 18:42+0100\n"
 "Language-Team: Stefan Banita\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,6 +43,10 @@ msgid "&Number of retries (0 - infinitely):"
 msgstr "&Liczba ponownych prób (0 - nieskończenie):"
 
 #. Translators: A setting in addon settings dialog.
+msgid "Switch to the default audio output &device"
+msgstr "Przełącz na domyślne &urządzenie wyjściowe audio"
+
+#. Translators: A setting in addon settings dialog.
 msgid "Play &sound when audio has been successfully turned on"
 msgstr "Odtwórz &dźwięk gdy głośność została pomyślnie włączona"
 
@@ -53,8 +59,8 @@ msgstr "Unmute Windows audio"
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 msgid ""
-"When NVDA starts, this add-on checks the status of the Windows sound "
-"system and, if the sound is turned off, turns it on."
+"When NVDA starts, this add-on checks the status of the Windows sound system "
+"and, if the sound is turned off, turns it on."
 msgstr ""
-"Gdy NVDA się uruchamia, ten dodatek sprawdza stan dźwięku Windows 10 i "
-"jeśli dźwięk jest wyciszony, włącza go."
+"Gdy NVDA się uruchamia, ten dodatek sprawdza stan dźwięku Windows i jeśli "
+"dźwięk jest wyciszony, włącza go."
