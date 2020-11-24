@@ -1,13 +1,20 @@
 # NVDA Unmute
 
 * Autor: Oleksandr Gryshchenko
-* Wersja: 1.4
+* Wersja: 1.5
 * Pobierz [wersja stabilna][1]
 * Pobierz [wersja rozwojowa][2]
 
 Ten dodatek sprawdza stan systemu audio Windows podczas uruchamiania NVDA. Jeśli okaże się, że dźwięk jest wyciszony - dodatek na siłę go włącza.
 W tym samym czasie poziom głośności jest sprawdzany oddzielnie dla procesu NVDA.
 Dodatek sprawdza również stan syntezatora mowy. W przypadku problemów z jego inicjalizacją podejmowane są próby uruchomienia syntezatora, co jest określone w ustawieniach NVDA.
+Istnieje dodatkowa możliwość sprawdzenia, na którym urządzeniu audio jest odtwarzany dźwięk NVDA. Jeśli to urządzenie różni się od urządzenia domyślnego, wyjście automatycznie przełącza się na urządzenie audio zainstalowane w systemie jako główne.
+
+Uwaga: Jeśli dźwięk uruchamiania dodatku jest odtwarzany zawsze, nawet jeśli głośność NVDA jest na odpowiednim poziomie. Oznacza to, że aplikacja przełącza wyjście audio na główne urządzenie audio przy każdym uruchomieniu NVDA.
+Zwykle ma to miejsce, gdy urządzenie wyjściowe audio w ustawieniach NVDA różni się od domyślnego urządzenia wyjściowego lub "Mapowania dźwięku Microsoft".
+To zachowanie można łatwo zmienić na jeden z następujących sposobów:
+1. Po ponownym uruchomieniu NVDA, po prostu zapisz aktualną konfigurację za pomocą NVDA+Ctrl+C. Domyślne urządzenie audio zostanie zapisane w ustawieniach NVDA i przełączanie nie nastąpi przy każdym uruchomieniu NVDA.
+2. Jeśli nie chcesz zmieniać konfiguracji NVDA - po prostu wyłącz funkcję przełączania urządzeń audio w panelu ustawień Unmute.
 
 ## Okno dialogowe ustawień dodatku
 W oknie dialogowym ustawień dodatku dostępne są następujące opcje:
@@ -24,12 +31,18 @@ Ta procedura rozpocznie się tylko wtedy, gdy zostanie podczas uruchamiania NVDA
 
 4. W tym polu możesz określić liczbę prób ponownej inicjalizacji sterownika syntezatora mowy. Próby są wykonywane cyklicznie w odstępie 1 sekundy. Wartość 0 oznacza, że ​​próby będą wykonywane w nieskończoność, aż do pomyślnego zakończenia procedury.
 
-5. Następne pole wyboru włącza lub wyłącza odtwarzanie dźwięku startowego, gdy operacja zakończy się pomyślnie.
+5. Opcja "Przełącz na domyślne urządzenie wyjściowe audio" umożliwia sprawdzenie przy uruchomieniu, na którym urządzeniu audio emitowany jest dźwięk NVDA. A jeśli to urządzenie różni się od urządzenia domyślnego, wyjście automatycznie przełącza się na urządzenie audio zainstalowane w systemie jako główne.
+
+6. Następne pole wyboru włącza lub wyłącza odtwarzanie dźwięku startowego, gdy operacja zakończy się pomyślnie.
 
 ## Lista zmian
 
+### Wersja 1.5
+* Dodano funkcję "Przełącz na domyślne wyjściowe urządzenie audio".
+
 ### Wersja 1.4
 * dodano metodę zwiększania głośności startowej oddzielnie dla procesu NVDA;
+* zmieniono powiadomienie dźwiękowe o udanej operacji (podziękowania dla Manolo);
 * wszystkie funkcje ręcznej regulacji głośności zostały przeniesione do dodatku NVDA Volume Adjustment.
 
 ### Wersja 1.3
@@ -71,5 +84,5 @@ Można je zainstalować za pomocą pip:
 1. Otwórz wiersz poleceń, przejdź do katalogu głównego tego repozytorium
 2. Uruchom polecenie **scons**. Utworzony dodatek, jeśli nie było błędów, jest umieszczony w bieżącym katalogu.
 
-[1]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/v1.4/unmute-1.4.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/v1.5/unmute-1.5.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/v1.5/unmute-1.5.nvda-addon
