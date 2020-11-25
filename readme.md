@@ -17,6 +17,11 @@ This can be easily solved in one of the following ways:
 2. If you don't want to change the NVDA configuration - just disable the function of switching audio devices in the Unmute settings panel.
 
 ## Add-on settings dialog
+To open the add-on settings panel, follow these steps:
+* Press NVDA+N to open NVDA menu.
+* Then go to "Preferences" -> "Settings..." and in the categories list find and open "Unmute Windows Audio".
+That's it, you can now use the Tab key to move between add-on settings.
+
 The following options are available in the add-on settings dialog:
 
 1. The first slider in the add-on settings dialog allows you to specify the volume level of Windows, which will be set when you start NVDA if the sound was previously muted or was too low.
