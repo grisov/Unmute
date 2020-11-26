@@ -1,64 +1,64 @@
-# This file is distributed under the same license as the PACKAGE package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the 'unmute' package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: 'unmute' '1.5'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
 "POT-Creation-Date: 2020-11-22 12:02+0700\n"
-"PO-Revision-Date: 2020-11-26 14:14+0700\n"
-"Last-Translator: Dang Manh Cuong <dangmanhcuong@gmail.com>\n"
-"Language-Team: Vietnamese <dangmanhcuong@gmail.com>\n"
-"Language: vi\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.11\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Translators: Help message for a dialog.
 #: addon\globalPlugins\unmute\settings.py:36
 msgid ""
 "Select the initial sound system settings that will be set when NVDA starts:"
 msgstr ""
-"Chọn các thiết lập âm thanh ban đầu sẽ được thực hiện khi khởi động NVDA:"
 
 #. Translators: A setting in addon settings dialog.
 #: addon\globalPlugins\unmute\settings.py:42
 msgid "Set &custom volume level:"
-msgstr "Thiết &lập mức độ âm thanh:"
+msgstr ""
 
 #. Translators: A setting in addon settings dialog.
 #: addon\globalPlugins\unmute\settings.py:47
 msgid "Increase the volume if it is &lower than:"
-msgstr "Tăng âm lượng nếu nó thấp hơn:"
+msgstr ""
 
 #. Translators: A setting in addon settings dialog.
 #: addon\globalPlugins\unmute\settings.py:54
 msgid "&Repeat attempts to initialize the voice synthesizer driver"
-msgstr "&Nỗ lực lặp lại việc khởi động trình điều khiển bộ đọc"
+msgstr ""
 
 #. Translators: A setting in addon settings dialog.
 #: addon\globalPlugins\unmute\settings.py:59
 msgid "&Number of retries (0 - infinitely):"
-msgstr "&Số lần thử lại (0 đến vô cực)"
+msgstr ""
 
 #. Translators: A setting in addon settings dialog.
 #: addon\globalPlugins\unmute\settings.py:68
 msgid "Switch to the default audio output &device"
-msgstr "Chuyển đến &thiết bị âm thanh mặc định"
+msgstr ""
 
 #. Translators: A setting in addon settings dialog.
 #: addon\globalPlugins\unmute\settings.py:74
 msgid "Play &sound when audio has been successfully turned on"
-msgstr "Phát â&m báo khi đã bật âm thanh"
+msgstr ""
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
 #. to be shown on installation and add-on information found in Add-ons Manager.
 #: buildVars.py:23
 msgid "Unmute Windows audio"
-msgstr "Bật âm thanh của Windows"
+msgstr ""
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
@@ -67,23 +67,3 @@ msgid ""
 "When NVDA starts, this add-on checks the status of the Windows sound system "
 "and, if the sound is turned off, turns it on."
 msgstr ""
-"Khi khởi động NVDA, add-on này sẽ kiểm tra trạng thái hệ thống âm thanh của "
-"Windows. Nếu nó bị tắt thì bật lên."
-
-#~ msgid "Default audio device"
-#~ msgstr "Thiết bị âm thanh mặc định"
-
-#~ msgid "Volume"
-#~ msgstr "Âm lượng"
-
-#~ msgid "The sound is muted"
-#~ msgstr "Âm thanh đã tắt"
-
-#~ msgid "Increase the volume"
-#~ msgstr "Tăng âm lượng"
-
-#~ msgid "Decrease the volume"
-#~ msgstr "Giảm âm lượng"
-
-#~ msgid "Switch to the previous audio source"
-#~ msgstr "Chuyển đến nguồn âm thanh trước"
