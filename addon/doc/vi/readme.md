@@ -17,6 +17,11 @@ Có thể khắc phục dễ dàng bằng một trong những cách sau:
 2. Nếu không muốn thay đổi cấu hình của NVDA - chỉ việc tắt  tính năng chuyển thiết bị âm thanh trong bảng cài đặt bật âm thanh.
 
 ## Hộp thoại cài đặt Add-on
+Để mở hộp thoại cài đặt add-on, làm theo các bước sau:
+* Bấm NVDA+N để mở trình đơn NVDA.
+* Vào tiếp "Cài Đặt" -> "Cấu hình...". Ở phần danh sách phân loại, tìm phân loại tên "Bật âm thanh của Windows".
+Bây giờ, bạn có thể dùng phím Tab để di chuyển qua các tùy chọn của add-on.
+
 Hiện tại, có các tùy chọn sau đây trong hộp thoại cài đặt Add-on:
 1. Tùy chọn cho phép bật âm thanh hệ thống với mức âm lượng lớn nhất khi khởi động NVDA.
 2. Mức âm lượng tối thiểu của Windows để áp dụng việc tăng âm lượng. Thanh trượt này cho phép bạn chọn ngưỡng âm thanh cho  add-on.
