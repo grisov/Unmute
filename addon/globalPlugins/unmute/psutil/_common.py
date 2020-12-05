@@ -303,9 +303,6 @@ class NoSuchProcess(Error):
                 details = "(pid=%s)" % self.pid
             self.msg = "process no longer exists " + details
 
-    def __path__(self):
-        return 'xxx'
-
 
 class ZombieProcess(NoSuchProcess):
     """Exception raised when querying a zombie process. This is
@@ -766,7 +763,7 @@ else:
 
 
 @memoize
-def term_supports_colors(file=sys.stdout):
+def term_supports_colors(file=sys.stdout):  # pragma: no cover
     if os.name == 'nt':
         return True
     try:
@@ -780,7 +777,7 @@ def term_supports_colors(file=sys.stdout):
         return True
 
 
-def hilite(s, color=None, bold=False):
+def hilite(s, color=None, bold=False):  # pragma: no cover
     """Return an highlighted version of 'string'."""
     if not term_supports_colors():
         return s
@@ -799,7 +796,8 @@ def hilite(s, color=None, bold=False):
     return '\x1b[%sm%s\x1b[0m' % (';'.join(attr), s)
 
 
-def print_color(s, color=None, bold=False, file=sys.stdout):
+def print_color(
+        s, color=None, bold=False, file=sys.stdout):  # pragma: no cover
     """Print a colorized version of string."""
     if not term_supports_colors():
         print(s, file=file)  # NOQA
