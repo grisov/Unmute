@@ -2,8 +2,10 @@
 # A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
+# Copyright (C) 2020-2021 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
+from __future__ import annotations
+from typing import List
 import addonHandler
 from logHandler import log
 try:
@@ -16,8 +18,7 @@ _addonDir = os.path.join(os.path.dirname(__file__), "..", "..")
 if isinstance(_addonDir, bytes):
 	_addonDir = _addonDir.decode("mbcs")
 _curAddon = addonHandler.Addon(_addonDir)
-_addonName = _curAddon.manifest['name']
-_addonSummary = _curAddon.manifest['summary']
+_addonName, _addonSummary = _curAddon.manifest['name'], _curAddon.manifest['summary']
 
 import globalPluginHandler
 import synthDriverHandler
@@ -36,9 +37,9 @@ from .pycaw import AudioUtilities, IAudioEndpointVolume
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"""Implementation global commands of NVDA add-on"""
-	scriptCategory = _addonSummary
+	scriptCategory: str = _addonSummary
 
-	def __init__(self, *args, **kwargs):
+	def __init__(self, *args, **kwargs) -> None:
 		"""Initializing initial configuration values ​​and other fields"""
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
 		confspec = {
@@ -59,7 +60,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if config.conf[_addonName]['reinit']:
 			Thread(target=self.resetSynth).start()
 
-	def terminate(self, *args, **kwargs):
+	def terminate(self, *args, **kwargs) -> None:
 		"""This will be called when NVDA is finished with this global plugin"""
 		super().terminate(*args, **kwargs)
 		try:
@@ -113,9 +114,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		@rtype: str
 		"""
 		try:
-			devices = AudioUtilities.GetAllDevices()
+			devices: List[str] = AudioUtilities.GetAllDevices()
 		except Exception:
-			devices = []
+			devices: List[str] = []
 		defaultDevice = next(filter(lambda dev: dev.id==self._device.GetId(), devices), None)
 		defaultDeviceName = defaultDevice.FriendlyName if defaultDevice else '[undefined device]'
 		devices = nvwave.getOutputDeviceNames()
@@ -125,7 +126,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def switchToDefaultOutputDevice(self) -> None:
 		"""Switch NVDA audio output to the default audio device."""
-		device = self.getDefaultDeviceName()
+		device: str = self.getDefaultDeviceName()
 		if config.conf['speech']['outputDevice'] not in ["Microsoft Sound Mapper", device]:
 			config.conf['speech']['outputDevice'] = device
 			if synthDriverHandler.setSynth(synthDriverHandler.getSynth().name):
@@ -138,5 +139,5 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""The sound when the audio is successfully turned on and the synthesizer is enabled."""
 		try:
 			nvwave.playWaveFile(os.path.join(os.path.dirname(__file__), "unmuted.wav"))
-		except:
+		except Exception:
 			pass
