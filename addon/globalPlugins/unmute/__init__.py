@@ -4,7 +4,6 @@
 # See the file COPYING for more details.
 # Copyright (C) 2020-2021 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
-from __future__ import annotations
 from typing import List
 import addonHandler
 from logHandler import log
@@ -18,7 +17,8 @@ _addonDir = os.path.join(os.path.dirname(__file__), "..", "..")
 if isinstance(_addonDir, bytes):
 	_addonDir = _addonDir.decode("mbcs")
 _curAddon = addonHandler.Addon(_addonDir)
-_addonName, _addonSummary = _curAddon.manifest['name'], _curAddon.manifest['summary']
+_addonName: str = _curAddon.manifest['name']
+_addonSummary: str = _curAddon.manifest['summary']
 
 import globalPluginHandler
 import synthDriverHandler
@@ -31,8 +31,8 @@ from time import sleep
 import config
 from .settings import UnmuteSettingsPanel
 from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from .pycaw import AudioUtilities, IAudioEndpointVolume
+from comtypes import CLSCTX_ALL, pointer
+from .pycaw import AudioDevice, IMMDevice, AudioUtilities, IAudioEndpointVolume, ISimpleAudioVolume
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -53,9 +53,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		config.conf.spec[_addonName] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
 		# Variables initialization for using Core Audio Windows API
-		self._device = AudioUtilities.GetSpeakers()
+		self._device: IMMDevice = AudioUtilities.GetSpeakers()
 		interface = self._device.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-		self._volume = cast(interface, POINTER(IAudioEndpointVolume))
+		self._volume: pointer[IAudioEndpointVolume] = cast(interface, POINTER(IAudioEndpointVolume))
 		Thread(target=self.unmuteAudio).start()
 		if config.conf[_addonName]['reinit']:
 			Thread(target=self.resetSynth).start()
@@ -85,7 +85,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""Turn on NVDA process sound if it is muted or low."""
 		for session in AudioUtilities.GetAllSessions():
 			if session.Process and session.Process.name().lower()=="nvda.exe":
-				volume = session.SimpleAudioVolume
+				volume: ISimpleAudioVolume = session.SimpleAudioVolume
 				if volume.GetMute():
 					volume.SetMute(False, None)
 				if volume.GetMasterVolume()*100 < config.conf[_addonName]['minlevel']:
@@ -114,15 +114,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		@rtype: str
 		"""
 		try:
-			devices: List[str] = AudioUtilities.GetAllDevices()
+			devices: List[AudioDevice] = AudioUtilities.GetAllDevices()
 		except Exception:
-			devices: List[str] = []
+			devices = []
 		defaultDevice = next(filter(lambda dev: dev.id==self._device.GetId(), devices), None)
 		defaultDeviceName = defaultDevice.FriendlyName if defaultDevice else '[undefined device]'
-		devices = nvwave.getOutputDeviceNames()
-		if devices[0] in ("", "Microsoft Sound Mapper"):
-			devices[0] = "Microsoft Sound Mapper"
-		return next(filter(lambda name: name in defaultDeviceName or defaultDeviceName in name, devices), devices[0])
+		outputDevices = nvwave.getOutputDeviceNames()
+		if outputDevices[0] in ("", "Microsoft Sound Mapper"):
+			outputDevices[0] = "Microsoft Sound Mapper"
+		return next(filter(lambda name: name in defaultDeviceName or defaultDeviceName in name, outputDevices), outputDevices[0])
 
 	def switchToDefaultOutputDevice(self) -> None:
 		"""Switch NVDA audio output to the default audio device."""

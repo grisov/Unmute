@@ -4,13 +4,14 @@
 # See the file COPYING for more details.
 # Copyright (C) 2020-2021 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
-from __future__ import annotations
+from typing import Callable
 import addonHandler
 from logHandler import log
 try:
 	addonHandler.initTranslation()
 except addonHandler.AddonError:
 	log.warning("Unable to initialise translations. This may be because the addon is running from NVDA scratchpad.")
+_: Callable[[str], str]
 
 import gui
 from gui import guiHelper, nvdaControls
@@ -30,10 +31,10 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		"""
 		super(UnmuteSettingsPanel, self).__init__(parent)
 
-	def makeSettings(self, sizer: wx._core.Sizer) -> None:
+	def makeSettings(self, sizer: wx.Sizer) -> None:
 		"""Populate the panel with settings controls.
 		@param sizer: The sizer to which to add the settings controls.
-		@type sizer: wx._core.Sizer
+		@type sizer: wx.Sizer
 		"""
 		self.sizer = sizer
 		# Translators: Help message for a dialog.
@@ -80,10 +81,10 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		self._playSoundChk.SetValue(config.conf[_addonName]['playsound'])
 		sizer.Fit(self)
 
-	def onDriverChk(self, event: wx._core.PyEvent) -> None:
+	def onDriverChk(self, event: wx.PyEvent) -> None:
 		"""Performed when a "self._driverChk" check box is selected or removed.
 		@param event: event binder object which processes changing of the wx.Checkbox
-		@type event: wx._core.PyEvent
+		@type event: wx.PyEvent
 		"""
 		self._retriesCountSpin.Show(self._driverChk.GetValue())
 		self._retriesCountSpin.GetParent().Layout()
