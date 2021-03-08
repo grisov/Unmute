@@ -96,5 +96,5 @@
 1. Відкрийте командний рядок, перейдіть до кореневого каталогу цього репозиторія.
 2. Запустіть на виконання команду **scons**. Якщо не виникло помилок, згенерований додаток розміщується в поточному каталозі.
 
-[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute.nvda-addon
-[2]: 
+[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.2.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.3-dev.nvda-addon
