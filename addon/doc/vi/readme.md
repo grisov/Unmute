@@ -100,5 +100,5 @@ Chúng có thể được cài đặt với pip:
 1. Mở một ứng dụng dòng lệnh, điều hướng đến thư mục gốc của kho add-on này
 2. Gõ lệnh **scons**. Gói add-on sẽ được tạo ở thư mục hiện tại nếu không có lỗi xảy ra.
 
-[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/latest/unmute.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.2.nvda-addon
+[2]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.3-dev.nvda-addon
