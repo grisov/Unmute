@@ -2,14 +2,16 @@
 # A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
+# Copyright (C) 2020-2021 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
+from typing import Callable
 import addonHandler
 from logHandler import log
 try:
 	addonHandler.initTranslation()
 except addonHandler.AddonError:
 	log.warning("Unable to initialise translations. This may be because the addon is running from NVDA scratchpad.")
+_: Callable[[str], str]
 
 import gui
 from gui import guiHelper, nvdaControls
@@ -20,16 +22,19 @@ from . import _addonName, _addonSummary
 
 class UnmuteSettingsPanel(gui.SettingsPanel):
 	"""Add-on settings panel object"""
-	title = _addonSummary
+	title: str = _addonSummary
 
-	def __init__(self, parent):
-		"""Initializing the add-on settings panel object"""
+	def __init__(self, parent: wx.Window) -> None:
+		"""Initializing the add-on settings panel object.
+		@param parent: parent top level window
+		@type parent: wx.Window
+		"""
 		super(UnmuteSettingsPanel, self).__init__(parent)
 
-	def makeSettings(self, sizer: wx._core.BoxSizer):
+	def makeSettings(self, sizer: wx.Sizer) -> None:
 		"""Populate the panel with settings controls.
 		@param sizer: The sizer to which to add the settings controls.
-		@type sizer: wx._core.BoxSizer
+		@type sizer: wx.Sizer
 		"""
 		self.sizer = sizer
 		# Translators: Help message for a dialog.
@@ -76,20 +81,20 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		self._playSoundChk.SetValue(config.conf[_addonName]['playsound'])
 		sizer.Fit(self)
 
-	def onDriverChk(self, event) -> None:
+	def onDriverChk(self, event: wx.PyEvent) -> None:
 		"""Performed when a "self._driverChk" check box is selected or removed.
 		@param event: event binder object which processes changing of the wx.Checkbox
-		@type event: wx.core.PyEventBinder
+		@type event: wx.PyEvent
 		"""
 		self._retriesCountSpin.Show(self._driverChk.GetValue())
 		self._retriesCountSpin.GetParent().Layout()
 		self.sizer.Fit(self)
 
-	def postInit(self):
+	def postInit(self) -> None:
 		"""Set system focus to source language selection dropdown list."""
 		self._customVolumeSlider.SetFocus()
 
-	def onSave(self):
+	def onSave(self) -> None:
 		"""Update Configuration when clicking OK."""
 		config.conf[_addonName]['volume'] = self._customVolumeSlider.GetValue()
 		config.conf[_addonName]['minlevel'] = self._minVolumeSlider.GetValue()

@@ -6,30 +6,30 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 'unmute' '1.4'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2020-10-16 13:56+0300\n"
-"PO-Revision-Date: 2020-11-02 08:42+0200\n"
+"POT-Creation-Date: 2020-11-20 19:01+0200\n"
+"PO-Revision-Date: 2020-12-07 10:27+0800\n"
+"Last-Translator: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
 "Language-Team: Cary-rowen <manchen_0528@outlook.com>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
-"Last-Translator: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
+"X-Generator: Poedit 2.4.2\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_CN\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #. Translators: Help message for a dialog.
 msgid ""
 "Select the initial sound system settings that will be set when NVDA starts:"
-msgstr "选择在 NVDA 启动时要设置的系统初始音量："
+msgstr "选择 NVDA 启动后要恢复到的系统音量："
 
 #. Translators: A setting in addon settings dialog.
 msgid "Set &custom volume level:"
-msgstr "要恢复到的音量级别："
+msgstr "要恢复到的音量："
 
 #. Translators: A setting in addon settings dialog.
 msgid "Increase the volume if it is &lower than:"
-msgstr "如果音量小于或等于以下值，则增大音量："
+msgstr "当音量小于或等于以下值时也会增大音量："
 
 #. Translators: A setting in addon settings dialog.
 msgid "&Repeat attempts to initialize the voice synthesizer driver"
@@ -38,6 +38,10 @@ msgstr "尝试初始化语音合成器驱动程序(&R)"
 #. Translators: A setting in addon settings dialog.
 msgid "&Number of retries (0 - infinitely):"
 msgstr "尝试次数（（0为无限次）："
+
+#. Translators: A setting in addon settings dialog.
+msgid "Switch to the default audio output &device"
+msgstr "切换到默认声音输出设备(&D)"
 
 #. Translators: A setting in addon settings dialog.
 msgid "Play &sound when audio has been successfully turned on"
@@ -52,7 +56,7 @@ msgstr "取消系统静音"
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 msgid ""
-"When NVDA starts, this add-on checks the status of the Windows sound "
-"system and, if the sound is turned off, turns it on."
+"When NVDA starts, this add-on checks the status of the Windows sound system "
+"and, if the sound is turned off, turns it on."
 msgstr ""
 "当 NVDA 启动时，此插件会检查 Windows 系统声音状态，如果已静音，则将其打开。"
