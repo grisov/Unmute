@@ -1,0 +1,41 @@
+name: Check for MyPy type hints
+
+on:
+
+  push:
+  
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  mypy:
+    runs-on: windows-latest
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: pip install mypy
+    - name: MyPy
+      run: python -m mypy .
+    - name: Comment on PR
+      uses: actions/github-script@v3
+      if: failure()
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: 'This PR introduces MyPy errors'
+          })
+          
