@@ -1,43 +1,43 @@
-#-*- coding:utf-8 -*-
+﻿# -*- coding:utf-8 -*-
 # A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
 # Copyright (C) 2020-2021 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
-from typing import List
+import os.path
 import addonHandler
-from logHandler import log
-try:
-	addonHandler.initTranslation()
-except addonHandler.AddonError:
-	log.warning("Unable to initialise translations. This may be because the addon is running from NVDA scratchpad.")
-
-import os
-_addonDir = os.path.join(os.path.dirname(__file__), "..", "..")
-if isinstance(_addonDir, bytes):
-	_addonDir = _addonDir.decode("mbcs")
-_curAddon = addonHandler.Addon(_addonDir)
-_addonName: str = _curAddon.manifest['name']
-_addonSummary: str = _curAddon.manifest['summary']
-
 import globalPluginHandler
 import synthDriverHandler
 import nvwave
 import gui
-import ui
 import tones
+import config
 from threading import Thread
 from time import sleep
-import config
-from .settings import UnmuteSettingsPanel
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL, pointer
+from typing import List
+from logHandler import log
 from .pycaw import AudioDevice, IMMDevice, AudioUtilities, IAudioEndpointVolume, ISimpleAudioVolume
+
+try:
+	addonHandler.initTranslation()
+except addonHandler.AddonError:
+	log.warning("Unable to init translations. This may be because the addon is running from NVDA scratchpad.")
+
+_addonDir = os.path.join(os.path.dirname(__file__), "..", "..")
+if isinstance(_addonDir, bytes):
+	_addonDir = _addonDir.decode("mbcs")
+_curAddon = addonHandler.Addon(_addonDir)
+addonName: str = _curAddon.manifest['name']
+addonSummary: str = _curAddon.manifest['summary']
+
+from .settings import UnmuteSettingsPanel  # noqa E402
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"""Implementation global commands of NVDA add-on"""
-	scriptCategory: str = _addonSummary
+	scriptCategory: str = addonSummary
 
 	def __init__(self, *args, **kwargs) -> None:
 		"""Initializing initial configuration values ​​and other fields"""
@@ -50,14 +50,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			"switchdevice": "boolean(default=true)",
 			"playsound": "boolean(default=true)"
 		}
-		config.conf.spec[_addonName] = confspec
+		config.conf.spec[addonName] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
 		# Variables initialization for using Core Audio Windows API
 		self._device: IMMDevice = AudioUtilities.GetSpeakers()
 		interface = self._device.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 		self._volume: pointer[IAudioEndpointVolume] = cast(interface, POINTER(IAudioEndpointVolume))
 		Thread(target=self.unmuteAudio).start()
-		if config.conf[_addonName]['reinit']:
+		if config.conf[addonName]['reinit']:
 			Thread(target=self.resetSynth).start()
 
 	def terminate(self, *args, **kwargs) -> None:
@@ -66,31 +66,34 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		try:
 			gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(UnmuteSettingsPanel)
 		except IndexError:
-			log.warning("Can't remove %s Settings panel from NVDA settings dialogs", _addonSummary)
+			log.warning("Can't remove %s Settings panel from NVDA settings dialogs", addonSummary)
 
 	def unmuteAudio(self) -> None:
 		"""Turn on Windows sound if it is muted or low."""
 		if self._volume.GetMute():
 			self._volume.SetMute(False, None)
-		if self._volume.GetMasterVolumeLevelScalar()*100 < config.conf[_addonName]['minlevel']:
-			config.conf[_addonName]['volume'] = max(config.conf[_addonName]['volume'], config.conf[_addonName]['minlevel'])
-			self._volume.SetMasterVolumeLevelScalar(float(config.conf[_addonName]['volume'])/100, None)
-			if config.conf[_addonName]['playsound']:
+		if self._volume.GetMasterVolumeLevelScalar() * 100 < config.conf[addonName]['minlevel']:
+			config.conf[addonName]['volume'] = max(
+				config.conf[addonName]['volume'],
+				config.conf[addonName]['minlevel']
+			)
+			self._volume.SetMasterVolumeLevelScalar(float(config.conf[addonName]['volume']) / 100.0, None)
+			if config.conf[addonName]['playsound']:
 				self.audioEnabledSound()
 		self.unmuteNvdaProcess()
-		if config.conf[_addonName]['switchdevice']:
+		if config.conf[addonName]['switchdevice']:
 			self.switchToDefaultOutputDevice()
 
 	def unmuteNvdaProcess(self) -> None:
 		"""Turn on NVDA process sound if it is muted or low."""
 		for session in AudioUtilities.GetAllSessions():
-			if session.Process and session.Process.name().lower()=="nvda.exe":
+			if session.Process and session.Process.name().lower() == "nvda.exe":
 				volume: ISimpleAudioVolume = session.SimpleAudioVolume
 				if volume.GetMute():
 					volume.SetMute(False, None)
-				if volume.GetMasterVolume()*100 < config.conf[_addonName]['minlevel']:
-					volume.SetMasterVolume(float(config.conf[_addonName]['volume'])/100, None)
-					if config.conf[_addonName]['playsound']:
+				if volume.GetMasterVolume() * 100.0 < config.conf[addonName]['minlevel']:
+					volume.SetMasterVolume(float(config.conf[addonName]['volume']) / 100.0, None)
+					if config.conf[addonName]['playsound']:
 						self.audioEnabledSound()
 				return
 
@@ -99,13 +102,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if not synthDriverHandler.getSynth():
 			synthDriverHandler.initialize()
 			i = 0
-			while not synthDriverHandler.getSynth() and i<=config.conf[_addonName]['retries']:
+			while not synthDriverHandler.getSynth() and i <= config.conf[addonName]['retries']:
 				synthDriverHandler.setSynth(config.conf['speech']['synth'])
 				sleep(1)
-				if config.conf[_addonName]['retries']!=0:
-					i+=1
+				if config.conf[addonName]['retries'] != 0:
+					i += 1
 			else:
-				if config.conf[_addonName]['playsound']:
+				if config.conf[addonName]['playsound']:
 					self.audioEnabledSound()
 
 	def getDefaultDeviceName(self) -> str:
@@ -117,12 +120,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			devices: List[AudioDevice] = AudioUtilities.GetAllDevices()
 		except Exception:
 			devices = []
-		defaultDevice = next(filter(lambda dev: dev.id==self._device.GetId(), devices), None)
+		defaultDevice = next(filter(lambda dev: dev.id == self._device.GetId(), devices), None)
 		defaultDeviceName = defaultDevice.FriendlyName if defaultDevice else '[undefined device]'
 		outputDevices = nvwave.getOutputDeviceNames()
 		if outputDevices[0] in ("", "Microsoft Sound Mapper"):
 			outputDevices[0] = "Microsoft Sound Mapper"
-		return next(filter(lambda name: name in defaultDeviceName or defaultDeviceName in name, outputDevices), outputDevices[0])
+		return next(
+			filter(lambda name: name in defaultDeviceName or defaultDeviceName in name, outputDevices),
+			outputDevices[0])
 
 	def switchToDefaultOutputDevice(self) -> None:
 		"""Switch NVDA audio output to the default audio device."""
@@ -132,7 +137,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if synthDriverHandler.setSynth(synthDriverHandler.getSynth().name):
 				tones.terminate()
 				tones.initialize()
-				if config.conf[_addonName]['playsound']:
+				if config.conf[addonName]['playsound']:
 					self.audioEnabledSound()
 
 	def audioEnabledSound(self) -> None:
