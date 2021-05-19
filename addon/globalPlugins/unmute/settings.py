@@ -97,7 +97,19 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		self._customVolumeSlider.SetFocus()
 
 	def onSave(self) -> None:
-		"""Update Configuration when clicking OK."""
+		"""Update Configuration when clicking OK.
+		If the configuration profile is different from the basic,
+		then displayed the warning and exit without saving the add-on settings.
+		"""
+		if len(config.conf.profiles) > 1 and config.conf.profiles[-1].name is not None:
+			gui.messageBox(
+				# Translators: Message shown when current add-on configuration cannot be saved such as when using non-basic profile
+				message=_("The settings of this add-on can be saved only in the basic profile."),
+				# Translators: The title of the window that reporting an error
+				caption=_("Error"),
+				style=wx.OK | wx.ICON_ERROR
+			)
+			return
 		config.conf[ADDON_NAME]['volume'] = self._customVolumeSlider.GetValue()
 		config.conf[ADDON_NAME]['minlevel'] = self._minVolumeSlider.GetValue()
 		config.conf[ADDON_NAME]['reinit'] = self._driverChk.GetValue()
