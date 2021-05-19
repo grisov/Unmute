@@ -103,7 +103,7 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 		"""
 		if len(config.conf.profiles) > 1 and config.conf.profiles[-1].name is not None:
 			gui.messageBox(
-				# Translators: Message shown when current add-on configuration cannot be saved such as when using non-basic profile
+				# Translators: Message shown when current add-on configuration can't be saved when using non-basic profile
 				message=_("The settings of this add-on can be saved only in the basic profile."),
 				# Translators: The title of the window that reporting an error
 				caption=_("Error"),
