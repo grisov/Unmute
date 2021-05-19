@@ -11,7 +11,7 @@ import wx
 import config
 from typing import Callable
 from logHandler import log
-from . import addonName, addonSummary
+from . import ADDON_NAME, ADDON_SUMMARY
 
 try:
 	addonHandler.initTranslation()
@@ -22,7 +22,7 @@ _: Callable[[str], str]
 
 class UnmuteSettingsPanel(gui.SettingsPanel):
 	"""Add-on settings panel object"""
-	title: str = addonSummary
+	title: str = ADDON_SUMMARY
 
 	def __init__(self, parent: wx.Window) -> None:
 		"""Initializing the add-on settings panel object.
@@ -50,24 +50,24 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 			# Translators: A setting in addon settings dialog.
 			_("Set &custom volume level:"),
 			nvdaControls.EnhancedInputSlider,
-			value=config.conf[addonName]['volume'], minValue=0, maxValue=100, size=(250, -1)
+			value=config.conf[ADDON_NAME]['volume'], minValue=0, maxValue=100, size=(250, -1)
 		)
 		self._minVolumeSlider = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("Increase the volume if it is &lower than:"),
 			nvdaControls.EnhancedInputSlider,
-			value=config.conf[addonName]['minlevel'], minValue=0, maxValue=100, size=(250, -1)
+			value=config.conf[ADDON_NAME]['minlevel'], minValue=0, maxValue=100, size=(250, -1)
 		)
 		self._driverChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver"))
 		)
-		self._driverChk.SetValue(config.conf[addonName]['reinit'])
+		self._driverChk.SetValue(config.conf[ADDON_NAME]['reinit'])
 		self._retriesCountSpin = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("&Number of retries (0 - infinitely):"),
 			nvdaControls.SelectOnFocusSpinCtrl,
-			value=str(config.conf[addonName]['retries']), min=0, max=10000000
+			value=str(config.conf[ADDON_NAME]['retries']), min=0, max=10000000
 		)
 		self._retriesCountSpin.Show(self._driverChk.GetValue())
 		self._driverChk.Bind(wx.EVT_CHECKBOX, self.onDriverChk)
@@ -75,12 +75,12 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("Switch to the default audio output &device"))
 		)
-		self._switchDeviceChk.SetValue(config.conf[addonName]['switchdevice'])
+		self._switchDeviceChk.SetValue(config.conf[ADDON_NAME]['switchdevice'])
 		self._playSoundChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on"))
 		)
-		self._playSoundChk.SetValue(config.conf[addonName]['playsound'])
+		self._playSoundChk.SetValue(config.conf[ADDON_NAME]['playsound'])
 		sizer.Fit(self)
 
 	def onDriverChk(self, event: wx.PyEvent) -> None:
@@ -98,9 +98,9 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 
 	def onSave(self) -> None:
 		"""Update Configuration when clicking OK."""
-		config.conf[addonName]['volume'] = self._customVolumeSlider.GetValue()
-		config.conf[addonName]['minlevel'] = self._minVolumeSlider.GetValue()
-		config.conf[addonName]['reinit'] = self._driverChk.GetValue()
-		config.conf[addonName]['retries'] = self._retriesCountSpin.GetValue()
-		config.conf[addonName]['switchdevice'] = self._switchDeviceChk.GetValue()
-		config.conf[addonName]['playsound'] = self._playSoundChk.GetValue()
+		config.conf[ADDON_NAME]['volume'] = self._customVolumeSlider.GetValue()
+		config.conf[ADDON_NAME]['minlevel'] = self._minVolumeSlider.GetValue()
+		config.conf[ADDON_NAME]['reinit'] = self._driverChk.GetValue()
+		config.conf[ADDON_NAME]['retries'] = self._retriesCountSpin.GetValue()
+		config.conf[ADDON_NAME]['switchdevice'] = self._switchDeviceChk.GetValue()
+		config.conf[ADDON_NAME]['playsound'] = self._playSoundChk.GetValue()
