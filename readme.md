@@ -1,10 +1,9 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.5.3
+* Version: 1.5.4
 * NVDA compatibility: 2019.3 and beyond
 * Download [stable version][1]
-* Download [development version][2]
 
 This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.  
 At the same time, the volume level is checked separately for the NVDA process.  
@@ -45,11 +44,12 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 
 ## Change log
 
-### Version 1.5.3
-* updated third-party module ** psutil **;
+### Version 1.5.4
+* updated third-party module **psutil**;
 * the add-on is adapted to support Python versions 3.7 and 3.8;
 * MyPy type annotations added to the add-on source code;
-* added "Switch to the default output audio device" feature.
+* added "Switch to the default output audio device" feature;
+* the add-on settings are allowed to be saved only in the basic configuration profile.
 
 ### Version 1.4
 * added a method to increase the startup volume separately for the NVDA process;
@@ -96,5 +96,4 @@ These can be installed with pip:
 1. Open a command line, change to the root of this repo
 2. Run the **scons** command. The created add-on, if there were no errors, is placed in the current directory.
 
-[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.2.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.3-dev.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.4.nvda-addon

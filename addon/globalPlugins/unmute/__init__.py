@@ -1,4 +1,4 @@
-﻿# A part of the NVDA Unmute add-on
+# A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
 # Copyright (C) 2020-2021 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
@@ -34,7 +34,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	scriptCategory: str = ADDON_SUMMARY
 
 	def __init__(self, *args, **kwargs) -> None:
-		"""Initializing initial configuration values ​​and other fields"""
+		"""Initialization of the add-on parameters."""
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
 		confspec = {
 			"volume": "integer(default=20,min=0,max=100)",

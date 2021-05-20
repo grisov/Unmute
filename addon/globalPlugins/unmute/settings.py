@@ -107,7 +107,8 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 				message=_("The settings of this add-on can be saved only in the basic profile."),
 				# Translators: The title of the window that reporting an error
 				caption=_("Error"),
-				style=wx.OK | wx.ICON_ERROR
+				style=wx.OK | wx.ICON_ERROR,
+				parent=self
 			)
 			return
 		config.conf[ADDON_NAME]['volume'] = self._customVolumeSlider.GetValue()
