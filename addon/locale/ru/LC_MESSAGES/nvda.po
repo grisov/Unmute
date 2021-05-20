@@ -1,19 +1,20 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'unmute' '1.5'\n"
+"Project-Id-Version: 'unmute' '1.5.4'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2020-11-20 19:01+0200\n"
-"PO-Revision-Date: 2021-03-09 00:44+0200\n"
+"POT-Creation-Date: 2021-05-20 13:59+0300\n"
+"PO-Revision-Date: 2021-05-20 14:17+0300\n"
 "Last-Translator: Gryshchenko Oleksandr <grisov.nvaccess@mailnull.com>\n"
 "Language-Team: Ukrainian Language Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
@@ -47,6 +48,16 @@ msgstr "Переключать вывод звука NVDA на &аудио-ус�
 #. Translators: A setting in addon settings dialog.
 msgid "Play &sound when audio has been successfully turned on"
 msgstr "Воспроизводить &звук, когда аудио было успешно включено"
+
+#. Translators: Message shown when current add-on configuration can't be saved when using non-basic profile
+msgid "The settings of this add-on can be saved only in the basic profile."
+msgstr ""
+"Настройки этого дополнения разрешено сохранять только в основном "
+"конфигурационном профиле."
+
+#. Translators: The title of the window that reporting an error
+msgid "Error"
+msgstr "Ошибка"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
