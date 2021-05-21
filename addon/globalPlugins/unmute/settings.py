@@ -9,7 +9,7 @@ import gui
 from gui import guiHelper, nvdaControls
 import wx
 import config
-from typing import Callable
+from typing import Any, Callable, Dict
 from logHandler import log
 from . import ADDON_NAME, ADDON_SUMMARY
 
@@ -98,22 +98,17 @@ class UnmuteSettingsPanel(gui.SettingsPanel):
 
 	def onSave(self) -> None:
 		"""Update Configuration when clicking OK.
-		If the configuration profile is different from the basic,
-		then displayed the warning and exit without saving the add-on settings.
+		Add-on parameters are always stored in the basic configuration profile.
 		"""
-		if len(config.conf.profiles) > 1 and config.conf.profiles[-1].name is not None:
-			gui.messageBox(
-				# Translators: Message shown when current add-on configuration can't be saved when using non-basic profile
-				message=_("The settings of this add-on can be saved only in the basic profile."),
-				# Translators: The title of the window that reporting an error
-				caption=_("Error"),
-				style=wx.OK | wx.ICON_ERROR,
-				parent=self
-			)
-			return
-		config.conf[ADDON_NAME]['volume'] = self._customVolumeSlider.GetValue()
-		config.conf[ADDON_NAME]['minlevel'] = self._minVolumeSlider.GetValue()
-		config.conf[ADDON_NAME]['reinit'] = self._driverChk.GetValue()
-		config.conf[ADDON_NAME]['retries'] = self._retriesCountSpin.GetValue()
-		config.conf[ADDON_NAME]['switchdevice'] = self._switchDeviceChk.GetValue()
-		config.conf[ADDON_NAME]['playsound'] = self._playSoundChk.GetValue()
+		parameters: Dict[str, Any] = {
+			'volume': self._customVolumeSlider.GetValue(),
+			'minlevel': self._minVolumeSlider.GetValue(),
+			'reinit': self._driverChk.GetValue(),
+			'retries': self._retriesCountSpin.GetValue(),
+			'switchdevice': self._switchDeviceChk.GetValue(),
+			'playsound': self._playSoundChk.GetValue(),
+		}
+		try:
+			config.conf.profiles[0][ADDON_NAME].update(parameters)
+		except (KeyError, AttributeError,):
+			config.conf.profiles[0][ADDON_NAME] = parameters
