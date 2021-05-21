@@ -49,7 +49,7 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 * the add-on is adapted to support Python versions 3.7 and 3.8;
 * MyPy type annotations added to the add-on source code;
 * added "Switch to the default output audio device" feature;
-* the add-on settings are allowed to be saved only in the basic configuration profile.
+* the add-on parameters are always stored in the base configuration profile.
 
 ### Version 1.4
 * added a method to increase the startup volume separately for the NVDA process;
