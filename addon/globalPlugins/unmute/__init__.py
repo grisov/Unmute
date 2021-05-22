@@ -23,7 +23,7 @@ try:
 except addonHandler.AddonError:
 	log.warning("Unable to init translations. This may be because the addon is running from NVDA scratchpad.")
 
-ADDON_NAME: str = addonHandler.getCodeAddon().manifest['name']
+ADDON_NAME: str = addonHandler.getCodeAddon().name
 ADDON_SUMMARY: str = addonHandler.getCodeAddon().manifest['summary']
 
 from .settings import UnmuteSettingsPanel  # noqa E402
