@@ -126,7 +126,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def switchToDefaultOutputDevice(self) -> None:
 		"""Switch NVDA audio output to the default audio device."""
 		device: str = self.getDefaultDeviceName()
-		if config.conf['speech']['outputDevice'] not in ["Microsoft Sound Mapper", device]:
+		if config.conf['speech']['outputDevice'] not in ("Microsoft Sound Mapper", device,):
 			config.conf['speech']['outputDevice'] = device
 			if synthDriverHandler.setSynth(synthDriverHandler.getSynth().name):
 				tones.terminate()
