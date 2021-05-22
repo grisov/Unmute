@@ -42,6 +42,12 @@ This procedure will only start if it is detected at NVDA startup that the voice 
 
 6. The next checkbox turns on or off playing the startup sound  when the operation is successful.
 
+## Third Party components
+The add-on uses the following third-party components:
+
+* For interaction with the **Windows Core Audio API** - [PyCaw module](https://github.com/AndreMiras/pycaw/) that is distributed under the MIT license.
+* For getting the information about running processes and using the PyCaw component - [psutil module](https://github.com/giampaolo/psutil) that is distributed under BSD-3 license.
+
 ## Change log
 
 ### Version 1.5.4
