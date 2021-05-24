@@ -1,7 +1,7 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.5.4
+* Version: 1.5.5
 * NVDA compatibility: 2019.3 and beyond
 * Download [stable version][1]
 
@@ -50,7 +50,8 @@ The add-on uses the following third-party components:
 
 ## Change log
 
-### Version 1.5.4
+### Version 1.5.5
+* the add-on has been tested for compatibility with NVDA 2021.1;
 * updated third-party module **psutil**;
 * the add-on is adapted to support Python versions 3.7 and 3.8;
 * MyPy type annotations added to the add-on source code;
@@ -102,4 +103,4 @@ These can be installed with pip:
 1. Open a command line, change to the root of this repo
 2. Run the **scons** command. The created add-on, if there were no errors, is placed in the current directory.
 
-[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.4.nvda-addon
+[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.5.nvda-addon
