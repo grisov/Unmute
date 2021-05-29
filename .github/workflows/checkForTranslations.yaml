@@ -23,6 +23,4 @@ jobs:
         git reset l10n/master addon/doc addon/locale
         git commit -m "Update translations"
         git pull
-        git push
-        
-        
+        # git push
