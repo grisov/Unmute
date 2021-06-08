@@ -48,7 +48,7 @@ Las siguientes opciones están disponibles en el diálogo de opciones del comple
 
 4. En el siguiente campo puedes indicar el número de intentos de reinicialización del sintetizador. Los intentos se realizan cíclicamente en intervalos de un segundo. Un valor de 0 significa que se realizarán intentos indefinidamente hasta que el procedimiento se complete con éxito.
 
-5. La opción "Switch to the default output audio device" permite comprobar al iniciar el dispositivo de salida de sonido de NVDA. Si este dispositivo difiere del predeterminado, se alterna automáticamente la salida al dispositivo de sonido instalado en el sistema como principal.
+5. La opción "Cambiar al dispositivo de salida de audio por defecto" permite comprobar al iniciar el dispositivo de salida de sonido de NVDA. Si este dispositivo difiere del predeterminado, se alterna automáticamente la salida al dispositivo de sonido instalado en el sistema como principal.
 
 6. La siguiente casilla de verificación activa o desactiva la reproducción de un sonido de inicio cuando la operación tiene éxito.
 
