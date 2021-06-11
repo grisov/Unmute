@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the 'unmute' package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'unmute' '1.5.5'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2021-06-08 16:27+0200\n"
+"PO-Revision-Date: 2021-06-08 17:18+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.3\n"
+"Last-Translator: Iván Novegil Cancelas <ivan.novegil.cancelas@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es\n"
+
+#. Translators: Help message for a dialog.
+#: addon\globalPlugins\unmute\settings.py:45
+msgid ""
+"Select the initial sound system settings that will be set when NVDA starts:"
+msgstr ""
+"Selecciona las opciones iniciales de sistema de sonido que se establecerán "
+"al iniciarse NVDA:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:51
+msgid "Set &custom volume level:"
+msgstr "Establecer nivel de &volumen personalizado:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:57
+msgid "Increase the volume if it is &lower than:"
+msgstr "Subir el volumen si es más &bajo que:"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:63
+msgid "&Repeat attempts to initialize the voice synthesizer driver"
+msgstr ""
+"&Repetir intentos para inicializar el controlador del sintetizador de voz"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:68
+msgid "&Number of retries (0 - infinitely):"
+msgstr "&Número de reintentos (0 - infinitamente):"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:76
+msgid "Switch to the default audio output &device"
+msgstr "Cambiar al &dispositivo de salida de audio por defecto"
+
+#. Translators: A setting in addon settings dialog.
+#: addon\globalPlugins\unmute\settings.py:81
+msgid "Play &sound when audio has been successfully turned on"
+msgstr "Reproducir &sonido cuando el audio se haya activado con éxito"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: buildVars.py:24
+msgid "Unmute Windows audio"
+msgstr "Unmute Windows audio"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:27
+msgid ""
+"When NVDA starts, this add-on checks the status of the Windows sound system "
+"and, if the sound is turned off, turns it on."
+msgstr ""
+"Cuando NVDA se inicia, este complemento comprueba el estado del sistema de "
+"sonido de Windows y, si el sonido está desactivado, lo activa."
