@@ -67,7 +67,8 @@ The add-on uses the following third-party components:
 * MyPy type annotations added to the add-on source code;
 * added "Switch to the default output audio device" feature;
 * the add-on parameters are always stored in the base configuration profile;
-* added Spanish and Galician translations (thanks to Ivan Novegil Cancelas and Jose Manuel).
+* added Spanish and Galician translations (thanks to Ivan Novegil Cancelas and Jose Manuel);
+* updated translation into Vietnamese (thanks to Dang Manh Cuong).
 
 ### Version 1.4
 * added a method to increase the startup volume separately for the NVDA process;
