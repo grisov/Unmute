@@ -68,6 +68,7 @@ Add-on sử dụng các thành phần sau của bên thứ ba:
  * Đã thêm tính năng   "Chuyển sang thiết bị đầu ra âm thanh mặc định".
  * Tham số của add-on được lưu vào hồ sơ cấu hình cơ sở;
  * Đã thêm các bản dịch tiếng Tây Ban Nha và Galician (cảm ơn Ivan Novegil Cancelas và Jose Manuel).
+ * Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
  
  ### Phiên bản 1.4
 * Đã thêm phương thức tăng âm lượng khởi động độc lập cho việc vận hành NVDA;
@@ -80,12 +81,12 @@ Add-on sử dụng các thành phần sau của bên thứ ba:
 * Đã thêm bản phiên dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan);
 * Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
 * Đã thêm bản phiên dịch tiếng Trung Quốc giản thể (Cảm ơn Cary Rowen); 
+* Đã thêm bản hiên dịch tiếng Polish (cảm ơn Stefan Banita);
 * Cập nhật bản phiên dịch tiếng Ukraina;
-
 * Cập nhật tập tin Readme.
 
 ### Phiên bản 1.2
-* Chuyển sang dùng **pycaw** module thay cho **Windows Sound Manager**;
+* Chuyển sang dùng **Core Audio Windows API** thay cho **Windows Sound Manager**;
 * Thêm âm thanh khởi động khi audio đã được add-on bật lên.
 
 ### Phiên bản 1.1
@@ -98,13 +99,14 @@ Add-on sử dụng các thành phần sau của bên thứ ba:
 * Thêm bản dịch tiếng Ugraina.
 
 ### Phiên bản 1.0. Thực hiện tính năng
-Add-on sử dụng một module của bên thứ ba [Windows Sound Manager][2].
+Add-on sử dụng một module của bên thứ ba Windows Sound Manager
 
 ## Tùy biến mã nguồn của add-on
 Bạn có thể tạo bản sao (clone) cho add-on này để thực hiện các tùy biến cho nó.
 
 ### Các thư viện phụ thuộc của bên thứ ba
-Chúng có thể được cài đặt với pip:
+Có thể cài đặt chúng với pip:
+
 - markdown
 - scons
 - python-gettext
@@ -113,5 +115,4 @@ Chúng có thể được cài đặt với pip:
 1. Mở một ứng dụng dòng lệnh, điều hướng đến thư mục gốc của kho add-on này
 2. Gõ lệnh **scons**. Gói add-on sẽ được tạo ở thư mục hiện tại nếu không có lỗi xảy ra.
 
-[1]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.2.nvda-addon
-[2]: https://github.com/grisov/Unmute/releases/download/latest/unmute-1.5.3-dev.nvda-addon
+[1]: https://addons.nvda-project.org/files/get.php?file=unmute
