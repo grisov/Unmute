@@ -81,7 +81,7 @@ Add-on sử dụng các thành phần sau của bên thứ ba:
 * Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
 * Đã thêm bản phiên dịch tiếng Trung Quốc giản thể (Cảm ơn Cary Rowen); 
 * Cập nhật bản phiên dịch tiếng Ukraina;
->>>>>>> 39dd78f99873b21bd718a8f1c3b7e7e88e6f492a
+
 * Cập nhật tập tin Readme.
 
 ### Phiên bản 1.2
