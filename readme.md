@@ -60,8 +60,8 @@ The add-on uses the following third-party components:
 
 ## Change log
 
-### Version 1.5.5
-* the add-on has been tested for compatibility with NVDA 2021.1;
+### Version 1.5.6
+* the add-on has been tested for compatibility with NVDA 2022.1;
 * updated third-party module **psutil**;
 * the add-on is adapted to support Python versions 3.7 and 3.8;
 * MyPy type annotations added to the add-on source code;
