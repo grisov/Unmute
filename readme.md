@@ -60,6 +60,9 @@ The add-on uses the following third-party components:
 
 ## Change log
 
+### Version 1.5.7
+* the add-on has been tested for compatibility with NVDA 2023.1.
+
 ### Version 1.5.6
 * the add-on has been tested for compatibility with NVDA 2022.1;
 * updated third-party module **psutil**;
