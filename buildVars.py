@@ -26,21 +26,27 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description": _("""When NVDA starts, this add-on checks the status of the Windows sound system and, if the sound is turned off, turns it on."""),  # noqa E501
 	# version
-	"addon_version": "1.5.7",
+	"addon_version": "1.5.8",
 	# Author(s)
-	"addon_author": "Oleksandr Gryshchenko <grisov.nvaccess@mailnull.com>",
+	"addon_author": "Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>",
 	# URL for the add-on documentation support
 	"addon_url": "https://github.com/grisov/unmute",
+	# URL for the add-on repository where the source code can be found
+	"addon_sourceURL": "https://github.com/grisov/unmute",
 	# Documentation file name
 	"addon_docFileName": "readme.html",
 	# Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
 	"addon_minimumNVDAVersion": "2019.3.0",
 	# Last NVDA version supported/tested (e.g. "2018.4.0", ideally more recent than minimum version)
-	"addon_lastTestedNVDAVersion": "2023.1.0",
+	"addon_lastTestedNVDAVersion": "2024.1.0",
 	# Add-on update channel (default is None, denoting stable releases,
 	# and for development releases, use "dev".)
 	# Do not change unless you know what you are doing!
 	"addon_updateChannel": None,
+	# Add-on license such as GPL 2
+	"addon_license": "GNU General Public License v2",
+	# URL for the license document the ad-on is licensed under
+	"addon_licenseURL": "https://github.com/grisov/Unmute/blob/main/COPYING.txt",
 }
 
 # Define the python files that are the sources of your add-on.

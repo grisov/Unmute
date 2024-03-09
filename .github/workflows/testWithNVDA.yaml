@@ -6,7 +6,7 @@ on:
       - '*'
   pull_request:
     branches:
-      - master
+      - main
 jobs:
 
   addon:
@@ -21,7 +21,7 @@ jobs:
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: 3.9
     - name: Install dependencies
       run: |
         pip install scons
@@ -66,10 +66,10 @@ jobs:
     
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Set up Python 3.7 x86
+    - name: Set up Python 3.11 x86
       uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: 3.11
         architecture: x86
     - name: Checkout NVDA
       uses: actions/checkout@v2
