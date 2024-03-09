@@ -21,8 +21,8 @@
 		"patch": 0
 	},
 	"channel": "beta",
-	"URL": "https://github.com/nvaccess/addon-datastore/releases/download/v0.1.0/myAddon.nvda-addon",
-	"sha256": "47e8cec4febd234a354ea840d4532b0754c1045884797da2402291cf247ea57f",
+	"URL": "https://github.com/grisov/Unmute/releases/download/v1.5.8/unmute-1.5.8.nvda-addon",
+	"sha256": "b55759cc9ebf5581832adfa6a976d32874ae08a0968e8d60e78f5abbced87175",
 	"sourceURL": "https://github.com/grisov/unmute",
 	"license": "GPL v2",
 	"licenseURL": "https://github.com/grisov/Unmute/blob/main/COPYING.txt"
