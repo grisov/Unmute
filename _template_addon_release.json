@@ -1,0 +1,29 @@
+{
+	"addonId": "unmute",
+	"addonVersionNumber": {
+		"major": 1,
+		"minor": 5,
+		"patch": 8
+	},
+	"addonVersionName": "unmute",
+	"displayName": "Unmute Windows audio",
+	"publisher": "Oleksandr Gryshchenko",
+	"description": "When NVDA starts, this add-on checks the status of the Windows sound system and, if the sound is turned off, turns it on",
+	"homepage": "https://github.com/grisov/unmute",
+	"minNVDAVersion": {
+		"major": 2019,
+		"minor": 3,
+		"patch": 0
+	},
+	"lastTestedVersion": {
+		"major": 2024,
+		"minor": 1,
+		"patch": 0
+	},
+	"channel": "beta",
+	"URL": "https://github.com/nvaccess/addon-datastore/releases/download/v0.1.0/myAddon.nvda-addon",
+	"sha256": "69D84CA8899800A5575CE31798293CD4FEBAB1D734A07C2E51E56A28E0DF8C82",
+	"sourceURL": "https://github.com/grisov/unmute",
+	"license": "GPL v2",
+	"licenseURL": "https://github.com/grisov/Unmute/blob/main/COPYING.txt"
+}
