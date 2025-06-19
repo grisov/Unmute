@@ -2,11 +2,11 @@
 # A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020-2023 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
+# Copyright (C) 2020-2025 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
 import addonHandler
-import gui
 from gui import guiHelper, nvdaControls
+from gui.settingsDialogs import SettingsPanel
 import wx
 import config
 from typing import Any, Callable, Dict
@@ -20,7 +20,7 @@ except addonHandler.AddonError:
 _: Callable[[str], str]
 
 
-class UnmuteSettingsPanel(gui.SettingsPanel):
+class UnmuteSettingsPanel(SettingsPanel):
 	"""Add-on settings panel object"""
 	title: str = ADDON_SUMMARY
 

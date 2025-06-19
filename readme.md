@@ -1,8 +1,8 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.5
-* NVDA compatibility: 2019.3 and beyond
+* Version: 1.6
+* NVDA compatibility: 2025.1 and beyond
 * Download [stable version][1]
 
 This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.

@@ -1,12 +1,12 @@
 # A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020-2023 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
+# Copyright (C) 2020-2025 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
 import addonHandler
 import globalPluginHandler
 import synthDriverHandler
-import nvwave
+from nvwave import playWaveFile
 import gui
 import tones
 import config
@@ -16,7 +16,8 @@ from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL, pointer
 from typing import List
 from logHandler import log
-from .pycaw import AudioDevice, IMMDevice, AudioUtilities, IAudioEndpointVolume, ISimpleAudioVolume
+from pycaw.utils import AudioDevice, AudioUtilities, IAudioEndpointVolume, ISimpleAudioVolume
+from utils.mmdevice import getOutputDevices
 
 try:
 	addonHandler.initTranslation()
@@ -47,7 +48,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		config.conf.spec[ADDON_NAME] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
 		# Variables initialization for using Core Audio Windows API
-		self._device: IMMDevice = AudioUtilities.GetSpeakers()
+		self._device = AudioUtilities.GetSpeakers()
 		interface = self._device.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 		self._volume: pointer[IAudioEndpointVolume] = cast(interface, POINTER(IAudioEndpointVolume))
 		Thread(target=self.unmuteAudio).start()
@@ -71,7 +72,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				config.conf[ADDON_NAME]['volume'],
 				config.conf[ADDON_NAME]['minlevel']
 			)
-			self._volume.SetMasterVolumeLevelScalar(float(config.conf[ADDON_NAME]['volume']) / 100.0, None)
+			self._volume.SetMasterVolumeLevelScalar(float(config.conf[ADDON_NAME]["volume"]) / 100.0, None)
 			if config.conf[ADDON_NAME]['playsound']:
 				self.audioEnabledSound()
 		self.unmuteNvdaProcess()
@@ -105,9 +106,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if config.conf[ADDON_NAME]['playsound']:
 					self.audioEnabledSound()
 
-	def getDefaultDeviceName(self) -> str:
-		"""Obtain the default output audio device name.
-		@return: default output audio device name
+	def getDefaultDeviceID(self) -> str:
+		"""Obtain the default output audio device ID.
+		@return: default output audio device ID
 		@rtype: str
 		"""
 		try:
@@ -115,19 +116,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except Exception:
 			devices = []
 		defaultDevice = next(filter(lambda dev: dev.id == self._device.GetId(), devices), None)
-		defaultDeviceName = defaultDevice.FriendlyName if defaultDevice else '[undefined device]'
-		outputDevices = nvwave.getOutputDeviceNames()
-		if outputDevices[0] in ("", "Microsoft Sound Mapper"):
-			outputDevices[0] = "Microsoft Sound Mapper"
+		defaultDeviceID = defaultDevice.id if defaultDevice else "default"
+		outputDeviceIDs = [device[0] for device in getOutputDevices(includeDefault=True)]
+		if outputDeviceIDs[0] == "":
+			outputDeviceIDs[0] = "default"
 		return next(
-			filter(lambda name: name in defaultDeviceName or defaultDeviceName in name, outputDevices),
-			outputDevices[0])
+			filter(lambda id: id in defaultDeviceID or defaultDeviceID in id, outputDeviceIDs),
+			outputDeviceIDs[0])
 
 	def switchToDefaultOutputDevice(self) -> None:
 		"""Switch NVDA audio output to the default audio device."""
-		device: str = self.getDefaultDeviceName()
-		if config.conf['speech']['outputDevice'] not in ("Microsoft Sound Mapper", device,):
-			config.conf['speech']['outputDevice'] = device
+		device: str = "default"  # self.getDefaultDeviceID()
+		if config.conf["audio"]["outputDevice"] not in ("default", device,):
+			config.conf["audio"]["outputDevice"] = device
 			if synthDriverHandler.setSynth(synthDriverHandler.getSynth().name):
 				tones.terminate()
 				tones.initialize()
@@ -138,6 +139,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""The sound when the audio is successfully turned on and the synthesizer is enabled."""
 		import os.path
 		try:
-			nvwave.playWaveFile(os.path.join(os.path.dirname(__file__), "unmuted.wav"))
+			playWaveFile(os.path.join(os.path.dirname(__file__), "unmuted.wav"))
 		except Exception:
 			pass
