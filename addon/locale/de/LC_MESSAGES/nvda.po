@@ -1,0 +1,59 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Unmute Version 1.6.0\n"
+"POT-Creation-Date: 2025-07-28 20:14+0200\n"
+"PO-Revision-Date: 2025-07-28 20:17+0200\n"
+"Last-Translator: Frank Niggemann <fniggemann@gmail.com>\n"
+"Language-Team: fniggemann@gmail.com\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-Basepath: ../../../..\n"
+"X-Poedit-SearchPath-0: addon/globalPlugins/unmute/__init__.py\n"
+"X-Poedit-SearchPath-1: addon/globalPlugins/unmute/settings.py\n"
+"X-Poedit-SearchPath-2: buildVars.py\n"
+
+#: addon/globalPlugins/unmute/settings.py:45
+msgid ""
+"Select the initial sound system settings that will be set when NVDA starts:"
+msgstr ""
+"Wählen Sie die Sound-Systemeinstellungen, die beim Start von NVDA festgelegt "
+"werden sollen:"
+
+#: addon/globalPlugins/unmute/settings.py:51
+msgid "Set &custom volume level:"
+msgstr "&Benutzerdefinierte Lautstärke Festlegen:"
+
+#: addon/globalPlugins/unmute/settings.py:57
+msgid "Increase the volume if it is &lower than:"
+msgstr "&Lautstärke erhöhen, wenn sie niedriger ist als:"
+
+#: addon/globalPlugins/unmute/settings.py:63
+msgid "&Repeat attempts to initialize the voice synthesizer driver"
+msgstr "&Wiederholt versuchen, den Sprachsynthesizer-Treiber zu initialisieren"
+
+#: addon/globalPlugins/unmute/settings.py:68
+msgid "&Number of retries (0 - infinitely):"
+msgstr "&Anzahl der Versuche (0 - unendlich):"
+
+#: addon/globalPlugins/unmute/settings.py:76
+msgid "Switch to the default audio output &device"
+msgstr "&Zum Standard-Audioausgabegerät wechseln"
+
+#: addon/globalPlugins/unmute/settings.py:81
+msgid "Play &sound when audio has been successfully turned on"
+msgstr "&Ton abspielen, wenn das Audiogerät erfolgreich aktiviert wurde"
+
+#: buildVars.py:24
+msgid "Unmute Windows audio"
+msgstr "Stummschaltung aufheben"
+
+#: buildVars.py:27
+msgid ""
+"When NVDA starts, this add-on checks the status of the Windows sound system "
+"and, if the sound is turned off, turns it on."
+msgstr ""
+"Wenn NVDA gestartet wird, überprüft diese Erweiterung den Status des Windows-"
+"Soundsystems und schaltet den Ton ein, falls er ausgeschaltet ist."
