@@ -1,8 +1,8 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.6
-* NVDA compatibility: 2025.1 and beyond
+* Version: 1.7
+* NVDA compatibility: 2026.1 and beyond
 * Download [stable version][1]
 
 This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.
@@ -52,13 +52,11 @@ The following options are available in the add-on settings dialog:
 
 6. The next checkbox turns on or off playing the startup sound  when the operation is successful.
 
-## Third Party components
-The add-on uses the following third-party components:
-
-* For interaction with the **Windows Core Audio API** - [PyCaw module](https://github.com/AndreMiras/pycaw/) that is distributed under the MIT license.
-* For getting the information about running processes and using the PyCaw component - [psutil module](https://github.com/giampaolo/psutil) that is distributed under BSD-3 license.
-
 ## Change log
+
+### Version 1.7.0
+* added German translation by Frank Niggemann;
+* the add-on has been tested for compatibility with NVDA 2026.1.
 
 ### Version 1.5.7
 * the add-on has been tested for compatibility with NVDA 2023.1.

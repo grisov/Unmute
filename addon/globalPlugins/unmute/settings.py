@@ -2,7 +2,7 @@
 # A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020-2025 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
+# Copyright (C) 2020-2026 Olexandr Gryshchenko <grisov.nvaccess@mailnull.com>
 
 import addonHandler
 from gui import guiHelper, nvdaControls
@@ -22,6 +22,7 @@ _: Callable[[str], str]
 
 class UnmuteSettingsPanel(SettingsPanel):
 	"""Add-on settings panel object"""
+
 	title: str = ADDON_SUMMARY
 
 	def __init__(self, parent: wx.Window) -> None:
@@ -43,44 +44,52 @@ class UnmuteSettingsPanel(SettingsPanel):
 				self,
 				# Translators: Help message for a dialog.
 				label=_("Select the initial sound system settings that will be set when NVDA starts:"),
-				style=wx.ALIGN_LEFT
-			)
+				style=wx.ALIGN_LEFT,
+			),
 		)
 		self._customVolumeSlider = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("Set &custom volume level:"),
 			nvdaControls.EnhancedInputSlider,
-			value=config.conf[ADDON_NAME]['volume'], minValue=0, maxValue=100, size=(250, -1)
+			value=config.conf[ADDON_NAME]["volume"],
+			minValue=0,
+			maxValue=100,
+			size=(250, -1),
 		)
 		self._minVolumeSlider = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("Increase the volume if it is &lower than:"),
 			nvdaControls.EnhancedInputSlider,
-			value=config.conf[ADDON_NAME]['minlevel'], minValue=0, maxValue=100, size=(250, -1)
+			value=config.conf[ADDON_NAME]["minlevel"],
+			minValue=0,
+			maxValue=100,
+			size=(250, -1),
 		)
 		self._driverChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
-			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver"))
+			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver")),
 		)
-		self._driverChk.SetValue(config.conf[ADDON_NAME]['reinit'])
+		self._driverChk.SetValue(config.conf[ADDON_NAME]["reinit"])
 		self._retriesCountSpin = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("&Number of retries (0 - infinitely):"),
 			nvdaControls.SelectOnFocusSpinCtrl,
-			value=str(config.conf[ADDON_NAME]['retries']), min=0, max=10000000
+			value=str(config.conf[ADDON_NAME]["retries"]),
+			min=0,
+			max=10000000,
 		)
 		self._retriesCountSpin.Show(self._driverChk.GetValue())
 		self._driverChk.Bind(wx.EVT_CHECKBOX, self.onDriverChk)
 		self._switchDeviceChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
-			wx.CheckBox(self, label=_("Switch to the default audio output &device"))
+			wx.CheckBox(self, label=_("Switch to the default audio output &device")),
 		)
-		self._switchDeviceChk.SetValue(config.conf[ADDON_NAME]['switchdevice'])
+		self._switchDeviceChk.SetValue(config.conf[ADDON_NAME]["switchdevice"])
 		self._playSoundChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
-			wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on"))
+			wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on")),
 		)
-		self._playSoundChk.SetValue(config.conf[ADDON_NAME]['playsound'])
+		self._playSoundChk.SetValue(config.conf[ADDON_NAME]["playsound"])
 		sizer.Fit(self)
 
 	def onDriverChk(self, event: wx.PyEvent) -> None:
@@ -101,14 +110,14 @@ class UnmuteSettingsPanel(SettingsPanel):
 		Add-on parameters are always stored in the basic configuration profile.
 		"""
 		parameters: Dict[str, Any] = {
-			'volume': self._customVolumeSlider.GetValue(),
-			'minlevel': self._minVolumeSlider.GetValue(),
-			'reinit': self._driverChk.GetValue(),
-			'retries': self._retriesCountSpin.GetValue(),
-			'switchdevice': self._switchDeviceChk.GetValue(),
-			'playsound': self._playSoundChk.GetValue(),
+			"volume": self._customVolumeSlider.GetValue(),
+			"minlevel": self._minVolumeSlider.GetValue(),
+			"reinit": self._driverChk.GetValue(),
+			"retries": self._retriesCountSpin.GetValue(),
+			"switchdevice": self._switchDeviceChk.GetValue(),
+			"playsound": self._playSoundChk.GetValue(),
 		}
 		try:
 			config.conf.profiles[0][ADDON_NAME].update(parameters)
-		except (KeyError, AttributeError,):
+		except (KeyError, AttributeError):
 			config.conf.profiles[0][ADDON_NAME] = parameters
