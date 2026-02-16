@@ -1,0 +1,2 @@
+- added German translation by Frank Niggemann;
+- fully adapted the add-on for compatibility with NVDA 2026.

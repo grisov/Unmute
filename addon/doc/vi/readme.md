@@ -1,4 +1,4 @@
-﻿    # NVDA Bật âm thanh
+    # NVDA Bật âm thanh
 
 * Tác giả: Oleksandr Gryshchenko
 * Phiên bản: 1.5
@@ -69,7 +69,7 @@ Add-on sử dụng các thành phần sau của bên thứ ba:
  * Tham số của add-on được lưu vào hồ sơ cấu hình cơ sở;
  * Đã thêm các bản dịch tiếng Tây Ban Nha và Galician (cảm ơn Ivan Novegil Cancelas và Jose Manuel).
  * Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
- 
+
  ### Phiên bản 1.4
 * Đã thêm phương thức tăng âm lượng khởi động độc lập cho việc vận hành NVDA;
 * Thay đổi âm thanh thông báo cho các hoạt động thành công (cảm ơn Manolo);
@@ -79,8 +79,8 @@ Add-on sử dụng các thành phần sau của bên thứ ba:
 * Thêm khả năng điều khiển âm lượng của thiết bị âm thanh tổng và điều khiển độc lập cho mỗi chương trình đang chạy;
 * Cập nhật bản phiên dịch tiếng Việt (cảm ơn Đặng Mạnh Cường);
 * Đã thêm bản phiên dịch tiếng Thổ Nhĩ Kỳ (cảm ơn Cagri Dogan);
-* Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm); 
-* Đã thêm bản phiên dịch tiếng Trung Quốc giản thể (Cảm ơn Cary Rowen); 
+* Đã thêm bản phiên dịch tiếng Ý (cảm ơn Christianlm);
+* Đã thêm bản phiên dịch tiếng Trung Quốc giản thể (Cảm ơn Cary Rowen);
 * Đã thêm bản hiên dịch tiếng Polish (cảm ơn Stefan Banita);
 * Cập nhật bản phiên dịch tiếng Ukraina;
 * Cập nhật tập tin Readme.
