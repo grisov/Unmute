@@ -11,6 +11,7 @@ __pycache__/
 *.py[co]
 *$py.class
 /[0-9]*.[0-9]*.[0-9]*.json
+*.egg-info
 
 # Translations
 *.mo
