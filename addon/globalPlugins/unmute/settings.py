@@ -1,17 +1,26 @@
 # settings.py
+# Add-on settings panel
 # A part of the NVDA Unmute add-on
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
 # Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
 
+# wxPython has incomplete type annotations and the GUI helpers of NVDA have none, so the types returned
+# by most GUI calls in this file are unknown to the type checker, and many wx methods return values
+# that are not needed here (e.g. whether a control has been enabled). Only these rules are relaxed for this file.
+# pyright: reportUnknownMemberType=false, reportUnknownArgumentType=false, reportUnknownVariableType=false
+# pyright: reportUnusedCallResult=false
+
+from collections.abc import Callable
+from typing import Any, override
+
 import addonHandler
+import wx
 from gui import guiHelper, nvdaControls
 from gui.settingsDialogs import SettingsPanel
-import wx
-import config
-from typing import Any, Callable, Dict
 from logHandler import log
-from . import ADDON_NAME, ADDON_SUMMARY
+
+from .configuration import ADDON_SUMMARY, getAddonConfig, saveAddonConfig
 
 try:
 	addonHandler.initTranslation()
@@ -27,18 +36,19 @@ class UnmuteSettingsPanel(SettingsPanel):
 
 	def __init__(self, parent: wx.Window) -> None:
 		"""Initializing the add-on settings panel object.
-		@param parent: parent top level window
-		@type parent: wx.Window
-		"""
-		super(UnmuteSettingsPanel, self).__init__(parent)
 
-	def makeSettings(self, sizer: wx.Sizer) -> None:
-		"""Populate the panel with settings controls.
-		@param sizer: The sizer to which to add the settings controls.
-		@type sizer: wx.Sizer
+		:param parent: parent top level window
 		"""
-		self.sizer = sizer
-		addonHelper = guiHelper.BoxSizerHelper(self, sizer=sizer)
+		super().__init__(parent)
+
+	@override
+	def makeSettings(self, sizer: wx.BoxSizer) -> None:
+		"""Populate the panel with settings controls.
+
+		:param sizer: The sizer to which to add the settings controls.
+		"""
+		# BoxSizerHelper works with any window, NVDA annotates its parent as a dialog
+		addonHelper = guiHelper.BoxSizerHelper(self, sizer=sizer)  # pyright: ignore[reportArgumentType]
 		addonHelper.addItem(
 			wx.StaticText(
 				self,
@@ -51,7 +61,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 			# Translators: A setting in addon settings dialog.
 			_("Set &custom volume level:"),
 			nvdaControls.EnhancedInputSlider,
-			value=config.conf[ADDON_NAME]["volume"],
+			value=getAddonConfig()["volume"],
 			minValue=0,
 			maxValue=100,
 			size=(250, -1),
@@ -60,7 +70,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 			# Translators: A setting in addon settings dialog.
 			_("Increase the volume if it is &lower than:"),
 			nvdaControls.EnhancedInputSlider,
-			value=config.conf[ADDON_NAME]["minlevel"],
+			value=getAddonConfig()["minlevel"],
 			minValue=0,
 			maxValue=100,
 			size=(250, -1),
@@ -69,47 +79,48 @@ class UnmuteSettingsPanel(SettingsPanel):
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver")),
 		)
-		self._driverChk.SetValue(config.conf[ADDON_NAME]["reinit"])
+		self._driverChk.SetValue(getAddonConfig()["reinit"])
 		self._retriesCountSpin = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("&Number of retries (0 - infinitely):"),
 			nvdaControls.SelectOnFocusSpinCtrl,
-			value=str(config.conf[ADDON_NAME]["retries"]),
+			value=str(getAddonConfig()["retries"]),
 			min=0,
 			max=10000000,
 		)
-		self._retriesCountSpin.Show(self._driverChk.GetValue())
+		# Disabled instead of hidden: when a labeled control is shown or hidden, NVDA sets the text of its label
+		# without the "&" sign, so the shortcut of the label stops working
+		self._retriesCountSpin.Enable(self._driverChk.GetValue())
 		self._driverChk.Bind(wx.EVT_CHECKBOX, self.onDriverChk)
 		self._switchDeviceChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("Switch to the default audio output &device")),
 		)
-		self._switchDeviceChk.SetValue(config.conf[ADDON_NAME]["switchdevice"])
+		self._switchDeviceChk.SetValue(getAddonConfig()["switchdevice"])
 		self._playSoundChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on")),
 		)
-		self._playSoundChk.SetValue(config.conf[ADDON_NAME]["playsound"])
-		sizer.Fit(self)
+		self._playSoundChk.SetValue(getAddonConfig()["playsound"])
 
 	def onDriverChk(self, event: wx.PyEvent) -> None:
-		"""Performed when a "self._driverChk" check box is selected or removed.
-		@param event: event binder object which processes changing of the wx.Checkbox
-		@type event: wx.PyEvent
+		"""Performed when a "self._driverChk" check box is selected or removed:
+		the number of retries is available only when the attempts are repeated.
+
+		:param event: event binder object which processes changing of the wx.Checkbox
 		"""
-		self._retriesCountSpin.Show(self._driverChk.GetValue())
-		self._retriesCountSpin.GetParent().Layout()
-		self.sizer.Fit(self)
+		self._retriesCountSpin.Enable(self._driverChk.GetValue())
 
 	def postInit(self) -> None:
-		"""Set system focus to source language selection dropdown list."""
+		"""Set system focus to the first component in the settings panel."""
 		self._customVolumeSlider.SetFocus()
 
+	@override
 	def onSave(self) -> None:
 		"""Update Configuration when clicking OK.
 		Add-on parameters are always stored in the basic configuration profile.
 		"""
-		parameters: Dict[str, Any] = {
+		options: dict[str, Any] = {
 			"volume": self._customVolumeSlider.GetValue(),
 			"minlevel": self._minVolumeSlider.GetValue(),
 			"reinit": self._driverChk.GetValue(),
@@ -117,7 +128,4 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"switchdevice": self._switchDeviceChk.GetValue(),
 			"playsound": self._playSoundChk.GetValue(),
 		}
-		try:
-			config.conf.profiles[0][ADDON_NAME].update(parameters)
-		except (KeyError, AttributeError):
-			config.conf.profiles[0][ADDON_NAME] = parameters
+		saveAddonConfig(options)
