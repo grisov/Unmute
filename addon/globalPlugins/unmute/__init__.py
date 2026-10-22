@@ -8,7 +8,6 @@ import addonHandler
 from collections.abc import MutableMapping
 from comtypes import COMError
 from core import callLater
-from ctypes import POINTER
 import globalPluginHandler
 import synthDriverHandler
 from typing import Any, cast, override
@@ -17,8 +16,17 @@ import gui
 import tones
 import config
 from logHandler import log
-from pycaw.utils import AudioUtilities, ISimpleAudioVolume
-from .audio import Device, getDefaultOutputDevice, getDevice, getDeviceId, getEndpointVolume, logDebugWarning
+from .audio import (
+	Device,
+	getActiveOutputDevices,
+	getDefaultOutputDevice,
+	getDevice,
+	getDeviceId,
+	getEndpointVolume,
+	getSessionVolume,
+	listSessions,
+	logDebugWarning,
+)
 
 try:
 	addonHandler.initTranslation()
@@ -133,23 +141,37 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""Turn on Windows sound if it is muted or low."""
 		# Every device is checked, not only until the first raised one
 		raised = [self.unmuteDevice(device) for device in self.getCheckedDevices()]
+		raised.append(self.unmuteNvdaProcess())
+		# The sound is played once, when the sound of NVDA itself has been turned on too
 		if any(raised) and getAddonConfig()["playsound"]:
 			self.audioEnabledSound()
-		self.unmuteNvdaProcess()
 		if getAddonConfig()["switchdevice"]:
 			self.switchToDefaultOutputDevice()
 
-	def unmuteNvdaProcess(self) -> None:
-		"""Turn on NVDA process sound if it is muted or low."""
-		for session in AudioUtilities.GetAllSessions():
-			if session.Process and session.Process.name().lower() == "nvda.exe":
-				volume = cast(POINTER(ISimpleAudioVolume), session.SimpleAudioVolume)
-				if volume.GetMute():
-					volume.SetMute(False, None)
-				if volume.GetMasterVolume() * 100.0 < config.conf[ADDON_NAME]["minlevel"]:
-					volume.SetMasterVolume(self.getTargetLevel(), None)
-					if config.conf[ADDON_NAME]["playsound"]:
-						self.audioEnabledSound()
+	def unmuteNvdaProcess(self) -> bool:
+		"""Turn on the sound of NVDA itself if it is muted or low: all audio sessions of the running NVDA process
+		on all active output devices, because Windows keeps the volume of a program for each device.
+		The process is found by its ID, so other copies of NVDA (e.g. a portable one) are not changed.
+		An error is logged, so the other sessions and steps are checked anyway.
+
+		:return: whether the volume level of any audio session of NVDA has been raised
+		"""
+		raised = False
+		processId = os.getpid()
+		for device in getActiveOutputDevices():
+			for session in listSessions(device):
+				try:
+					if session.GetProcessId() != processId:
+						continue
+					volume = getSessionVolume(session)
+					if volume.GetMute():
+						volume.SetMute(0, None)
+					if volume.GetMasterVolume() * 100.0 < getAddonConfig()["minlevel"]:
+						volume.SetMasterVolume(self.getTargetLevel(), None)
+						raised = True
+				except COMError:
+					logDebugWarning("Unable to turn on the sound of an audio session of NVDA")
+		return raised
 
 	def resetSynth(self, retry_count: int) -> None:
 		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
