@@ -17,6 +17,7 @@ import config
 import core
 import globalPluginHandler
 import gui
+import speech
 import synthDriverHandler
 import tones
 from comtypes import COMError
@@ -121,9 +122,20 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		:param manual: whether the command of the add-on has been used, then the sound is always played
 		"""
+		if getAddonConfig()["speechmode"]:
+			self.turnOnSpeechMode()
 		self.unmuteAudio(manual=manual)
 		if getAddonConfig()["reinit"] and not self._resettingSynth:
 			self.initializeSynth(0)
+
+	def turnOnSpeechMode(self) -> None:
+		"""Switch the speech mode of NVDA to talk if speech is off, replaced by beeps or on demand,
+		e.g. after the speech mode has been changed by mistake. NVDA does not save the speech mode,
+		so it is talk when NVDA starts, and this matters mostly for the command of the add-on.
+		"""
+		state = speech.getState()
+		if state is not None and state.speechMode != speech.SpeechMode.talk:
+			speech.setSpeechMode(speech.SpeechMode.talk)
 
 	def getTargetLevel(self) -> float:
 		"""Get the volume level set for an audio device or NVDA when its volume is lower than the minimum level.
@@ -187,6 +199,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		# Every device is checked, not only until the first raised one
 		raised = [self.unmuteDevice(device) for device in self.getCheckedDevices()]
 		raised.append(self.unmuteNvdaProcess())
+		if getAddonConfig()["synthvolume"]:
+			raised.append(self.unmuteSynthVoice())
 		# The sound is played once, when the sound of NVDA itself has been turned on too
 		if manual or ((any(raised) or switched) and getAddonConfig()["playsound"]):
 			self.playUnmutedSound()
@@ -246,6 +260,24 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			return False
 		for channel in range(count):
 			channels.SetChannelVolume(channel, 1.0, None)
+		return True
+
+	def unmuteSynthVoice(self) -> bool:
+		"""Raise the volume of the voice of the synthesizer if it is lower than the minimum level,
+		e.g. after it has been turned down with the synth settings ring by mistake.
+		The new volume is saved in the configuration, as NVDA does when the volume is changed with the ring.
+
+		:return: whether the volume has been raised, False if there is no synthesizer or it has no volume
+		"""
+		synth = synthDriverHandler.getSynth()
+		# AutoSettings.isSupported of NVDA has no type annotations
+		if synth is None or not cast(Any, synth).isSupported("volume"):
+			return False
+		if synth.volume >= getAddonConfig()["minlevel"]:
+			return False
+		level = round(self.getTargetLevel() * 100)
+		synth.volume = level
+		getNvdaConfig("speech")[synth.name]["volume"] = level
 		return True
 
 	def initializeSynth(self, retry: int) -> None:
