@@ -46,6 +46,7 @@ from .configuration import (
 	getAddonConfig,
 	getNvdaConfig,
 	isSoundSplitEnabled,
+	isSoundVolumeFollowingVoice,
 	optionsSaved,
 )
 from .settings import UnmuteSettingsPanel
@@ -201,6 +202,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		raised.append(self.unmuteNvdaProcess())
 		if getAddonConfig()["synthvolume"]:
 			raised.append(self.unmuteSynthVoice())
+		# Raised before the sound of the add-on is played, so it is heard
+		if getAddonConfig()["soundsvolume"]:
+			raised.append(self.unmuteNvdaSounds())
 		# The sound is played once, when the sound of NVDA itself has been turned on too
 		if manual or ((any(raised) or switched) and getAddonConfig()["playsound"]):
 			self.playUnmutedSound()
@@ -278,6 +282,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		level = round(self.getTargetLevel() * 100)
 		synth.volume = level
 		getNvdaConfig("speech")[synth.name]["volume"] = level
+		return True
+
+	def unmuteNvdaSounds(self) -> bool:
+		"""Raise the volume of the sounds of NVDA (beeps and the sounds of NVDA and add-ons)
+		if it is lower than the minimum level. NVDA applies the new volume to the next sound.
+		Nothing is changed when the volume of the sounds follows the voice: the volume of the voice applies then.
+
+		:return: whether the volume has been raised
+		"""
+		audioConfig = getNvdaConfig("audio")
+		if isSoundVolumeFollowingVoice() or audioConfig["soundVolume"] >= getAddonConfig()["minlevel"]:
+			return False
+		audioConfig["soundVolume"] = round(self.getTargetLevel() * 100)
 		return True
 
 	def initializeSynth(self, retry: int) -> None:
