@@ -20,7 +20,7 @@ from gui import guiHelper, nvdaControls
 from gui.settingsDialogs import SettingsPanel
 from logHandler import log
 
-from .configuration import ADDON_SUMMARY, getAddonConfig, isSoundSplitEnabled, saveAddonConfig
+from .configuration import ADDON_SUMMARY, getAddonConfig, isSoundSplitEnabled, optionsSaved, saveAddonConfig
 
 try:
 	addonHandler.initTranslation()
@@ -49,6 +49,12 @@ class UnmuteSettingsPanel(SettingsPanel):
 		"""
 		# BoxSizerHelper works with any window, NVDA annotates its parent as a dialog
 		addonHelper = guiHelper.BoxSizerHelper(self, sizer=sizer)  # pyright: ignore[reportArgumentType]
+		self._startupChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: everything set below is done when NVDA starts
+			# (the sound of Windows and NVDA, the synthesizer), otherwise only with the command of the add-on
+			wx.CheckBox(self, label=_("&Unmute when NVDA starts")),
+		)
+		self._startupChk.SetValue(getAddonConfig()["startup"])
 		addonHelper.addItem(
 			wx.StaticText(
 				self,
@@ -59,7 +65,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 		)
 		self._customVolumeSlider = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
-			_("Set &custom volume level:"),
+			_("Set custom &volume level:"),
 			nvdaControls.EnhancedInputSlider,
 			value=getAddonConfig()["volume"],
 			minValue=0,
@@ -110,6 +116,12 @@ class UnmuteSettingsPanel(SettingsPanel):
 			wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on")),
 		)
 		self._playSoundChk.SetValue(getAddonConfig()["playsound"])
+		self._gesturesChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: the predefined keyboard shortcut of the command
+			# that turns on the sound of Windows and NVDA, another one can be assigned in the Input gestures dialog
+			wx.CheckBox(self, label=_("Use the default &keyboard shortcut")),
+		)
+		self._gesturesChk.SetValue(getAddonConfig()["gestures"])
 
 	def onDriverChk(self, event: wx.PyEvent) -> None:
 		"""Performed when a "self._driverChk" check box is selected or removed:
@@ -121,7 +133,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 
 	def postInit(self) -> None:
 		"""Set system focus to the first component in the settings panel."""
-		self._customVolumeSlider.SetFocus()
+		self._startupChk.SetFocus()
 
 	@override
 	def onSave(self) -> None:
@@ -129,6 +141,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 		Add-on parameters are always stored in the basic configuration profile.
 		"""
 		options: dict[str, Any] = {
+			"startup": self._startupChk.GetValue(),
 			"volume": self._customVolumeSlider.GetValue(),
 			"minlevel": self._minVolumeSlider.GetValue(),
 			"channels": self._channelsChk.GetValue(),
@@ -136,5 +149,8 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"retries": self._retriesCountSpin.GetValue(),
 			"switchdevice": self._switchDeviceChk.GetValue(),
 			"playsound": self._playSoundChk.GetValue(),
+			"gestures": self._gesturesChk.GetValue(),
 		}
 		saveAddonConfig(options)
+		# The default gesture is bound or unbound at once
+		optionsSaved.notify()

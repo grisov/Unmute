@@ -4,6 +4,7 @@
 # Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
 
 import os.path
+from collections.abc import Callable
 from typing import Any, cast, override
 
 import addonHandler
@@ -14,8 +15,10 @@ import gui
 import synthDriverHandler
 import tones
 from comtypes import COMError
+from inputCore import InputGesture
 from logHandler import log
 from nvwave import playWaveFile
+from scriptHandler import script
 
 from .audio import (
 	Device,
@@ -37,6 +40,7 @@ from .configuration import (
 	getAddonConfig,
 	getNvdaConfig,
 	isSoundSplitEnabled,
+	optionsSaved,
 )
 from .settings import UnmuteSettingsPanel
 
@@ -44,6 +48,7 @@ try:
 	addonHandler.initTranslation()
 except addonHandler.AddonError:
 	log.warning("Unable to init translations. This may be because the addon is running from NVDA scratchpad.")
+_: Callable[[str], str]
 
 # Attempts to find the default output device when NVDA starts, e.g. while the audio service of Windows is still starting
 AUDIO_ATTEMPTS = 10
@@ -54,6 +59,8 @@ AUDIO_ATTEMPT_INTERVAL = 1000
 NVDA_RECHECK_DELAY = 1000
 # Interval between the attempts to initialize the synthesizer, in milliseconds
 SYNTH_ATTEMPT_INTERVAL = 1000
+# The default gesture of the command that turns on the sound, bound if it is enabled in the add-on settings
+DEFAULT_GESTURE = "kb:NVDA+windows+shift+u"
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -65,22 +72,53 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
 		"""Initialization of the add-on parameters."""
 		super().__init__(*args, **kwargs)
+		# Whether the attempts to initialize the synthesizer are running, so they are not started twice
+		self._resettingSynth: bool = False
 		# The configuration of NVDA has no type annotations
 		cast(Any, config).conf.spec[ADDON_NAME] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
-		# core.callLater of NVDA has no type annotations
-		cast(Any, core).callLater(0, self.unmuteAudio)
-		if getAddonConfig()["reinit"]:
-			cast(Any, core).callLater(0, self.resetSynth, 0)
+		self.bindDefaultGesture()
+		optionsSaved.register(self.bindDefaultGesture)
+		if getAddonConfig()["startup"]:
+			# core.callLater of NVDA has no type annotations
+			cast(Any, core).callLater(0, self.restoreSoundAndSpeech)
 
 	@override
 	def terminate(self) -> None:
 		"""This will be called when NVDA is finished with this global plugin"""
+		_ = optionsSaved.unregister(self.bindDefaultGesture)
 		try:
 			gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(UnmuteSettingsPanel)
 		except ValueError:
 			log.warning("Can't remove %s Settings panel from NVDA settings dialogs", ADDON_SUMMARY)
 		super().terminate()
+
+	def bindDefaultGesture(self) -> None:
+		"""Bind or unbind the default gesture of the command as set in the add-on settings,
+		when the plugin is created and every time the settings are saved, so NVDA does not need to be restarted.
+		"""
+		# ScriptableObject.bindGestures of NVDA has no type annotations, None unbinds the gesture
+		cast(Any, self).bindGestures({DEFAULT_GESTURE: "unmute" if getAddonConfig()["gestures"] else None})
+
+	# Translators: The name of the command in the NVDA input gestures dialog
+	@script(description=_("Turn on the sound of Windows and NVDA"))
+	def script_unmute(self, gesture: InputGesture) -> None:
+		"""Do everything that is done when NVDA starts: turn on the sound of Windows and NVDA
+		and initialize the synthesizer if it is not initialized, as enabled in the add-on settings.
+		The sound is played even if nothing has been changed: the user may hear nothing before the command,
+		so the sound tells that the command has worked and NVDA can be heard.
+		"""
+		self.restoreSoundAndSpeech(manual=True)
+
+	def restoreSoundAndSpeech(self, manual: bool = False) -> None:
+		"""Turn on the sound of Windows and NVDA and, if the synthesizer is not initialized,
+		start the attempts to initialize it, as enabled in the add-on settings.
+
+		:param manual: whether the command of the add-on has been used, then the sound is always played
+		"""
+		self.unmuteAudio(manual=manual)
+		if getAddonConfig()["reinit"] and not self._resettingSynth:
+			self.resetSynth(0)
 
 	def getTargetLevel(self) -> float:
 		"""Get the volume level set for an audio device or NVDA when its volume is lower than the minimum level.
@@ -127,24 +165,25 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			logDebugWarning(f"Unable to turn on the sound of the audio device {getDeviceId(device)}")
 		return False
 
-	def unmuteAudio(self, attempt: int = 1) -> None:
+	def unmuteAudio(self, attempt: int = 1, manual: bool = False) -> None:
 		"""Turn on Windows sound if it is muted or low.
 		NVDA is switched to the default output device first, so the sound is turned on where NVDA plays it.
 		If there is no default output device, e.g. the audio service of Windows is still starting
 		after logging on, the check is repeated a few times.
 
 		:param attempt: the number of the attempt, from 1
+		:param manual: whether the command of the add-on has been used, then the sound is always played
 		"""
 		if getDefaultOutputDevice() is None and attempt < AUDIO_ATTEMPTS:
 			# core.callLater of NVDA has no type annotations
-			cast(Any, core).callLater(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1)
+			cast(Any, core).callLater(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1, manual)
 			return
 		switched = getAddonConfig()["switchdevice"] and self.switchToDefaultOutputDevice()
 		# Every device is checked, not only until the first raised one
 		raised = [self.unmuteDevice(device) for device in self.getCheckedDevices()]
 		raised.append(self.unmuteNvdaProcess())
 		# The sound is played once, when the sound of NVDA itself has been turned on too
-		if (any(raised) or switched) and getAddonConfig()["playsound"]:
+		if manual or ((any(raised) or switched) and getAddonConfig()["playsound"]):
 			self.audioEnabledSound()
 		if switched:
 			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.recheckNvdaProcess)
@@ -209,11 +248,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		:param retryCount: the number of the previous attempts
 		"""
+		self._resettingSynth = False
 		if not synthDriverHandler.getSynth():
 			synthDriverHandler.initialize()
 			_ = synthDriverHandler.setSynth(str(getNvdaConfig("speech")["synth"]))
 			retries: int = getAddonConfig()["retries"]
 			if retryCount <= retries or retries == 0:
+				self._resettingSynth = True
 				cast(Any, core).callLater(SYNTH_ATTEMPT_INTERVAL, self.resetSynth, retryCount + 1)
 
 	def switchToDefaultOutputDevice(self) -> bool:
