@@ -81,6 +81,12 @@ class UnmuteSettingsPanel(SettingsPanel):
 			maxValue=100,
 			size=(250, -1),
 		)
+		self._deviceChannelsChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: each channel of the audio devices that is muted
+			# or lower than the minimum volume level is raised, e.g. after the balance has been turned to one side
+			wx.CheckBox(self, label=_("Turn on the muted channels of audio d&evices")),
+		)
+		self._deviceChannelsChk.SetValue(getAddonConfig()["devicechannels"])
 		self._channelsChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog: the channels of NVDA are restored when NVDA starts
 			# if any of them is muted or lower than the minimum volume level. It is not available
@@ -160,6 +166,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"startup": self._startupChk.GetValue(),
 			"volume": self._customVolumeSlider.GetValue(),
 			"minlevel": self._minVolumeSlider.GetValue(),
+			"devicechannels": self._deviceChannelsChk.GetValue(),
 			"channels": self._channelsChk.GetValue(),
 			"synthvolume": self._synthVolumeChk.GetValue(),
 			"soundsvolume": self._soundsVolumeChk.GetValue(),
