@@ -5,6 +5,8 @@
 
 import os.path
 import addonHandler
+from collections.abc import MutableMapping
+from comtypes import COMError
 from core import callLater
 from ctypes import POINTER
 import globalPluginHandler
@@ -15,8 +17,8 @@ import gui
 import tones
 import config
 from logHandler import log
-from pycaw.utils import AudioUtilities, AudioDevice, ISimpleAudioVolume, IAudioEndpointVolume
-from utils.mmdevice import getOutputDevices
+from pycaw.utils import AudioUtilities, ISimpleAudioVolume
+from .audio import Device, getDefaultOutputDevice, getDevice, getDeviceId, getEndpointVolume, logDebugWarning
 
 try:
 	addonHandler.initTranslation()
@@ -28,12 +30,28 @@ ADDON_NAME: str = _addon.name
 ADDON_SUMMARY: str = _addon.manifest["summary"]
 
 
+def getNvdaConfig(section: str) -> MutableMapping[str, Any]:
+	"""Get a section of the NVDA configuration in the current configuration profile.
+	NVDA declares config.conf as None until the configuration is loaded, so its type is given here once.
+
+	:param section: the name of the section, e.g. "audio"
+	:return: the section of the configuration
+	"""
+	return cast(Any, config.conf)[section]
+
+
+def getAddonConfig() -> MutableMapping[str, Any]:
+	"""Get the add-on section of the NVDA configuration in the current configuration profile.
+
+	:return: the options of the add-on
+	"""
+	return getNvdaConfig(ADDON_NAME)
+
+
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"""Implementation global commands of NVDA add-on"""
 
 	scriptCategory: str = ADDON_SUMMARY
-	_device: AudioDevice | None = None
-	_volume: POINTER(IAudioEndpointVolume) | None = None
 
 	@override
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -51,14 +69,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		from .settings import UnmuteSettingsPanel
 
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
-		# Variables initialization for using Core Audio Windows API
-		try:
-			self._device = cast(AudioDevice, AudioUtilities.GetSpeakers())
-			if self._device:
-				self._volume = cast(POINTER(IAudioEndpointVolume), self._device.EndpointVolume)
-		except Exception:
-			log.exception("Unmute: Failed to initialize audio devices")
-			self._volume = None
 		callLater(0, self.unmuteAudio)
 		if config.conf[ADDON_NAME]["reinit"]:
 			callLater(0, self.resetSynth, 0)
@@ -74,22 +84,59 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			log.warning("Can't remove %s Settings panel from NVDA settings dialogs", ADDON_SUMMARY)
 		super().terminate()
 
+	def getTargetLevel(self) -> float:
+		"""Get the volume level set for an audio device or NVDA when its volume is lower than the minimum level.
+		The level is at least the minimum level, even if the custom volume level in the settings is lower.
+
+		:return: the volume level (from 0.0 to 1.0)
+		"""
+		addonConfig = getAddonConfig()
+		return max(addonConfig["volume"], addonConfig["minlevel"]) / 100.0
+
+	def getCheckedDevices(self) -> list[Device]:
+		"""Get the audio devices whose sound is turned on: the default output device of Windows and,
+		if NVDA uses a specific output device and is not switched to the default one, that device too.
+		The devices are got at the moment of the check: they may change while NVDA is running.
+
+		:return: the audio devices, empty if the audio service of Windows is not available
+		"""
+		devices: list[Device] = []
+		default = getDefaultOutputDevice()
+		if default is not None:
+			devices.append(default)
+		outputDevice: str = getNvdaConfig("audio")["outputDevice"]
+		if outputDevice != "default" and not getAddonConfig()["switchdevice"]:
+			device = getDevice(outputDevice)
+			if device is not None and getDeviceId(device) not in [getDeviceId(item) for item in devices]:
+				devices.append(device)
+		return devices
+
+	def unmuteDevice(self, device: Device) -> bool:
+		"""Turn on the sound of the audio device if it is muted, and raise its volume if it is too low.
+		An error is logged, so the other devices and steps are checked anyway.
+
+		:param device: the audio device
+		:return: whether the volume level has been raised
+		"""
+		try:
+			volume = getEndpointVolume(device)
+			if volume.GetMute():
+				volume.SetMute(0, None)
+			if volume.GetMasterVolumeLevelScalar() * 100.0 < getAddonConfig()["minlevel"]:
+				volume.SetMasterVolumeLevelScalar(self.getTargetLevel(), None)
+				return True
+		except COMError:
+			logDebugWarning(f"Unable to turn on the sound of the audio device {getDeviceId(device)}")
+		return False
+
 	def unmuteAudio(self) -> None:
 		"""Turn on Windows sound if it is muted or low."""
-		if not self._volume:
-			return
-		if self._volume.GetMute():
-			self._volume.SetMute(False, None)
-		if self._volume.GetMasterVolumeLevelScalar() * 100 < config.conf[ADDON_NAME]["minlevel"]:
-			config.conf[ADDON_NAME]["volume"] = max(
-				config.conf[ADDON_NAME]["volume"],
-				config.conf[ADDON_NAME]["minlevel"],
-			)
-			self._volume.SetMasterVolumeLevelScalar(float(config.conf[ADDON_NAME]["volume"]) / 100.0, None)
-			if config.conf[ADDON_NAME]["playsound"]:
-				self.audioEnabledSound()
+		# Every device is checked, not only until the first raised one
+		raised = [self.unmuteDevice(device) for device in self.getCheckedDevices()]
+		if any(raised) and getAddonConfig()["playsound"]:
+			self.audioEnabledSound()
 		self.unmuteNvdaProcess()
-		if config.conf[ADDON_NAME]["switchdevice"]:
+		if getAddonConfig()["switchdevice"]:
 			self.switchToDefaultOutputDevice()
 
 	def unmuteNvdaProcess(self) -> None:
@@ -100,7 +147,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if volume.GetMute():
 					volume.SetMute(False, None)
 				if volume.GetMasterVolume() * 100.0 < config.conf[ADDON_NAME]["minlevel"]:
-					volume.SetMasterVolume(float(config.conf[ADDON_NAME]["volume"]) / 100.0, None)
+					volume.SetMasterVolume(self.getTargetLevel(), None)
 					if config.conf[ADDON_NAME]["playsound"]:
 						self.audioEnabledSound()
 
@@ -113,28 +160,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if retry_count <= retries or retries == 0:
 				callLater(1000, self.resetSynth, retry_count + 1)
 
-	def getDefaultDeviceID(self) -> str:
-		"""Obtain the default output audio device ID.
-		@return: default output audio device ID
-		@rtype: str
-		"""
-		try:
-			devices = cast(list[AudioDevice], AudioUtilities.GetAllDevices())
-		except Exception:
-			devices = []
-		defaultDevice = next(filter(lambda dev: dev.id == self._device.id, devices), None)
-		defaultDeviceID = defaultDevice.id if defaultDevice else "default"
-		outputDeviceIDs = [device[0] for device in getOutputDevices(includeDefault=True)]
-		if outputDeviceIDs[0] == "":
-			outputDeviceIDs[0] = "default"
-		return next(
-			filter(lambda id: id in defaultDeviceID or defaultDeviceID in id, outputDeviceIDs),
-			outputDeviceIDs[0],
-		)
-
 	def switchToDefaultOutputDevice(self) -> None:
 		"""Switch NVDA audio output to the default audio device."""
-		device: str = "default"  # self.getDefaultDeviceID()
+		device: str = "default"
 		if config.conf["audio"]["outputDevice"] not in ("default", device):
 			config.conf["audio"]["outputDevice"] = device
 			if synthDriverHandler.setSynth(synthDriverHandler.getSynth().name):
