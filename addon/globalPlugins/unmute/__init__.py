@@ -37,6 +37,14 @@ _addon = addonHandler.getCodeAddon()
 ADDON_NAME: str = _addon.name
 ADDON_SUMMARY: str = _addon.manifest["summary"]
 
+# Attempts to find the default output device when NVDA starts, e.g. while the audio service of Windows is still starting
+AUDIO_ATTEMPTS = 10
+# Interval between the attempts, in milliseconds
+AUDIO_ATTEMPT_INTERVAL = 1000
+# Delay before the sound of NVDA is checked again after NVDA has been switched to the default output device,
+# in milliseconds: Windows creates the audio session of NVDA on the new device only when NVDA plays a sound there
+NVDA_RECHECK_DELAY = 1000
+
 
 def getNvdaConfig(section: str) -> MutableMapping[str, Any]:
 	"""Get a section of the NVDA configuration in the current configuration profile.
@@ -137,16 +145,34 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			logDebugWarning(f"Unable to turn on the sound of the audio device {getDeviceId(device)}")
 		return False
 
-	def unmuteAudio(self) -> None:
-		"""Turn on Windows sound if it is muted or low."""
+	def unmuteAudio(self, attempt: int = 1) -> None:
+		"""Turn on Windows sound if it is muted or low.
+		NVDA is switched to the default output device first, so the sound is turned on where NVDA plays it.
+		If there is no default output device, e.g. the audio service of Windows is still starting
+		after logging on, the check is repeated a few times.
+
+		:param attempt: the number of the attempt, from 1
+		"""
+		if getDefaultOutputDevice() is None and attempt < AUDIO_ATTEMPTS:
+			# core.callLater of NVDA has no type annotations
+			cast(Any, callLater)(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1)
+			return
+		switched = getAddonConfig()["switchdevice"] and self.switchToDefaultOutputDevice()
 		# Every device is checked, not only until the first raised one
 		raised = [self.unmuteDevice(device) for device in self.getCheckedDevices()]
 		raised.append(self.unmuteNvdaProcess())
 		# The sound is played once, when the sound of NVDA itself has been turned on too
-		if any(raised) and getAddonConfig()["playsound"]:
+		if (any(raised) or switched) and getAddonConfig()["playsound"]:
 			self.audioEnabledSound()
-		if getAddonConfig()["switchdevice"]:
-			self.switchToDefaultOutputDevice()
+		if switched:
+			cast(Any, callLater)(NVDA_RECHECK_DELAY, self.recheckNvdaProcess)
+
+	def recheckNvdaProcess(self) -> None:
+		"""Check the sound of NVDA again after NVDA has been switched to the default output device
+		and has played a sound there, so its audio session on that device exists.
+		"""
+		if self.unmuteNvdaProcess() and getAddonConfig()["playsound"]:
+			self.audioEnabledSound()
 
 	def unmuteNvdaProcess(self) -> bool:
 		"""Turn on the sound of NVDA itself if it is muted or low: all audio sessions of the running NVDA process
@@ -182,16 +208,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if retry_count <= retries or retries == 0:
 				callLater(1000, self.resetSynth, retry_count + 1)
 
-	def switchToDefaultOutputDevice(self) -> None:
-		"""Switch NVDA audio output to the default audio device."""
-		device: str = "default"
-		if config.conf["audio"]["outputDevice"] not in ("default", device):
-			config.conf["audio"]["outputDevice"] = device
-			if synthDriverHandler.setSynth(synthDriverHandler.getSynth().name):
-				tones.terminate()
-				tones.initialize()
-				if config.conf[ADDON_NAME]["playsound"]:
-					self.audioEnabledSound()
+	def switchToDefaultOutputDevice(self) -> bool:
+		"""Switch NVDA audio output to the default output device of Windows.
+
+		:return: whether NVDA has been switched, False if it already uses the default device
+		"""
+		audioConfig = getNvdaConfig("audio")
+		if audioConfig["outputDevice"] == "default":
+			return False
+		audioConfig["outputDevice"] = "default"
+		# The synthesizer is restarted to use the new output device. If it is not initialized yet,
+		# it uses the new device when it is initialized
+		synth = synthDriverHandler.getSynth()
+		if synth is not None and synthDriverHandler.setSynth(synth.name):
+			tones.terminate()
+			tones.initialize()
+		return True
 
 	def audioEnabledSound(self) -> None:
 		"""The sound when the audio is successfully turned on and the synthesizer is enabled."""
