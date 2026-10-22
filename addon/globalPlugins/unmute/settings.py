@@ -20,7 +20,14 @@ from gui import guiHelper, nvdaControls
 from gui.settingsDialogs import SettingsPanel
 from logHandler import log
 
-from .configuration import ADDON_SUMMARY, getAddonConfig, isSoundSplitEnabled, optionsSaved, saveAddonConfig
+from .configuration import (
+	ADDON_SUMMARY,
+	getAddonConfig,
+	isSoundSplitEnabled,
+	isSoundVolumeFollowingVoice,
+	optionsSaved,
+	saveAddonConfig,
+)
 
 try:
 	addonHandler.initTranslation()
@@ -88,6 +95,14 @@ class UnmuteSettingsPanel(SettingsPanel):
 			wx.CheckBox(self, label=_("Turn up the volume of the s&ynthesizer voice")),
 		)
 		self._synthVolumeChk.SetValue(getAddonConfig()["synthvolume"])
+		self._soundsVolumeChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: the volume of the sounds of NVDA is raised to the custom
+			# volume level if it is lower than the minimum level. It is not available while the volume of the sounds
+			# follows the voice in the NVDA settings, because NVDA has no separate volume of its sounds then
+			wx.CheckBox(self, label=_("&Turn up the volume of NVDA sounds")),
+		)
+		self._soundsVolumeChk.SetValue(getAddonConfig()["soundsvolume"])
+		self._soundsVolumeChk.Enable(not isSoundVolumeFollowingVoice())
 		self._speechModeChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog: the speech mode of NVDA (NVDA+S) is switched
 			# to talk if speech is off, replaced by beeps or on demand
@@ -147,6 +162,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"minlevel": self._minVolumeSlider.GetValue(),
 			"channels": self._channelsChk.GetValue(),
 			"synthvolume": self._synthVolumeChk.GetValue(),
+			"soundsvolume": self._soundsVolumeChk.GetValue(),
 			"speechmode": self._speechModeChk.GetValue(),
 			"reinit": self._driverChk.GetValue(),
 			"retries": self._retriesCountSpin.GetValue(),

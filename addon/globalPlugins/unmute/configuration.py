@@ -32,6 +32,8 @@ confspec: dict[str, str] = {
 	"channels": "boolean(default=false)",
 	# Raise the volume of the voice of the synthesizer if it is lower than the minimum level
 	"synthvolume": "boolean(default=true)",
+	# Raise the volume of the sounds of NVDA if it is lower than the minimum level
+	"soundsvolume": "boolean(default=true)",
 	# Switch the speech mode of NVDA to talk if speech is off, replaced by beeps or on demand
 	"speechmode": "boolean(default=true)",
 	"playsound": "boolean(default=true)",
@@ -69,6 +71,15 @@ def isSoundSplitEnabled() -> bool:
 	:return: whether sound split of NVDA is enabled
 	"""
 	return getNvdaConfig("audio")["soundSplitState"] != 0
+
+
+def isSoundVolumeFollowingVoice() -> bool:
+	"""Check whether the volume of the sounds of NVDA follows the volume of the voice in the NVDA settings,
+	then NVDA has no separate volume of its sounds.
+
+	:return: whether the volume of the sounds of NVDA follows the voice
+	"""
+	return getNvdaConfig("audio")["soundVolumeFollowsVoice"]
 
 
 def saveAddonConfig(options: dict[str, Any]) -> None:
