@@ -115,6 +115,12 @@ class UnmuteSettingsPanel(SettingsPanel):
 			wx.CheckBox(self, label=_("Switch the speech &mode of NVDA to talk")),
 		)
 		self._speechModeChk.SetValue(getAddonConfig()["speechmode"])
+		self._noDuckingChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: by default Windows lowers the volume of the other
+			# programs when a communication program starts a call, this keeps the volume of NVDA unchanged
+			wx.CheckBox(self, label=_("Do not lo&wer the volume of NVDA during calls")),
+		)
+		self._noDuckingChk.SetValue(getAddonConfig()["noducking"])
 		self._driverChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver")),
@@ -171,6 +177,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"synthvolume": self._synthVolumeChk.GetValue(),
 			"soundsvolume": self._soundsVolumeChk.GetValue(),
 			"speechmode": self._speechModeChk.GetValue(),
+			"noducking": self._noDuckingChk.GetValue(),
 			"reinit": self._driverChk.GetValue(),
 			"retries": self._retriesCountSpin.GetValue(),
 			"switchdevice": self._switchDeviceChk.GetValue(),
@@ -178,5 +185,5 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"gestures": self._gesturesChk.GetValue(),
 		}
 		saveAddonConfig(options)
-		# The default gesture is bound or unbound at once
+		# The default gesture and the ducking preference are applied at once
 		optionsSaved.notify()

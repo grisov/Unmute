@@ -38,6 +38,8 @@ confspec: dict[str, str] = {
 	"soundsvolume": "boolean(default=true)",
 	# Switch the speech mode of NVDA to talk if speech is off, replaced by beeps or on demand
 	"speechmode": "boolean(default=true)",
+	# Do not let Windows lower the volume of NVDA during calls
+	"noducking": "boolean(default=false)",
 	"playsound": "boolean(default=true)",
 	# Bind the default gesture to the command of the add-on
 	"gestures": "boolean(default=false)",
