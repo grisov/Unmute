@@ -30,6 +30,10 @@ confspec: dict[str, str] = {
 	"switchdevice": "boolean(default=true)",
 	# Restore the channels of the audio sessions of NVDA if any of them is muted or too quiet
 	"channels": "boolean(default=false)",
+	# Raise the volume of the voice of the synthesizer if it is lower than the minimum level
+	"synthvolume": "boolean(default=true)",
+	# Switch the speech mode of NVDA to talk if speech is off, replaced by beeps or on demand
+	"speechmode": "boolean(default=true)",
 	"playsound": "boolean(default=true)",
 	# Bind the default gesture to the command of the add-on
 	"gestures": "boolean(default=false)",

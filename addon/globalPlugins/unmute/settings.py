@@ -82,6 +82,18 @@ class UnmuteSettingsPanel(SettingsPanel):
 		)
 		self._channelsChk.SetValue(getAddonConfig()["channels"])
 		self._channelsChk.Enable(not isSoundSplitEnabled())
+		self._synthVolumeChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: the volume of the voice of the synthesizer
+			# is raised to the custom volume level if it is lower than the minimum level
+			wx.CheckBox(self, label=_("Turn up the volume of the s&ynthesizer voice")),
+		)
+		self._synthVolumeChk.SetValue(getAddonConfig()["synthvolume"])
+		self._speechModeChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: the speech mode of NVDA (NVDA+S) is switched
+			# to talk if speech is off, replaced by beeps or on demand
+			wx.CheckBox(self, label=_("Switch the speech &mode of NVDA to talk")),
+		)
+		self._speechModeChk.SetValue(getAddonConfig()["speechmode"])
 		self._driverChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver")),
@@ -134,6 +146,8 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"volume": self._customVolumeSlider.GetValue(),
 			"minlevel": self._minVolumeSlider.GetValue(),
 			"channels": self._channelsChk.GetValue(),
+			"synthvolume": self._synthVolumeChk.GetValue(),
+			"speechmode": self._speechModeChk.GetValue(),
 			"reinit": self._driverChk.GetValue(),
 			"retries": self._retriesCountSpin.GetValue(),
 			"switchdevice": self._switchDeviceChk.GetValue(),
