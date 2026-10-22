@@ -4,18 +4,19 @@
 # Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
 
 import os.path
-import addonHandler
-from collections.abc import MutableMapping
-from comtypes import COMError
-from core import callLater
-import globalPluginHandler
-import synthDriverHandler
 from typing import Any, cast, override
-from nvwave import playWaveFile
-import gui
-import tones
+
+import addonHandler
 import config
+import core
+import globalPluginHandler
+import gui
+import synthDriverHandler
+import tones
+from comtypes import COMError
 from logHandler import log
+from nvwave import playWaveFile
+
 from .audio import (
 	Device,
 	getActiveOutputDevices,
@@ -27,15 +28,13 @@ from .audio import (
 	listSessions,
 	logDebugWarning,
 )
+from .configuration import ADDON_NAME, ADDON_SUMMARY, confspec, getAddonConfig, getNvdaConfig
+from .settings import UnmuteSettingsPanel
 
 try:
 	addonHandler.initTranslation()
 except addonHandler.AddonError:
 	log.warning("Unable to init translations. This may be because the addon is running from NVDA scratchpad.")
-
-_addon = addonHandler.getCodeAddon()
-ADDON_NAME: str = _addon.name
-ADDON_SUMMARY: str = _addon.manifest["summary"]
 
 # Attempts to find the default output device when NVDA starts, e.g. while the audio service of Windows is still starting
 AUDIO_ATTEMPTS = 10
@@ -44,24 +43,8 @@ AUDIO_ATTEMPT_INTERVAL = 1000
 # Delay before the sound of NVDA is checked again after NVDA has been switched to the default output device,
 # in milliseconds: Windows creates the audio session of NVDA on the new device only when NVDA plays a sound there
 NVDA_RECHECK_DELAY = 1000
-
-
-def getNvdaConfig(section: str) -> MutableMapping[str, Any]:
-	"""Get a section of the NVDA configuration in the current configuration profile.
-	NVDA declares config.conf as None until the configuration is loaded, so its type is given here once.
-
-	:param section: the name of the section, e.g. "audio"
-	:return: the section of the configuration
-	"""
-	return cast(Any, config.conf)[section]
-
-
-def getAddonConfig() -> MutableMapping[str, Any]:
-	"""Get the add-on section of the NVDA configuration in the current configuration profile.
-
-	:return: the options of the add-on
-	"""
-	return getNvdaConfig(ADDON_NAME)
+# Interval between the attempts to initialize the synthesizer, in milliseconds
+SYNTH_ATTEMPT_INTERVAL = 1000
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -72,31 +55,21 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	@override
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
 		"""Initialization of the add-on parameters."""
-		super(GlobalPlugin, self).__init__(*args, **kwargs)
-		confspec = {
-			"volume": "integer(default=20,min=0,max=100)",
-			"minlevel": "integer(default=5,min=0,max=100)",
-			"reinit": "boolean(default=true)",
-			"retries": "integer(default=0,min=0,max=10000000)",
-			"switchdevice": "boolean(default=true)",
-			"playsound": "boolean(default=true)",
-		}
-		config.conf.spec[ADDON_NAME] = confspec
-		from .settings import UnmuteSettingsPanel
-
+		super().__init__(*args, **kwargs)
+		# The configuration of NVDA has no type annotations
+		cast(Any, config).conf.spec[ADDON_NAME] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
-		callLater(0, self.unmuteAudio)
-		if config.conf[ADDON_NAME]["reinit"]:
-			callLater(0, self.resetSynth, 0)
+		# core.callLater of NVDA has no type annotations
+		cast(Any, core).callLater(0, self.unmuteAudio)
+		if getAddonConfig()["reinit"]:
+			cast(Any, core).callLater(0, self.resetSynth, 0)
 
 	@override
 	def terminate(self) -> None:
 		"""This will be called when NVDA is finished with this global plugin"""
-		from .settings import UnmuteSettingsPanel
-
 		try:
 			gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(UnmuteSettingsPanel)
-		except IndexError:
+		except ValueError:
 			log.warning("Can't remove %s Settings panel from NVDA settings dialogs", ADDON_SUMMARY)
 		super().terminate()
 
@@ -155,7 +128,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""
 		if getDefaultOutputDevice() is None and attempt < AUDIO_ATTEMPTS:
 			# core.callLater of NVDA has no type annotations
-			cast(Any, callLater)(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1)
+			cast(Any, core).callLater(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1)
 			return
 		switched = getAddonConfig()["switchdevice"] and self.switchToDefaultOutputDevice()
 		# Every device is checked, not only until the first raised one
@@ -165,7 +138,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if (any(raised) or switched) and getAddonConfig()["playsound"]:
 			self.audioEnabledSound()
 		if switched:
-			cast(Any, callLater)(NVDA_RECHECK_DELAY, self.recheckNvdaProcess)
+			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.recheckNvdaProcess)
 
 	def recheckNvdaProcess(self) -> None:
 		"""Check the sound of NVDA again after NVDA has been switched to the default output device
@@ -199,14 +172,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					logDebugWarning("Unable to turn on the sound of an audio session of NVDA")
 		return raised
 
-	def resetSynth(self, retry_count: int) -> None:
-		"""If the synthesizer is not initialized - repeat attempts to initialize it."""
+	def resetSynth(self, retryCount: int) -> None:
+		"""If the synthesizer is not initialized - repeat attempts to initialize it.
+
+		:param retryCount: the number of the previous attempts
+		"""
 		if not synthDriverHandler.getSynth():
 			synthDriverHandler.initialize()
-			synthDriverHandler.setSynth(str(config.conf["speech"]["synth"]))
-			retries = config.conf[ADDON_NAME]["retries"]
-			if retry_count <= retries or retries == 0:
-				callLater(1000, self.resetSynth, retry_count + 1)
+			_ = synthDriverHandler.setSynth(str(getNvdaConfig("speech")["synth"]))
+			retries: int = getAddonConfig()["retries"]
+			if retryCount <= retries or retries == 0:
+				cast(Any, core).callLater(SYNTH_ATTEMPT_INTERVAL, self.resetSynth, retryCount + 1)
 
 	def switchToDefaultOutputDevice(self) -> bool:
 		"""Switch NVDA audio output to the default output device of Windows.
@@ -226,8 +202,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		return True
 
 	def audioEnabledSound(self) -> None:
-		"""The sound when the audio is successfully turned on and the synthesizer is enabled."""
+		"""The sound when the audio is successfully turned on and the synthesizer is enabled, an error is logged."""
+		path = os.path.join(os.path.dirname(__file__), "unmuted.wav")
 		try:
-			playWaveFile(os.path.join(os.path.dirname(__file__), "unmuted.wav"))
+			playWaveFile(path)
 		except Exception:
-			pass
+			log.error(f"Unable to play {path}", exc_info=True)
