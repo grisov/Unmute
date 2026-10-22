@@ -86,20 +86,40 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		cast(Any, config).conf.spec[ADDON_NAME] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
 		self.bindDefaultGesture()
-		optionsSaved.register(self.bindDefaultGesture)
+		optionsSaved.register(self.onOptionsSaved)
+		synthDriverHandler.synthChanged.register(self.onSynthChanged)
 		if getAddonConfig()["startup"]:
 			# core.callLater of NVDA has no type annotations
 			cast(Any, core).callLater(0, self.restoreSoundAndSpeech)
+		# It is a lasting behavior, not a part of turning on the sound, so it does not depend on the startup option
+		if getAddonConfig()["noducking"]:
+			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.applyDuckingPreference)
 
 	@override
 	def terminate(self) -> None:
 		"""This will be called when NVDA is finished with this global plugin"""
-		_ = optionsSaved.unregister(self.bindDefaultGesture)
+		_ = optionsSaved.unregister(self.onOptionsSaved)
+		_ = synthDriverHandler.synthChanged.unregister(self.onSynthChanged)
 		try:
 			gui.settingsDialogs.NVDASettingsDialog.categoryClasses.remove(UnmuteSettingsPanel)
 		except ValueError:
 			log.warning("Can't remove %s Settings panel from NVDA settings dialogs", ADDON_SUMMARY)
 		super().terminate()
+
+	def onOptionsSaved(self) -> None:
+		"""Apply the options that work all the time at once after the settings of the add-on have been saved,
+		so NVDA does not need to be restarted: the default gesture and the ducking preference of NVDA.
+		"""
+		self.bindDefaultGesture()
+		self.applyDuckingPreference()
+
+	def onSynthChanged(self) -> None:
+		"""Set the ducking preference again after the synthesizer has been changed or restarted, e.g. when NVDA
+		has been switched to another output device: NVDA gets new audio sessions when it plays a sound there.
+		"""
+		if getAddonConfig()["noducking"]:
+			# core.callLater of NVDA has no type annotations
+			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.applyDuckingPreference)
 
 	def bindDefaultGesture(self) -> None:
 		"""Bind or unbind the default gesture of the command as set in the add-on settings,
@@ -241,35 +261,60 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if self.unmuteNvdaProcess() and getAddonConfig()["playsound"]:
 			self.playUnmutedSound()
 
+	def getNvdaSessions(self) -> list[Session]:
+		"""Get the audio sessions of the running NVDA process on all active output devices.
+		The process is found by its ID, so the sessions of other copies of NVDA (e.g. a portable one) are skipped.
+
+		:return: the audio sessions of NVDA, a session that cannot be checked is skipped and logged
+		"""
+		processId = os.getpid()
+		sessions: list[Session] = []
+		for device in getActiveOutputDevices():
+			for session in listSessions(device):
+				try:
+					if session.GetProcessId() == processId:
+						sessions.append(session)
+				except COMError:
+					logDebugWarning("Unable to get the process of an audio session")
+		return sessions
+
 	def unmuteNvdaProcess(self) -> bool:
 		"""Turn on the sound of NVDA itself if it is muted or low: all audio sessions of the running NVDA process
 		on all active output devices, because Windows keeps the volume of a program for each device.
-		The process is found by its ID, so other copies of NVDA (e.g. a portable one) are not changed.
 		If enabled in the settings, the channels of the sessions are restored too, unless NVDA sound split is enabled.
 		An error is logged, so the other sessions and steps are checked anyway.
 
 		:return: whether the volume level or the channels of any audio session of NVDA have been raised
 		"""
 		raised = False
-		processId = os.getpid()
 		# Sound split of NVDA sets the levels of the channels itself
 		restoreChannels: bool = getAddonConfig()["channels"] and not isSoundSplitEnabled()
-		for device in getActiveOutputDevices():
-			for session in listSessions(device):
-				try:
-					if session.GetProcessId() != processId:
-						continue
-					volume = getSessionVolume(session)
-					if volume.GetMute():
-						volume.SetMute(0, None)
-					if volume.GetMasterVolume() * 100.0 < getAddonConfig()["minlevel"]:
-						volume.SetMasterVolume(self.getTargetLevel(), None)
-						raised = True
-					if restoreChannels and self.restoreChannels(session):
-						raised = True
-				except COMError:
-					logDebugWarning("Unable to turn on the sound of an audio session of NVDA")
+		for session in self.getNvdaSessions():
+			try:
+				volume = getSessionVolume(session)
+				if volume.GetMute():
+					volume.SetMute(0, None)
+				if volume.GetMasterVolume() * 100.0 < getAddonConfig()["minlevel"]:
+					volume.SetMasterVolume(self.getTargetLevel(), None)
+					raised = True
+				if restoreChannels and self.restoreChannels(session):
+					raised = True
+			except COMError:
+				logDebugWarning("Unable to turn on the sound of an audio session of NVDA")
 		return raised
+
+	def applyDuckingPreference(self) -> None:
+		"""Mark the audio sessions of NVDA as not lowered by Windows during calls, or lowered again,
+		as set in the add-on settings. By default Windows lowers the volume of the other programs, NVDA included,
+		when a communication program starts a call. The mark applies to the existing sessions only.
+		An error is logged, so the other sessions are marked anyway.
+		"""
+		optOut = int(getAddonConfig()["noducking"])
+		for session in self.getNvdaSessions():
+			try:
+				session.SetDuckingPreferences(optOut)
+			except COMError:
+				logDebugWarning("Unable to set the ducking preference of an audio session of NVDA")
 
 	def restoreChannels(self, session: Session) -> bool:
 		"""Set the full level to all channels of the audio session if any of them is lower than the minimum level,
