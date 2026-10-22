@@ -1,7 +1,12 @@
 # A part of the NVDA Unmute add-on
+# Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
+
+"""Turns on the sound of Windows and NVDA when NVDA starts and with a command:
+switches NVDA to the default output device, turns on the muted or too quiet audio devices,
+audio sessions and channels of NVDA, and initializes the synthesizer if it is not initialized.
+"""
 
 import os.path
 from collections.abc import Callable
@@ -64,7 +69,7 @@ DEFAULT_GESTURE = "kb:NVDA+windows+shift+u"
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
-	"""Implementation global commands of NVDA add-on"""
+	"""The global plugin of the add-on: its command, its settings panel and the checks when NVDA starts."""
 
 	scriptCategory: str = ADDON_SUMMARY
 
@@ -118,7 +123,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""
 		self.unmuteAudio(manual=manual)
 		if getAddonConfig()["reinit"] and not self._resettingSynth:
-			self.resetSynth(0)
+			self.initializeSynth(0)
 
 	def getTargetLevel(self) -> float:
 		"""Get the volume level set for an audio device or NVDA when its volume is lower than the minimum level.
@@ -184,7 +189,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		raised.append(self.unmuteNvdaProcess())
 		# The sound is played once, when the sound of NVDA itself has been turned on too
 		if manual or ((any(raised) or switched) and getAddonConfig()["playsound"]):
-			self.audioEnabledSound()
+			self.playUnmutedSound()
 		if switched:
 			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.recheckNvdaProcess)
 
@@ -193,7 +198,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		and has played a sound there, so its audio session on that device exists.
 		"""
 		if self.unmuteNvdaProcess() and getAddonConfig()["playsound"]:
-			self.audioEnabledSound()
+			self.playUnmutedSound()
 
 	def unmuteNvdaProcess(self) -> bool:
 		"""Turn on the sound of NVDA itself if it is muted or low: all audio sessions of the running NVDA process
@@ -243,19 +248,20 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			channels.SetChannelVolume(channel, 1.0, None)
 		return True
 
-	def resetSynth(self, retryCount: int) -> None:
-		"""If the synthesizer is not initialized - repeat attempts to initialize it.
+	def initializeSynth(self, retry: int) -> None:
+		"""Initialize the synthesizer selected in the NVDA settings if no synthesizer is initialized,
+		and repeat the attempt as many times as set in the add-on settings, 0 for no limit.
 
-		:param retryCount: the number of the previous attempts
+		:param retry: the number of the retry, 0 for the first attempt
 		"""
 		self._resettingSynth = False
-		if not synthDriverHandler.getSynth():
-			synthDriverHandler.initialize()
-			_ = synthDriverHandler.setSynth(str(getNvdaConfig("speech")["synth"]))
-			retries: int = getAddonConfig()["retries"]
-			if retryCount <= retries or retries == 0:
-				self._resettingSynth = True
-				cast(Any, core).callLater(SYNTH_ATTEMPT_INTERVAL, self.resetSynth, retryCount + 1)
+		if synthDriverHandler.getSynth() is not None:
+			return
+		_ = synthDriverHandler.setSynth(str(getNvdaConfig("speech")["synth"]))
+		retries: int = getAddonConfig()["retries"]
+		if retry < retries or retries == 0:
+			self._resettingSynth = True
+			cast(Any, core).callLater(SYNTH_ATTEMPT_INTERVAL, self.initializeSynth, retry + 1)
 
 	def switchToDefaultOutputDevice(self) -> bool:
 		"""Switch NVDA audio output to the default output device of Windows.
@@ -274,8 +280,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			tones.initialize()
 		return True
 
-	def audioEnabledSound(self) -> None:
-		"""The sound when the audio is successfully turned on and the synthesizer is enabled, an error is logged."""
+	def playUnmutedSound(self) -> None:
+		"""Play the sound of the add-on telling that the sound has been turned on, an error is logged."""
 		path = os.path.join(os.path.dirname(__file__), "unmuted.wav")
 		try:
 			playWaveFile(path)
