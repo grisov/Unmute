@@ -21,7 +21,7 @@ from typing import Any, Protocol, cast
 
 from comtypes import CLSCTX_ALL, COMError
 from logHandler import log
-from pycaw.api.audioclient import ISimpleAudioVolume
+from pycaw.api.audioclient import IChannelAudioVolume, ISimpleAudioVolume
 from pycaw.api.audiopolicy import IAudioSessionControl2, IAudioSessionManager2
 from pycaw.api.endpointvolume import IAudioEndpointVolume
 from pycaw.constants import DEVICE_STATE
@@ -50,6 +50,16 @@ class SimpleVolume(Protocol):
 	def GetMute(self) -> int: ...
 
 	def SetMute(self, mute: int, context: object | None) -> None: ...
+
+
+class ChannelVolume(Protocol):
+	"""IChannelAudioVolume: the volume of the channels of an audio session, relative to the volume of the session."""
+
+	def GetChannelCount(self) -> int: ...
+
+	def GetChannelVolume(self, channel: int) -> float: ...
+
+	def SetChannelVolume(self, channel: int, level: float, context: object | None) -> None: ...
 
 
 class Device(Protocol):
@@ -235,3 +245,13 @@ def getSessionVolume(session: Session) -> SimpleVolume:
 	:raises COMError: the session is not available anymore
 	"""
 	return cast(SimpleVolume, session.QueryInterface(ISimpleAudioVolume))
+
+
+def getSessionChannels(session: Session) -> ChannelVolume:
+	"""Get the volume interface of the channels of the audio session.
+
+	:param session: audio session
+	:return: the volume interface of the channels of the session
+	:raises COMError: the session is not available anymore
+	"""
+	return cast(ChannelVolume, session.QueryInterface(IChannelAudioVolume))

@@ -25,6 +25,8 @@ confspec: dict[str, str] = {
 	"reinit": "boolean(default=true)",
 	"retries": "integer(default=0,min=0,max=10000000)",
 	"switchdevice": "boolean(default=true)",
+	# Restore the channels of the audio sessions of NVDA if any of them is muted or too quiet
+	"channels": "boolean(default=false)",
 	"playsound": "boolean(default=true)",
 }
 
@@ -45,6 +47,15 @@ def getAddonConfig() -> MutableMapping[str, Any]:
 	:return: the options of the add-on
 	"""
 	return getNvdaConfig(ADDON_NAME)
+
+
+def isSoundSplitEnabled() -> bool:
+	"""Check whether NVDA sound split is enabled. Any state except "disabled" (0) sets the levels
+	of the channels of all audio sessions, NVDA included, so they must not be changed by the add-on then.
+
+	:return: whether sound split of NVDA is enabled
+	"""
+	return getNvdaConfig("audio")["soundSplitState"] != 0
 
 
 def saveAddonConfig(options: dict[str, Any]) -> None:

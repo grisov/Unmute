@@ -20,7 +20,7 @@ from gui import guiHelper, nvdaControls
 from gui.settingsDialogs import SettingsPanel
 from logHandler import log
 
-from .configuration import ADDON_SUMMARY, getAddonConfig, saveAddonConfig
+from .configuration import ADDON_SUMMARY, getAddonConfig, isSoundSplitEnabled, saveAddonConfig
 
 try:
 	addonHandler.initTranslation()
@@ -75,6 +75,14 @@ class UnmuteSettingsPanel(SettingsPanel):
 			maxValue=100,
 			size=(250, -1),
 		)
+		self._channelsChk = addonHelper.addItem(
+			# Translators: A setting in addon settings dialog: the channels of NVDA are restored when NVDA starts
+			# if any of them is muted or lower than the minimum volume level. It is not available
+			# while NVDA sound split is enabled, because sound split sets the channels itself
+			wx.CheckBox(self, label=_("Turn on the muted c&hannels of NVDA")),
+		)
+		self._channelsChk.SetValue(getAddonConfig()["channels"])
+		self._channelsChk.Enable(not isSoundSplitEnabled())
 		self._driverChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver")),
@@ -123,6 +131,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 		options: dict[str, Any] = {
 			"volume": self._customVolumeSlider.GetValue(),
 			"minlevel": self._minVolumeSlider.GetValue(),
+			"channels": self._channelsChk.GetValue(),
 			"reinit": self._driverChk.GetValue(),
 			"retries": self._retriesCountSpin.GetValue(),
 			"switchdevice": self._switchDeviceChk.GetValue(),

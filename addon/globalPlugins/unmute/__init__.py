@@ -19,16 +19,25 @@ from nvwave import playWaveFile
 
 from .audio import (
 	Device,
+	Session,
 	getActiveOutputDevices,
 	getDefaultOutputDevice,
 	getDevice,
 	getDeviceId,
 	getEndpointVolume,
+	getSessionChannels,
 	getSessionVolume,
 	listSessions,
 	logDebugWarning,
 )
-from .configuration import ADDON_NAME, ADDON_SUMMARY, confspec, getAddonConfig, getNvdaConfig
+from .configuration import (
+	ADDON_NAME,
+	ADDON_SUMMARY,
+	confspec,
+	getAddonConfig,
+	getNvdaConfig,
+	isSoundSplitEnabled,
+)
 from .settings import UnmuteSettingsPanel
 
 try:
@@ -151,12 +160,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""Turn on the sound of NVDA itself if it is muted or low: all audio sessions of the running NVDA process
 		on all active output devices, because Windows keeps the volume of a program for each device.
 		The process is found by its ID, so other copies of NVDA (e.g. a portable one) are not changed.
+		If enabled in the settings, the channels of the sessions are restored too, unless NVDA sound split is enabled.
 		An error is logged, so the other sessions and steps are checked anyway.
 
-		:return: whether the volume level of any audio session of NVDA has been raised
+		:return: whether the volume level or the channels of any audio session of NVDA have been raised
 		"""
 		raised = False
 		processId = os.getpid()
+		# Sound split of NVDA sets the levels of the channels itself
+		restoreChannels: bool = getAddonConfig()["channels"] and not isSoundSplitEnabled()
 		for device in getActiveOutputDevices():
 			for session in listSessions(device):
 				try:
@@ -168,9 +180,29 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					if volume.GetMasterVolume() * 100.0 < getAddonConfig()["minlevel"]:
 						volume.SetMasterVolume(self.getTargetLevel(), None)
 						raised = True
+					if restoreChannels and self.restoreChannels(session):
+						raised = True
 				except COMError:
 					logDebugWarning("Unable to turn on the sound of an audio session of NVDA")
 		return raised
+
+	def restoreChannels(self, session: Session) -> bool:
+		"""Set the full level to all channels of the audio session if any of them is lower than the minimum level,
+		e.g. after one channel of NVDA has been turned down. NVDA restores its channels the same way
+		when sound split is turned off. Channels that are just unequal but loud enough are not changed.
+
+		:param session: the audio session of NVDA
+		:return: whether the channels have been restored
+		:raises COMError: the session is not available anymore
+		"""
+		channels = getSessionChannels(session)
+		count = channels.GetChannelCount()
+		minLevel = getAddonConfig()["minlevel"] / 100.0
+		if all(channels.GetChannelVolume(channel) >= minLevel for channel in range(count)):
+			return False
+		for channel in range(count):
+			channels.SetChannelVolume(channel, 1.0, None)
+		return True
 
 	def resetSynth(self, retryCount: int) -> None:
 		"""If the synthesizer is not initialized - repeat attempts to initialize it.
