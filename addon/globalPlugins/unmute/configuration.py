@@ -12,6 +12,7 @@ from typing import Any, cast
 
 import addonHandler
 import config
+import extensionPoints
 
 # The manifest of the add-on has no type annotations
 _addon = cast(Any, addonHandler).getCodeAddon()
@@ -20,6 +21,8 @@ ADDON_SUMMARY: str = _addon.manifest["summary"]
 
 # The options of the add-on in the NVDA configuration
 confspec: dict[str, str] = {
+	# Turn on the sound and initialize the synthesizer when NVDA starts, otherwise only with the command
+	"startup": "boolean(default=true)",
 	"volume": "integer(default=20,min=0,max=100)",
 	"minlevel": "integer(default=5,min=0,max=100)",
 	"reinit": "boolean(default=true)",
@@ -28,7 +31,13 @@ confspec: dict[str, str] = {
 	# Restore the channels of the audio sessions of NVDA if any of them is muted or too quiet
 	"channels": "boolean(default=false)",
 	"playsound": "boolean(default=true)",
+	# Bind the default gesture to the command of the add-on
+	"gestures": "boolean(default=false)",
 }
+
+
+# Notifies the global plugin that the options of the add-on have been saved in the settings panel
+optionsSaved = extensionPoints.Action()
 
 
 def getNvdaConfig(section: str) -> MutableMapping[str, Any]:
@@ -70,3 +79,6 @@ def saveAddonConfig(options: dict[str, Any]) -> None:
 		baseProfile[ADDON_NAME].update(options)
 	except (KeyError, AttributeError):
 		baseProfile[ADDON_NAME] = options
+	# NVDA caches the values read through config.conf, and a change of a profile itself does not update the cache:
+	# the cached section of the add-on is dropped, so the new values apply at once, without restarting NVDA
+	cast(Any, config.conf).rootSection._cache.pop(ADDON_NAME, None)
