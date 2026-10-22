@@ -1,11 +1,10 @@
-# audio.py
-# Access to Windows Core Audio: audio devices, their volume and the volume of audio sessions
 # A part of the NVDA Unmute add-on
+# Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
 
-"""Thin functions over the COM interfaces of Windows Core Audio.
+"""Access to Windows Core Audio: audio devices, their volume and the volume of audio sessions.
+Thin functions over the COM interfaces of Windows Core Audio.
 The helpers of pycaw 20251023+ such as AudioUtilities.GetSpeakers() and GetAllSessions() wrap every device
 with AudioUtilities.CreateDevice(), which reads the whole property store of the device. That is slow,
 e.g. for Bluetooth devices, and NVDA logs a warning for each property that cannot be read, so these
@@ -140,16 +139,16 @@ def getDefaultOutputDevice() -> Device | None:
 		return None
 
 
-def getDevice(id: str) -> Device | None:
+def getDevice(deviceId: str) -> Device | None:
 	"""Get the audio device by its ID, e.g. the output device selected in the NVDA settings.
 
-	:param id: the device ID
+	:param deviceId: the device ID
 	:return: the audio device, None if it is not known to Windows or the audio service is not available
 	"""
 	try:
-		return getDeviceEnumerator().GetDevice(id)
+		return getDeviceEnumerator().GetDevice(deviceId)
 	except COMError:
-		logDebugWarning(f"Unable to get the audio device {id}")
+		logDebugWarning(f"Unable to get the audio device {deviceId}")
 		return None
 
 

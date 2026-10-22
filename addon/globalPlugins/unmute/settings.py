@@ -1,9 +1,9 @@
-# settings.py
-# Add-on settings panel
 # A part of the NVDA Unmute add-on
+# Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
 # This file is covered by the GNU General Public License.
 # See the file COPYING for more details.
-# Copyright (C) 2020-2026 Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>
+
+"""The settings panel of the add-on in the NVDA settings dialog."""
 
 # wxPython has incomplete type annotations and the GUI helpers of NVDA have none, so the types returned
 # by most GUI calls in this file are unknown to the type checker, and many wx methods return values
@@ -30,16 +30,9 @@ _: Callable[[str], str]
 
 
 class UnmuteSettingsPanel(SettingsPanel):
-	"""Add-on settings panel object"""
+	"""The settings of the add-on, saved in the base configuration profile of NVDA."""
 
 	title: str = ADDON_SUMMARY
-
-	def __init__(self, parent: wx.Window) -> None:
-		"""Initializing the add-on settings panel object.
-
-		:param parent: parent top level window
-		"""
-		super().__init__(parent)
 
 	@override
 	def makeSettings(self, sizer: wx.BoxSizer) -> None:
@@ -130,10 +123,6 @@ class UnmuteSettingsPanel(SettingsPanel):
 		:param event: event binder object which processes changing of the wx.Checkbox
 		"""
 		self._retriesCountSpin.Enable(self._driverChk.GetValue())
-
-	def postInit(self) -> None:
-		"""Set system focus to the first component in the settings panel."""
-		self._startupChk.SetFocus()
 
 	@override
 	def onSave(self) -> None:
