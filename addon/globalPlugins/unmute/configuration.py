@@ -28,6 +28,8 @@ confspec: dict[str, str] = {
 	"reinit": "boolean(default=true)",
 	"retries": "integer(default=0,min=0,max=10000000)",
 	"switchdevice": "boolean(default=true)",
+	# Raise each channel of the audio devices that is lower than the minimum level
+	"devicechannels": "boolean(default=false)",
 	# Restore the channels of the audio sessions of NVDA if any of them is muted or too quiet
 	"channels": "boolean(default=false)",
 	# Raise the volume of the voice of the synthesizer if it is lower than the minimum level

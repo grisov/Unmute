@@ -28,6 +28,7 @@ from scriptHandler import script
 
 from .audio import (
 	Device,
+	EndpointVolume,
 	Session,
 	getActiveOutputDevices,
 	getDefaultOutputDevice,
@@ -167,21 +168,43 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def unmuteDevice(self, device: Device) -> bool:
 		"""Turn on the sound of the audio device if it is muted, and raise its volume if it is too low.
+		If enabled in the settings, each channel of the device lower than the minimum level is raised too.
 		An error is logged, so the other devices and steps are checked anyway.
 
 		:param device: the audio device
-		:return: whether the volume level has been raised
+		:return: whether the volume level or a channel has been raised
 		"""
+		raised = False
 		try:
 			volume = getEndpointVolume(device)
 			if volume.GetMute():
 				volume.SetMute(0, None)
 			if volume.GetMasterVolumeLevelScalar() * 100.0 < getAddonConfig()["minlevel"]:
 				volume.SetMasterVolumeLevelScalar(self.getTargetLevel(), None)
-				return True
+				raised = True
+			if getAddonConfig()["devicechannels"] and self.raiseDeviceChannels(volume):
+				raised = True
 		except COMError:
 			logDebugWarning(f"Unable to turn on the sound of the audio device {getDeviceId(device)}")
-		return False
+		return raised
+
+	def raiseDeviceChannels(self, volume: EndpointVolume) -> bool:
+		"""Raise each channel of the audio device that is lower than the minimum level to the target level,
+		e.g. after the balance has been turned to one side. The volume of a device is the volume of its
+		loudest channel, so a muted channel is not noticed by the volume of the device.
+		The other channels are not changed: the channels are not made equal.
+
+		:param volume: the volume interface of the audio device
+		:return: whether any channel has been raised
+		:raises COMError: the device is not available anymore
+		"""
+		raised = False
+		minLevel = getAddonConfig()["minlevel"] / 100.0
+		for channel in range(volume.GetChannelCount()):
+			if volume.GetChannelVolumeLevelScalar(channel) < minLevel:
+				volume.SetChannelVolumeLevelScalar(channel, self.getTargetLevel(), None)
+				raised = True
+		return raised
 
 	def unmuteAudio(self, attempt: int = 1, manual: bool = False) -> None:
 		"""Turn on Windows sound if it is muted or low.
