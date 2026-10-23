@@ -40,7 +40,7 @@ confspec: dict[str, str] = {
 	"speechmode": "boolean(default=true)",
 	# Do not let Windows lower the volume of NVDA during calls
 	"noducking": "boolean(default=false)",
-	# Synthesizer
+	# Repeat the attempts to initialize the synthesizer if it is not initialized
 	"reinit": "boolean(default=true)",
 	"retries": "integer(default=0,min=0,max=10000000)",
 	"playsound": "boolean(default=true)",

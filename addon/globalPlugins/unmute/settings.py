@@ -43,7 +43,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 
 	@override
 	def makeSettings(self, sizer: wx.BoxSizer) -> None:
-		"""Populate the panel with settings controls.
+		"""Populate the panel with settings controls, grouped by what they turn on.
 
 		:param sizer: The sizer to which to add the settings controls.
 		"""
@@ -55,15 +55,11 @@ class UnmuteSettingsPanel(SettingsPanel):
 			wx.CheckBox(self, label=_("&Unmute when NVDA starts")),
 		)
 		self._startupChk.SetValue(getAddonConfig()["startup"])
-		addonHelper.addItem(
-			wx.StaticText(
-				self,
-				# Translators: Help message for a dialog.
-				label=_("Select the initial sound system settings that will be set when NVDA starts:"),
-				style=wx.ALIGN_LEFT,
-			),
-		)
-		self._customVolumeSlider = addonHelper.addLabeledControl(
+
+		# Translators: The name of a group of settings in addon settings dialog: the volume levels
+		# used to turn on the sound of the audio devices and NVDA
+		volumeGroup = self._addGroup(addonHelper, _("Volume"))[0]
+		self._customVolumeSlider = volumeGroup.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("Set custom &volume level:"),
 			nvdaControls.EnhancedInputSlider,
@@ -72,7 +68,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 			maxValue=100,
 			size=(250, -1),
 		)
-		self._minVolumeSlider = addonHelper.addLabeledControl(
+		self._minVolumeSlider = volumeGroup.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("Increase the volume if it is &lower than:"),
 			nvdaControls.EnhancedInputSlider,
@@ -81,52 +77,66 @@ class UnmuteSettingsPanel(SettingsPanel):
 			maxValue=100,
 			size=(250, -1),
 		)
-		self._deviceChannelsChk = addonHelper.addItem(
+
+		# Translators: The name of a group of settings in addon settings dialog: the audio devices of Windows
+		devicesGroup, devicesBox = self._addGroup(addonHelper, _("Windows audio devices"))
+		self._switchDeviceChk = devicesGroup.addItem(
+			# Translators: A setting in addon settings dialog.
+			wx.CheckBox(devicesBox, label=_("Switch to the default audio output &device")),
+		)
+		self._switchDeviceChk.SetValue(getAddonConfig()["switchdevice"])
+		self._deviceChannelsChk = devicesGroup.addItem(
 			# Translators: A setting in addon settings dialog: each channel of the audio devices that is muted
 			# or lower than the minimum volume level is raised, e.g. after the balance has been turned to one side
-			wx.CheckBox(self, label=_("Turn on the muted channels of audio d&evices")),
+			wx.CheckBox(devicesBox, label=_("Turn on the muted channels of audio d&evices")),
 		)
 		self._deviceChannelsChk.SetValue(getAddonConfig()["devicechannels"])
-		self._channelsChk = addonHelper.addItem(
+
+		# Translators: The name of a group of settings in addon settings dialog: the settings of NVDA itself
+		screenReaderGroup, screenReaderBox = self._addGroup(addonHelper, _("Screen reader"))
+		self._channelsChk = screenReaderGroup.addItem(
 			# Translators: A setting in addon settings dialog: the channels of NVDA are restored when NVDA starts
 			# if any of them is muted or lower than the minimum volume level. It is not available
 			# while NVDA sound split is enabled, because sound split sets the channels itself
-			wx.CheckBox(self, label=_("Turn on the muted c&hannels of NVDA")),
+			wx.CheckBox(screenReaderBox, label=_("Turn on the muted c&hannels of NVDA")),
 		)
 		self._channelsChk.SetValue(getAddonConfig()["channels"])
 		self._channelsChk.Enable(not isSoundSplitEnabled())
-		self._synthVolumeChk = addonHelper.addItem(
+		self._synthVolumeChk = screenReaderGroup.addItem(
 			# Translators: A setting in addon settings dialog: the volume of the voice of the synthesizer
 			# is raised to the custom volume level if it is lower than the minimum level
-			wx.CheckBox(self, label=_("Turn up the volume of the s&ynthesizer voice")),
+			wx.CheckBox(screenReaderBox, label=_("Turn up the volume of the s&ynthesizer voice")),
 		)
 		self._synthVolumeChk.SetValue(getAddonConfig()["synthvolume"])
-		self._soundsVolumeChk = addonHelper.addItem(
+		self._soundsVolumeChk = screenReaderGroup.addItem(
 			# Translators: A setting in addon settings dialog: the volume of the sounds of NVDA is raised to the custom
 			# volume level if it is lower than the minimum level. It is not available while the volume of the sounds
 			# follows the voice in the NVDA settings, because NVDA has no separate volume of its sounds then
-			wx.CheckBox(self, label=_("&Turn up the volume of NVDA sounds")),
+			wx.CheckBox(screenReaderBox, label=_("&Turn up the volume of NVDA sounds")),
 		)
 		self._soundsVolumeChk.SetValue(getAddonConfig()["soundsvolume"])
 		self._soundsVolumeChk.Enable(not isSoundVolumeFollowingVoice())
-		self._speechModeChk = addonHelper.addItem(
+		self._speechModeChk = screenReaderGroup.addItem(
 			# Translators: A setting in addon settings dialog: the speech mode of NVDA (NVDA+S) is switched
 			# to talk if speech is off, replaced by beeps or on demand
-			wx.CheckBox(self, label=_("Switch the speech &mode of NVDA to talk")),
+			wx.CheckBox(screenReaderBox, label=_("Switch the speech &mode of NVDA to talk")),
 		)
 		self._speechModeChk.SetValue(getAddonConfig()["speechmode"])
-		self._noDuckingChk = addonHelper.addItem(
+		self._noDuckingChk = screenReaderGroup.addItem(
 			# Translators: A setting in addon settings dialog: by default Windows lowers the volume of the other
 			# programs when a communication program starts a call, this keeps the volume of NVDA unchanged
-			wx.CheckBox(self, label=_("Do not lo&wer the volume of NVDA during calls")),
+			wx.CheckBox(screenReaderBox, label=_("Do not lo&wer the volume of NVDA during calls")),
 		)
 		self._noDuckingChk.SetValue(getAddonConfig()["noducking"])
-		self._reinitChk = addonHelper.addItem(
-			# Translators: A setting in addon settings dialog.
-			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver")),
+		self._reinitChk = screenReaderGroup.addItem(
+			wx.CheckBox(
+				screenReaderBox,
+				# Translators: A setting in addon settings dialog.
+				label=_("&Repeat attempts to initialize the voice synthesizer driver"),
+			),
 		)
 		self._reinitChk.SetValue(getAddonConfig()["reinit"])
-		self._retriesCountSpin = addonHelper.addLabeledControl(
+		self._retriesCountSpin = screenReaderGroup.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("&Number of retries (0 - infinitely):"),
 			nvdaControls.SelectOnFocusSpinCtrl,
@@ -138,11 +148,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 		# without the "&" sign, so the shortcut of the label stops working
 		self._retriesCountSpin.Enable(self._reinitChk.GetValue())
 		self._reinitChk.Bind(wx.EVT_CHECKBOX, self.onReinitChk)
-		self._switchDeviceChk = addonHelper.addItem(
-			# Translators: A setting in addon settings dialog.
-			wx.CheckBox(self, label=_("Switch to the default audio output &device")),
-		)
-		self._switchDeviceChk.SetValue(getAddonConfig()["switchdevice"])
+
 		self._playSoundChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("Play &sound when audio has been successfully turned on")),
@@ -154,6 +160,24 @@ class UnmuteSettingsPanel(SettingsPanel):
 			wx.CheckBox(self, label=_("Use the default &keyboard shortcut")),
 		)
 		self._gesturesChk.SetValue(getAddonConfig()["gestures"])
+
+	def _addGroup(
+		self,
+		helper: guiHelper.BoxSizerHelper,
+		label: str,
+	) -> tuple[guiHelper.BoxSizerHelper, wx.StaticBox]:
+		"""Add a named group of settings to the panel, as NVDA groups its settings.
+		The controls of the group must be created with its box as the parent, so a screen reader announces the group.
+
+		:param helper: the helper of the panel
+		:param label: the name of the group
+		:return: the helper to add the controls of the group and the box of the group
+		"""
+		groupSizer = wx.StaticBoxSizer(wx.VERTICAL, self, label=label)
+		# BoxSizerHelper works with any window, NVDA annotates its parent as a dialog
+		group = guiHelper.BoxSizerHelper(self, sizer=groupSizer)  # pyright: ignore[reportArgumentType]
+		helper.addItem(group)
+		return group, groupSizer.GetStaticBox()
 
 	def onReinitChk(self, event: wx.PyEvent) -> None:
 		"""Performed when the check box of the attempts to initialize the synthesizer is checked or unchecked:
