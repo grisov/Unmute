@@ -147,20 +147,23 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		:param manual: whether the command of the add-on has been used, then the sound is always played
 		"""
-		if getAddonConfig()["speechmode"]:
-			self.turnOnSpeechMode()
+		changed: bool = getAddonConfig()["speechmode"] and self.turnOnSpeechMode()
 		if getAddonConfig()["reinit"] and not self._initializingSynth:
 			self.initializeSynth(0)
-		self.unmuteAudio(manual=manual)
+		self.unmuteAudio(manual=manual, changed=changed)
 
-	def turnOnSpeechMode(self) -> None:
+	def turnOnSpeechMode(self) -> bool:
 		"""Switch the speech mode of NVDA to talk if speech is off, replaced by beeps or on demand,
 		e.g. after the speech mode has been changed by mistake. NVDA does not save the speech mode,
 		so it is talk when NVDA starts, and this matters mostly for the command of the add-on.
+
+		:return: whether the speech mode has been switched
 		"""
 		state = speech.getState()
-		if state is not None and state.speechMode != speech.SpeechMode.talk:
-			speech.setSpeechMode(speech.SpeechMode.talk)
+		if state is None or state.speechMode == speech.SpeechMode.talk:
+			return False
+		speech.setSpeechMode(speech.SpeechMode.talk)
+		return True
 
 	def getTargetLevel(self) -> float:
 		"""Get the volume level set for an audio device or NVDA when its volume is lower than the minimum level.
@@ -210,21 +213,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		An error is logged, so the other devices and steps are checked anyway.
 
 		:param device: the audio device
-		:return: whether the volume level or a channel has been raised
+		:return: whether the device has been unmuted, or its volume level or a channel has been raised
 		"""
-		raised = False
+		changed = False
 		try:
 			volume = getEndpointVolume(device)
 			if volume.GetMute():
 				volume.SetMute(0, None)
+				changed = True
 			if self.isBelowMinimum(volume.GetMasterVolumeLevelScalar()):
 				volume.SetMasterVolumeLevelScalar(self.getTargetLevel(), None)
-				raised = True
+				changed = True
 			if getAddonConfig()["devicechannels"] and self.raiseDeviceChannels(volume):
-				raised = True
+				changed = True
 		except COMError:
 			logDebugWarning(f"Unable to turn on the sound of the audio device {getDeviceId(device)}")
-		return raised
+		return changed
 
 	def raiseDeviceChannels(self, volume: EndpointVolume) -> bool:
 		"""Raise each channel of the audio device that is lower than the minimum level to the target level,
@@ -243,7 +247,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				raised = True
 		return raised
 
-	def unmuteAudio(self, attempt: int = 1, manual: bool = False) -> None:
+	def unmuteAudio(self, attempt: int = 1, manual: bool = False, changed: bool = False) -> None:
 		"""Turn on Windows sound if it is muted or low.
 		NVDA is switched to the default output device first, so the sound is turned on where NVDA plays it.
 		If there is no default output device, e.g. the audio service of Windows is still starting
@@ -251,23 +255,24 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		:param attempt: the number of the attempt, from 1
 		:param manual: whether the command of the add-on has been used, then the sound is always played
+		:param changed: whether the add-on has already changed something, e.g. the speech mode
 		"""
 		if getDefaultOutputDevice() is None and attempt < AUDIO_ATTEMPTS:
 			# core.callLater of NVDA has no type annotations
-			cast(Any, core).callLater(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1, manual)
+			cast(Any, core).callLater(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1, manual, changed)
 			return
 		addonConfig = getAddonConfig()
 		switched = addonConfig["switchdevice"] and self.switchToDefaultOutputDevice()
-		# Every device is checked, not only until the first raised one
-		raised = [self.unmuteDevice(device) for device in self.getCheckedDevices()]
-		raised.append(self.unmuteNvdaSessions())
+		# Every device is checked, not only until the first changed one
+		changes = [changed, switched, *(self.unmuteDevice(device) for device in self.getCheckedDevices())]
+		changes.append(self.unmuteNvdaSessions())
 		if addonConfig["synthvolume"]:
-			raised.append(self.raiseSynthVolume())
+			changes.append(self.raiseSynthVolume())
 		# Raised before the sound of the add-on is played, so it is heard
 		if addonConfig["soundsvolume"]:
-			raised.append(self.raiseSoundsVolume())
+			changes.append(self.raiseSoundsVolume())
 		# The sound is played once, when the sound of NVDA itself has been turned on too
-		if manual or ((any(raised) or switched) and addonConfig["playsound"]):
+		if manual or (any(changes) and addonConfig["playsound"]):
 			self.playUnmutedSound()
 		if switched:
 			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.recheckNvdaSessions)
@@ -275,6 +280,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def recheckNvdaSessions(self) -> None:
 		"""Check the sound of NVDA again after NVDA has been switched to the default output device
 		and has played a sound there, so its audio session on that device exists.
+		The sound is played again only if the sound of NVDA has been turned on: the first one was not heard then.
 		"""
 		if self.unmuteNvdaSessions() and getAddonConfig()["playsound"]:
 			self.playUnmutedSound()
@@ -302,9 +308,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		If enabled in the settings, the channels of the sessions are restored too, unless NVDA sound split is enabled.
 		An error is logged, so the other sessions and steps are checked anyway.
 
-		:return: whether the volume level or the channels of any audio session of NVDA have been raised
+		:return: whether any audio session of NVDA has been unmuted, or its volume level or channels have been raised
 		"""
-		raised = False
+		changed = False
 		# Sound split of NVDA sets the levels of the channels itself
 		restoreChannels: bool = getAddonConfig()["channels"] and not isSoundSplitEnabled()
 		for session in self.getNvdaSessions():
@@ -312,14 +318,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				volume = getSessionVolume(session)
 				if volume.GetMute():
 					volume.SetMute(0, None)
+					changed = True
 				if self.isBelowMinimum(volume.GetMasterVolume()):
 					volume.SetMasterVolume(self.getTargetLevel(), None)
-					raised = True
+					changed = True
 				if restoreChannels and self.restoreNvdaChannels(session):
-					raised = True
+					changed = True
 			except COMError:
 				logDebugWarning("Unable to turn on the sound of an audio session of NVDA")
-		return raised
+		return changed
 
 	def applyDuckingPreference(self) -> None:
 		"""Mark the audio sessions of NVDA as not lowered by Windows during calls, or lowered again,

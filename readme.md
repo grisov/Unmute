@@ -11,7 +11,7 @@ Make sure you can hear NVDA: when NVDA starts, the add-on turns on the muted or 
 * When NVDA starts. This can be turned off with the "Unmute when NVDA starts" option in the add-on settings.
 * With the "Turn on the sound of Windows and NVDA" command, at any time. The command is listed in the NVDA "Input gestures" dialog, in the "Unmute Windows audio" category. You can assign your own shortcut to it there, or turn on the predefined shortcut NVDA+Windows+Shift+U with the "Use the default keyboard shortcut" option in the add-on settings.
 
-After the command the add-on always plays a short sound, so you know that it has worked even if you could hear nothing before. When NVDA starts, the sound is played only if something has been turned on.
+After the command the add-on always plays a short sound, so you know that it has worked even if you could hear nothing before. When NVDA starts, the sound is played only if the add-on has changed something, e.g. it has unmuted a device, raised a volume or switched NVDA to the default output device.
 
 ## What the add-on checks
 Everything below is done only if it is turned on in the add-on settings. A sound is too quiet if its volume is lower than the "Increase the volume if it is lower than" setting; it is then raised to the "Set custom volume level" setting, but never below the minimum level.
@@ -47,7 +47,7 @@ To open the settings, open the NVDA menu (NVDA+N), go to "Preferences", "Setting
     * Do not lower the volume of NVDA during calls - see "Calls". Off by default.
     * Repeat attempts to initialize the voice synthesizer driver - start the synthesizer if it has not started. On by default.
     * Number of retries (0 - infinitely) - how many times to try again, once a second. Available when the attempts are repeated.
-* Play sound when audio has been successfully turned on - play a short sound after something has been turned on when NVDA starts. After the command, the sound is always played. On by default.
+* Play sound when audio has been successfully turned on - play a short sound once after the add-on has changed something when NVDA starts. After the command, the sound is always played. On by default.
 * Use the default keyboard shortcut - turn the predefined shortcut NVDA+Windows+Shift+U of the command on or off, at once. Off by default.
 
 ## Contributions
