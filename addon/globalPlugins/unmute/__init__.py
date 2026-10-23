@@ -5,7 +5,7 @@
 
 """Turns on the sound of Windows and NVDA when NVDA starts and with a command:
 switches NVDA to the default output device, turns on the muted or too quiet audio devices,
-audio sessions and channels of NVDA, and initializes the synthesizer if it is not initialized.
+audio sessions and channels of NVDA, and initializes the synthesizer if NVDA has no voice.
 """
 
 import os.path
@@ -67,6 +67,10 @@ AUDIO_ATTEMPT_INTERVAL = 1000
 NVDA_RECHECK_DELAY = 1000
 # Interval between the attempts to initialize the synthesizer, in milliseconds
 SYNTH_ATTEMPT_INTERVAL = 1000
+# The name of the "No speech" synthesizer of NVDA, the last one NVDA falls back to when no other synthesizer starts
+SILENCE_SYNTH = "silence"
+# The synthesizer started when "No speech" is selected in the NVDA settings: the default one of NVDA
+AUTO_SYNTH = "auto"
 # The default gesture of the command that turns on the sound, bound if it is enabled in the add-on settings
 DEFAULT_GESTURE = "kb:NVDA+windows+shift+u"
 
@@ -134,14 +138,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	@script(description=_("Turn on the sound of Windows and NVDA"))
 	def script_unmute(self, gesture: InputGesture) -> None:
 		"""Do everything that is done when NVDA starts: turn on the sound of Windows and NVDA
-		and initialize the synthesizer if it is not initialized, as enabled in the add-on settings.
+		and initialize the synthesizer if NVDA has no voice, as enabled in the add-on settings.
 		The sound is played even if nothing has been changed: the user may hear nothing before the command,
 		so the sound tells that the command has worked and NVDA can be heard.
 		"""
 		self.restoreSoundAndSpeech(manual=True)
 
 	def restoreSoundAndSpeech(self, manual: bool = False) -> None:
-		"""Turn on the sound of Windows and NVDA and, if the synthesizer is not initialized,
+		"""Turn on the sound of Windows and NVDA and, if NVDA has no voice,
 		start the attempts to initialize it, as enabled in the add-on settings.
 		The synthesizer is initialized first, so the volume of its voice is checked with the sound.
 
@@ -389,16 +393,29 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		audioConfig["soundVolume"] = self.getTargetVolume()
 		return True
 
+	def isSpeechMissing(self) -> bool:
+		"""Check whether NVDA has no voice: no synthesizer is initialized, or NVDA uses "No speech",
+		e.g. it has fallen back to it while the audio service of Windows was starting after logging on,
+		or "No speech" has been selected in the NVDA settings by mistake.
+
+		:return: whether a synthesizer should be initialized
+		"""
+		synth = synthDriverHandler.getSynth()
+		return synth is None or synth.name == SILENCE_SYNTH
+
 	def initializeSynth(self, retry: int) -> None:
-		"""Initialize the synthesizer selected in the NVDA settings if no synthesizer is initialized,
-		and repeat the attempt as many times as set in the add-on settings, 0 for no limit.
+		"""Initialize the synthesizer selected in the NVDA settings if NVDA has no voice, or the default synthesizer
+		of NVDA if "No speech" is selected, and repeat the attempt as many times as set in the add-on settings,
+		0 for no limit. The attempts stop as soon as any synthesizer speaks: when the selected one does not start,
+		NVDA falls back to another one, and it is not replaced, so speech is not restarted again and again.
 
 		:param retry: the number of the retry, 0 for the first attempt
 		"""
 		self._initializingSynth = False
-		if synthDriverHandler.getSynth() is not None:
+		if not self.isSpeechMissing():
 			return
-		_ = synthDriverHandler.setSynth(str(getNvdaConfig("speech")["synth"]))
+		name = str(getNvdaConfig("speech")["synth"])
+		_ = synthDriverHandler.setSynth(AUTO_SYNTH if name == SILENCE_SYNTH else name)
 		retries: int = getAddonConfig()["retries"]
 		if retry < retries or retries == 0:
 			self._initializingSynth = True

@@ -14,6 +14,7 @@ from unmuteSupport import (
 	later,
 	log,
 	options,
+	runAllLater,
 	runLater,
 	speechConfig,
 	speechState,
@@ -202,8 +203,7 @@ class TestSpeechMode(AddonTestCase):
 		self.plugin.restoreSoundAndSpeech()
 		self.world.serviceDown = False
 		events.clear()
-		while later:
-			runLater()
+		runAllLater()
 		self.assertEqual(events, [("sound", "unmuted.wav")])
 
 	def test_without_the_option(self):
