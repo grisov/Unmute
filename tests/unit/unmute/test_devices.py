@@ -84,7 +84,8 @@ class TestUnmuteDevice(AddonTestCase):
 		self.assertTrue(self.plugin.unmuteDevice(self.speakers))
 		# The other channels are not made equal
 		self.assertEqual(
-			self.speakers.volume.channels, [float32(0.8), float32(0.2), float32(0.2), float32(0.3)],
+			self.speakers.volume.channels,
+			[float32(0.8), float32(0.2), float32(0.2), float32(0.3)],
 		)
 
 	def test_loud_enough_channels_are_not_changed(self):

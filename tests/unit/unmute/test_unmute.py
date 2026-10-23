@@ -7,7 +7,18 @@
 the audio service of Windows is starting, switching NVDA to the default device and the synthesizer.
 """
 
-from unmuteSupport import FakeSynth, SpeechMode, audio, events, later, options, runAllLater, runLater, speechState, synth
+from unmuteSupport import (
+	FakeSynth,
+	SpeechMode,
+	audio,
+	events,
+	later,
+	options,
+	runAllLater,
+	runLater,
+	speechState,
+	synth,
+)
 from unmuteSupport.case import AddonTestCase
 from unmuteSupport.fakes import float32
 

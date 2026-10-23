@@ -115,7 +115,8 @@ class TestShortcuts(PanelTestCase):
 class TestConfiguration(AddonTestCase):
 	def test_name_and_summary_of_the_addon(self):
 		self.assertEqual(
-			(configuration.ADDON_NAME, configuration.ADDON_SUMMARY), ("unmute", "Unmute Windows audio"),
+			(configuration.ADDON_NAME, configuration.ADDON_SUMMARY),
+			("unmute", "Unmute Windows audio"),
 		)
 
 	def test_defaults_of_the_options(self):
