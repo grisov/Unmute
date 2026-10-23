@@ -125,7 +125,11 @@ class FakeSession(Breakable):
 	"""IAudioSessionControl of an audio session of a program, and its other interfaces."""
 
 	def __init__(
-		self, pid: int, level: float = 1.0, mute: int = 0, channels: list[float] | None = None,
+		self,
+		pid: int,
+		level: float = 1.0,
+		mute: int = 0,
+		channels: list[float] | None = None,
 	) -> None:
 		self.pid = pid
 		self.volume = FakeSimpleVolume(level, mute)

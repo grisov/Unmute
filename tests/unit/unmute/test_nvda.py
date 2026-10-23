@@ -15,7 +15,6 @@ from unmuteSupport import (
 	log,
 	options,
 	runAllLater,
-	runLater,
 	speechConfig,
 	speechState,
 	synth,

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "unmute"
 dynamic = ["version"]
-description = "When NVDA starts, this add-on checks the status of the Windows sound system and, if the sound is turned off, turns it on"
+description = "Make sure you can hear NVDA: when NVDA starts or with a command, the add-on turns on the muted or too quiet sound of Windows and NVDA and starts the speech synthesizer if it has not started."
 maintainers = [
 	{name = "Oleksandr Gryshchenko", email = "grisov.nvaccess@mailgw.com"},
 ]

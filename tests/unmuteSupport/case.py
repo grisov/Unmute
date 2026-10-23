@@ -65,7 +65,10 @@ class AddonTestCase(unittest.TestCase):
 		options.update(TEST_OPTIONS)
 		audio.clear()
 		audio.update(
-			outputDevice="default", soundSplitState=0, soundVolume=100, soundVolumeFollowsVoice=False,
+			outputDevice="default",
+			soundSplitState=0,
+			soundVolume=100,
+			soundVolumeFollowsVoice=False,
 		)
 		speechConfig.clear()
 		speechConfig.update(synth="espeak", espeak={"volume": 100})

@@ -221,7 +221,8 @@ def _installNvda() -> None:
 		initTranslation=lambda: None,
 		AddonError=Exception,
 		getCodeAddon=lambda: types.SimpleNamespace(
-			name=PACKAGE, manifest={"summary": "Unmute Windows audio"},
+			name=PACKAGE,
+			manifest={"summary": "Unmute Windows audio"},
 		),
 	)
 	_module("extensionPoints", Action=_Action)
