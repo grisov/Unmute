@@ -78,10 +78,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	@override
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
-		"""Initialization of the add-on parameters."""
+		"""Register the options and the settings panel of the add-on, bind the default gesture
+		and schedule the checks when NVDA starts, as enabled in the add-on settings.
+		"""
 		super().__init__(*args, **kwargs)
 		# Whether the attempts to initialize the synthesizer are running, so they are not started twice
-		self._resettingSynth: bool = False
+		self._initializingSynth: bool = False
 		# The configuration of NVDA has no type annotations
 		cast(Any, config).conf.spec[ADDON_NAME] = confspec
 		gui.settingsDialogs.NVDASettingsDialog.categoryClasses.append(UnmuteSettingsPanel)
@@ -141,14 +143,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def restoreSoundAndSpeech(self, manual: bool = False) -> None:
 		"""Turn on the sound of Windows and NVDA and, if the synthesizer is not initialized,
 		start the attempts to initialize it, as enabled in the add-on settings.
+		The synthesizer is initialized first, so the volume of its voice is checked with the sound.
 
 		:param manual: whether the command of the add-on has been used, then the sound is always played
 		"""
 		if getAddonConfig()["speechmode"]:
 			self.turnOnSpeechMode()
-		self.unmuteAudio(manual=manual)
-		if getAddonConfig()["reinit"] and not self._resettingSynth:
+		if getAddonConfig()["reinit"] and not self._initializingSynth:
 			self.initializeSynth(0)
+		self.unmuteAudio(manual=manual)
 
 	def turnOnSpeechMode(self) -> None:
 		"""Switch the speech mode of NVDA to talk if speech is off, replaced by beeps or on demand,
@@ -165,8 +168,23 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		:return: the volume level (from 0.0 to 1.0)
 		"""
+		return self.getTargetVolume() / 100.0
+
+	def getTargetVolume(self) -> int:
+		"""Get the target level as a volume in percent, as NVDA keeps the volume of the voice and the sounds.
+
+		:return: the volume (from 0 to 100)
+		"""
 		addonConfig = getAddonConfig()
-		return max(addonConfig["volume"], addonConfig["minlevel"]) / 100.0
+		return max(addonConfig["volume"], addonConfig["minlevel"])
+
+	def isBelowMinimum(self, level: float) -> bool:
+		"""Check whether the volume level is lower than the minimum level set in the add-on settings.
+
+		:param level: the volume level (from 0.0 to 1.0)
+		:return: whether the level is too low
+		"""
+		return level * 100.0 < getAddonConfig()["minlevel"]
 
 	def getCheckedDevices(self) -> list[Device]:
 		"""Get the audio devices whose sound is turned on: the default output device of Windows and,
@@ -199,7 +217,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			volume = getEndpointVolume(device)
 			if volume.GetMute():
 				volume.SetMute(0, None)
-			if volume.GetMasterVolumeLevelScalar() * 100.0 < getAddonConfig()["minlevel"]:
+			if self.isBelowMinimum(volume.GetMasterVolumeLevelScalar()):
 				volume.SetMasterVolumeLevelScalar(self.getTargetLevel(), None)
 				raised = True
 			if getAddonConfig()["devicechannels"] and self.raiseDeviceChannels(volume):
@@ -219,9 +237,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		:raises COMError: the device is not available anymore
 		"""
 		raised = False
-		minLevel = getAddonConfig()["minlevel"] / 100.0
 		for channel in range(volume.GetChannelCount()):
-			if volume.GetChannelVolumeLevelScalar(channel) < minLevel:
+			if self.isBelowMinimum(volume.GetChannelVolumeLevelScalar(channel)):
 				volume.SetChannelVolumeLevelScalar(channel, self.getTargetLevel(), None)
 				raised = True
 		return raised
@@ -239,26 +256,27 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			# core.callLater of NVDA has no type annotations
 			cast(Any, core).callLater(AUDIO_ATTEMPT_INTERVAL, self.unmuteAudio, attempt + 1, manual)
 			return
-		switched = getAddonConfig()["switchdevice"] and self.switchToDefaultOutputDevice()
+		addonConfig = getAddonConfig()
+		switched = addonConfig["switchdevice"] and self.switchToDefaultOutputDevice()
 		# Every device is checked, not only until the first raised one
 		raised = [self.unmuteDevice(device) for device in self.getCheckedDevices()]
-		raised.append(self.unmuteNvdaProcess())
-		if getAddonConfig()["synthvolume"]:
-			raised.append(self.unmuteSynthVoice())
+		raised.append(self.unmuteNvdaSessions())
+		if addonConfig["synthvolume"]:
+			raised.append(self.raiseSynthVolume())
 		# Raised before the sound of the add-on is played, so it is heard
-		if getAddonConfig()["soundsvolume"]:
-			raised.append(self.unmuteNvdaSounds())
+		if addonConfig["soundsvolume"]:
+			raised.append(self.raiseSoundsVolume())
 		# The sound is played once, when the sound of NVDA itself has been turned on too
-		if manual or ((any(raised) or switched) and getAddonConfig()["playsound"]):
+		if manual or ((any(raised) or switched) and addonConfig["playsound"]):
 			self.playUnmutedSound()
 		if switched:
-			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.recheckNvdaProcess)
+			cast(Any, core).callLater(NVDA_RECHECK_DELAY, self.recheckNvdaSessions)
 
-	def recheckNvdaProcess(self) -> None:
+	def recheckNvdaSessions(self) -> None:
 		"""Check the sound of NVDA again after NVDA has been switched to the default output device
 		and has played a sound there, so its audio session on that device exists.
 		"""
-		if self.unmuteNvdaProcess() and getAddonConfig()["playsound"]:
+		if self.unmuteNvdaSessions() and getAddonConfig()["playsound"]:
 			self.playUnmutedSound()
 
 	def getNvdaSessions(self) -> list[Session]:
@@ -278,7 +296,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					logDebugWarning("Unable to get the process of an audio session")
 		return sessions
 
-	def unmuteNvdaProcess(self) -> bool:
+	def unmuteNvdaSessions(self) -> bool:
 		"""Turn on the sound of NVDA itself if it is muted or low: all audio sessions of the running NVDA process
 		on all active output devices, because Windows keeps the volume of a program for each device.
 		If enabled in the settings, the channels of the sessions are restored too, unless NVDA sound split is enabled.
@@ -294,10 +312,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				volume = getSessionVolume(session)
 				if volume.GetMute():
 					volume.SetMute(0, None)
-				if volume.GetMasterVolume() * 100.0 < getAddonConfig()["minlevel"]:
+				if self.isBelowMinimum(volume.GetMasterVolume()):
 					volume.SetMasterVolume(self.getTargetLevel(), None)
 					raised = True
-				if restoreChannels and self.restoreChannels(session):
+				if restoreChannels and self.restoreNvdaChannels(session):
 					raised = True
 			except COMError:
 				logDebugWarning("Unable to turn on the sound of an audio session of NVDA")
@@ -316,7 +334,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			except COMError:
 				logDebugWarning("Unable to set the ducking preference of an audio session of NVDA")
 
-	def restoreChannels(self, session: Session) -> bool:
+	def restoreNvdaChannels(self, session: Session) -> bool:
 		"""Set the full level to all channels of the audio session if any of them is lower than the minimum level,
 		e.g. after one channel of NVDA has been turned down. NVDA restores its channels the same way
 		when sound split is turned off. Channels that are just unequal but loud enough are not changed.
@@ -327,14 +345,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""
 		channels = getSessionChannels(session)
 		count = channels.GetChannelCount()
-		minLevel = getAddonConfig()["minlevel"] / 100.0
-		if all(channels.GetChannelVolume(channel) >= minLevel for channel in range(count)):
+		if not any(self.isBelowMinimum(channels.GetChannelVolume(channel)) for channel in range(count)):
 			return False
 		for channel in range(count):
 			channels.SetChannelVolume(channel, 1.0, None)
 		return True
 
-	def unmuteSynthVoice(self) -> bool:
+	def raiseSynthVolume(self) -> bool:
 		"""Raise the volume of the voice of the synthesizer if it is lower than the minimum level,
 		e.g. after it has been turned down with the synth settings ring by mistake.
 		The new volume is saved in the configuration, as NVDA does when the volume is changed with the ring.
@@ -345,14 +362,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		# AutoSettings.isSupported of NVDA has no type annotations
 		if synth is None or not cast(Any, synth).isSupported("volume"):
 			return False
-		if synth.volume >= getAddonConfig()["minlevel"]:
+		if not self.isBelowMinimum(synth.volume / 100.0):
 			return False
-		level = round(self.getTargetLevel() * 100)
-		synth.volume = level
-		getNvdaConfig("speech")[synth.name]["volume"] = level
+		volume = self.getTargetVolume()
+		synth.volume = volume
+		getNvdaConfig("speech")[synth.name]["volume"] = volume
 		return True
 
-	def unmuteNvdaSounds(self) -> bool:
+	def raiseSoundsVolume(self) -> bool:
 		"""Raise the volume of the sounds of NVDA (beeps and the sounds of NVDA and add-ons)
 		if it is lower than the minimum level. NVDA applies the new volume to the next sound.
 		Nothing is changed when the volume of the sounds follows the voice: the volume of the voice applies then.
@@ -360,9 +377,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		:return: whether the volume has been raised
 		"""
 		audioConfig = getNvdaConfig("audio")
-		if isSoundVolumeFollowingVoice() or audioConfig["soundVolume"] >= getAddonConfig()["minlevel"]:
+		if isSoundVolumeFollowingVoice() or not self.isBelowMinimum(audioConfig["soundVolume"] / 100.0):
 			return False
-		audioConfig["soundVolume"] = round(self.getTargetLevel() * 100)
+		audioConfig["soundVolume"] = self.getTargetVolume()
 		return True
 
 	def initializeSynth(self, retry: int) -> None:
@@ -371,13 +388,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		:param retry: the number of the retry, 0 for the first attempt
 		"""
-		self._resettingSynth = False
+		self._initializingSynth = False
 		if synthDriverHandler.getSynth() is not None:
 			return
 		_ = synthDriverHandler.setSynth(str(getNvdaConfig("speech")["synth"]))
 		retries: int = getAddonConfig()["retries"]
 		if retry < retries or retries == 0:
-			self._resettingSynth = True
+			self._initializingSynth = True
 			cast(Any, core).callLater(SYNTH_ATTEMPT_INTERVAL, self.initializeSynth, retry + 1)
 
 	def switchToDefaultOutputDevice(self) -> bool:
