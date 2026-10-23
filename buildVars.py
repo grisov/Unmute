@@ -20,7 +20,7 @@ addon_info = AddonInfo(
 	addon_summary=_("Unmute Windows audio"),
 	# Add-on description
 	# Translators: Long description to be shown for this add-on on add-on information from add-on store
-	addon_description=_("""When NVDA starts, this add-on checks the status of the Windows sound system and, if the sound is turned off, turns it on."""),
+	addon_description=_("""Make sure you can hear NVDA: when NVDA starts or with a command, the add-on turns on the muted or too quiet sound of Windows and NVDA and starts the speech synthesizer if it has not started."""),
 	# version
 	addon_version="1.8.0",
 	# Brief changelog for this version
