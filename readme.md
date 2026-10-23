@@ -3,71 +3,83 @@
 * Author: Oleksandr Gryshchenko
 * Version: 1.8
 * NVDA compatibility: 2026.1 and beyond
-* Download [stable version][1]
+* Installation: through the NVDA Add-on Store ([stable version][1])
 
-This add-on checks the status of the Windows audio system when NVDA starts. And, if it turns out that the sound is muted - the add-on forcibly turns it on.
+Make sure you can hear NVDA: when NVDA starts, the add-on turns on the muted or too quiet sound of Windows and NVDA and starts the speech synthesizer if it has not started. The same checks can be run at any time with a command.
 
-At the same time, the volume level is checked separately for the NVDA process.
+## When the add-on works
+* When NVDA starts. This can be turned off with the "Unmute when NVDA starts" option in the add-on settings.
+* With the "Turn on the sound of Windows and NVDA" command, at any time. The command is listed in the NVDA "Input gestures" dialog, in the "Unmute Windows audio" category. You can assign your own shortcut to it there, or turn on the predefined shortcut NVDA+Windows+Shift+U with the "Use the default keyboard shortcut" option in the add-on settings.
 
-The add-on also checks the status of the speech synthesizer. If there are problems with its initialization, attempts are made to start the synthesizer, which is specified in the NVDA settings.
+After the command the add-on always plays a short sound, so you know that it has worked even if you could hear nothing before. When NVDA starts, the sound is played only if something has been turned on.
 
-There is an additional opportunity to check on which audio device the NVDA sound is output. And, if this device differs from the default device, the output automatically switches to the audio device installed in the system as the main one.
+## What the add-on checks
+Everything below is done only if it is turned on in the add-on settings. A sound is too quiet if its volume is lower than the "Increase the volume if it is lower than" setting; it is then raised to the "Set custom volume level" setting, but never below the minimum level.
 
-Note: If the add-on startup sound always plays even if the NVDA volume is online. That is, the add-on switches the output to the main audio device each time you start NVDA.
+1. Speech mode: if the speech of NVDA is off, replaced by beeps or on demand, it is switched to talk. NVDA always starts in the talk mode, so this matters mostly for the command.
+2. Synthesizer: if no synthesizer has started, the add-on tries to start the synthesizer selected in the NVDA settings, once a second, as many times as set.
+3. Output device: NVDA is switched to the default output device of Windows, so the sound is turned on where NVDA plays it.
+4. Windows audio devices: the default output device of Windows is unmuted and its too quiet volume is raised. If NVDA uses a specific output device and is not switched to the default one, that device is checked too. Each muted or too quiet channel of a device can be raised as well, e.g. after the balance has been turned to one side; the other channels are not changed.
+5. NVDA itself: the sound of NVDA is unmuted and its too quiet volume is raised on all active output devices, because Windows keeps the volume of a program for each device. Only the running copy of NVDA is changed, not another one, e.g. a portable copy. The add-on can also restore the muted channels of NVDA, raise the too quiet volume of the synthesizer voice and the too quiet volume of NVDA sounds.
 
-This occurs when the audio output device is in the NVDA settings is differ from the default output device or "Microsoft Sound Mapper".
+If the audio service of Windows is still starting after logging on, the add-on tries again for a few seconds.
 
-This can be easily solved in one of the following ways:
+When NVDA uses a specific output device in its settings, it is switched to the default device every time NVDA starts, and the short sound is played every time. To avoid this, save the configuration of NVDA after it has been switched (NVDA+Control+C), or turn off the "Switch to the default audio output device" option.
 
-1. After restarting NVDA, just save the current configuration using NVDA+Ctrl+C. The default audio device will be saved in the NVDA settings and switching will not occur each time when NVDA starts.
-2. If you don't want to change the NVDA configuration - just disable the function of switching audio devices in the Unmute settings panel.
+## Calls
+When a communication program starts a call, Windows lowers the volume of the other sounds by 80% by default, NVDA included. The "Do not lower the volume of NVDA during calls" option keeps the volume of NVDA unchanged. It concerns only the NVDA process: the communication settings of Windows stay the same, and the sound of the other programs is still lowered during calls.
 
-## Add-on settings dialog
-To open the add-on settings panel, follow these steps:
+## Add-on settings
+To open the settings, open the NVDA menu (NVDA+N), go to "Preferences", "Settings..." and select the "Unmute Windows audio" category. The settings are saved in the base configuration profile of NVDA and apply at once, without restarting NVDA.
 
-* Press NVDA+N to open NVDA menu.
-* Then go to "Preferences" -> "Settings..." and in the categories list find and open "Unmute Windows Audio".
+* Unmute when NVDA starts - do everything turned on below when NVDA starts; otherwise only with the command. On by default.
+* Volume:
+    * Set custom volume level - the volume set for a too quiet audio device, NVDA, its voice or its sounds.
+    * Increase the volume if it is lower than - the minimum level: a lower volume is raised.
+* Windows audio devices:
+    * Switch to the default audio output device - switch NVDA to the default output device of Windows. On by default.
+    * Turn on the muted channels of audio devices - raise each too quiet channel of the audio devices. Off by default.
+* Screen reader:
+    * Turn on the muted channels of NVDA - if any channel of NVDA is too quiet, set all channels of NVDA to the full level, as NVDA does when sound split is turned off. Not available while NVDA sound split is enabled, because sound split sets the channels itself. Off by default.
+    * Turn up the volume of the synthesizer voice - raise the too quiet voice; the new volume is saved, as when it is changed with the synth settings ring. On by default.
+    * Turn up the volume of NVDA sounds - raise the too quiet beeps and sounds of NVDA before the sound of the add-on is played, so it is heard. Not available while the volume of NVDA sounds follows the voice in the NVDA audio settings. On by default.
+    * Switch the speech mode of NVDA to talk. On by default.
+    * Do not lower the volume of NVDA during calls - see "Calls". Off by default.
+    * Repeat attempts to initialize the voice synthesizer driver - start the synthesizer if it has not started. On by default.
+    * Number of retries (0 - infinitely) - how many times to try again, once a second. Available when the attempts are repeated.
+* Play sound when audio has been successfully turned on - play a short sound after something has been turned on when NVDA starts. After the command, the sound is always played. On by default.
+* Use the default keyboard shortcut - turn the predefined shortcut NVDA+Windows+Shift+U of the command on or off, at once. Off by default.
 
-That's it, you can now use the Tab key to move between add-on settings.
+## Contributions
+We are very grateful to everyone who made the effort to develop, translate and maintain this add-on:
 
-The following options are available in the add-on settings dialog:
-
-1. The first slider in the add-on settings dialog allows you to specify the volume level of Windows, which will be set when you start NVDA if the sound was previously muted or was too low.
-
-2. The minimum Windows volume level at which the volume up procedure will be applied. This slider allows you to adjust the sensitivity level of the add-on.
-
-    If the volume level drops to less than the value specified here, the volume will be increased the next time you start NVDA.
-
-    Otherwise, if the volume level remains higher than the value specified here, then when you restart NVDA, its level will not change.
-
-    And, of course, if the sound was previously turned off, when restarts add-on will turn it on anyway.
-
-3. The following check box allows to enable re-initialization of the voice synthesizer driver.
-
-    This procedure will only start if it is detected at NVDA startup that the voice synthesizer driver has not been initialized.
-
-4. In this field you can specify the number of attempts to re-initialize the voice synthesizer driver. Attempts are performed cyclically with an interval of 1 second. A value of 0 means that attempts will be performed indefinitely until the procedure is successfully completed.
-
-5. The "Switch to the default output audio device" option allows to check at startup the audio device on which NVDA sound is output. And, if this device differs from the default device, the output automatically switches to the audio device installed in the system as the main one.
-
-6. The next checkbox turns on or off playing the startup sound  when the operation is successful.
+* Dang Manh Cuong - Vietnamese translation;
+* Cagri Dogan - Turkish translation;
+* Christianlm - Italian translation;
+* Cary Rowen - simplified Chinese translation;
+* Stefan Banita - Polish translation;
+* Ivan Novegil Cancelas and Jose Manuel - Spanish and Galician translations;
+* Frank Niggemann - German translation;
+* Manolo - the sound of the add-on.
 
 ## Change log
 The history of changes for each version of the add-on is published on the [Releases page][2] of the add-on repository.
 
 ## Altering of add-on source code
-You may clone this repo to make alteration to NVDA Unmute.
+You may clone this repo to make alterations to NVDA Unmute.
 
-### Third Party dependencies
-These can be installed with pip:
+Requirements:
 
-- markdown
-- scons
-- python-gettext
+* [uv](https://docs.astral.sh/uv/) - manages Python and all development tools of the add-on;
+* [GNU Gettext tools](https://mlocati.github.io/articles/gettext-iconv-windows.html) (`msgfmt` and `xgettext` in the `PATH`) - compile translations and generate the template of translatable strings.
 
-### To package the add-on for distribution
-1. Open a command line, change to the root of this repo
-2. Run the **scons** command. The created add-on, if there were no errors, is placed in the current directory.
+Run the following commands from the root of the repository:
 
-[1]: https://addons.nvda-project.org/files/get.php?file=unmute
+1. `uv sync` - install the development dependencies;
+2. `uv run prek run --all-files` - run all code checks: linting and formatting with ruff, type checking with pyright and other checks;
+3. `uv run python -m unittest discover -s tests -v` - run the unit tests;
+4. `uv run scons` - build the add-on, the created `.nvda-addon` file is placed in the root of the repository;
+5. `uv run scons pot` - generate the `.pot` file with all translatable strings of the add-on (optional).
+
+[1]: https://addonstore.nvaccess.org/?channel=stable&addonId=unmute
 [2]: https://github.com/grisov/unmute/releases
