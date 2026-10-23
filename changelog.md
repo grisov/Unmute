@@ -31,6 +31,7 @@
 - An error of a disconnected audio device stopped the other checks, e.g. turning on the sound of NVDA.
 - When the audio service of Windows was not available yet after logging on, the sound was not turned on.
 - An error when NVDA was switched to the default output device before the synthesizer was initialized.
+- The attempts to initialize the synthesizer did not start when NVDA used "No speech", e.g. after falling back to it while the audio service of Windows was starting after logging on. If "No speech" is selected in the NVDA settings, the default synthesizer of NVDA is started.
 - The add-on made one attempt more to initialize the synthesizer than set in the settings.
 - The keyboard shortcut of the number of attempts to initialize the synthesizer did not work.
 - An error on NVDA exit when the add-on settings panel had already been removed.

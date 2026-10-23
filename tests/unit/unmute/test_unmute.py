@@ -7,7 +7,7 @@
 the audio service of Windows is starting, switching NVDA to the default device and the synthesizer.
 """
 
-from unmuteSupport import SpeechMode, audio, events, later, options, runLater, speechState, synth
+from unmuteSupport import FakeSynth, SpeechMode, audio, events, later, options, runAllLater, runLater, speechState, synth
 from unmuteSupport.case import AddonTestCase
 from unmuteSupport.fakes import float32
 
@@ -186,11 +186,46 @@ class TestSynthesizer(AddonTestCase):
 		self.plugin.initializeSynth(0)
 		self.assertEqual(events, [])
 
+	def test_no_speech_after_the_fallback_of_nvda(self):
+		synth.update(current=FakeSynth("silence", hasVolume=False), starts=True)
+		self.plugin.initializeSynth(0)
+		self.assertEqual(self.attempts(), [("setSynth", "espeak", "default")])
+		self.assertEqual(synth["current"].name, "espeak")
+		# The next attempt finds the voice and stops
+		runLater()
+		self.assertEqual(len(self.attempts()), 1)
+		self.assertEqual(later, [])
+
+	def test_default_synthesizer_when_no_speech_is_selected_in_the_settings(self):
+		from unmuteSupport import speechConfig
+
+		speechConfig["synth"] = "silence"
+		synth.update(current=FakeSynth("silence", hasVolume=False), starts=True)
+		self.plugin.restoreSoundAndSpeech()
+		self.assertEqual(self.attempts(), [("setSynth", "auto", "default")])
+
+	def test_no_attempts_without_the_option_even_with_no_speech(self):
+		options["reinit"] = False
+		synth["current"] = FakeSynth("silence", hasVolume=False)
+		self.plugin.restoreSoundAndSpeech()
+		self.assertEqual(self.attempts(), [])
+
+	def test_other_synthesizer_after_the_fallback_of_nvda_is_kept(self):
+		# The selected synthesizer is not started again and again while another one speaks
+		synth["current"] = FakeSynth("oneCore")
+		self.plugin.initializeSynth(0)
+		self.assertEqual(self.attempts(), [])
+
+	def test_failed_attempt_falls_back_to_no_speech_and_is_repeated(self):
+		options["retries"] = 2
+		self.plugin.initializeSynth(0)
+		self.assertEqual(synth["current"].name, "silence")
+		self.assertEqual(len(later), 1)
+
 	def test_retries_make_one_attempt_more(self):
 		options["retries"] = 3
 		self.plugin.initializeSynth(0)
-		while later:
-			runLater()
+		runAllLater()
 		self.assertEqual(len(self.attempts()), 4)
 		self.assertFalse(self.plugin._initializingSynth)
 

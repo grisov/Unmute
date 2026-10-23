@@ -144,6 +144,15 @@ def runLater() -> None:
 		function(*args)
 
 
+def runAllLater(limit: int = 100) -> None:
+	"""Run the delayed calls until there are none, failing instead of hanging if they never end."""
+	for _ in range(limit):
+		if not later:
+			return
+		runLater()
+	raise AssertionError(f"The delayed calls did not end after {limit} rounds")
+
+
 class SpeechMode(enum.IntEnum):
 	"""speech.SpeechMode of NVDA."""
 
@@ -178,9 +187,13 @@ sound: dict[str, bool] = {"fails": False}
 
 
 def _setSynth(name: str) -> bool:
+	"""Stands for synthDriverHandler.setSynth: when the synthesizer does not start, NVDA falls back to "No speech"."""
 	events.append(("setSynth", name, audio.get("outputDevice")))
-	if synth["starts"]:
-		synth["current"] = synth["current"] or FakeSynth(name)
+	current = synth["current"]
+	if not synth["starts"]:
+		synth["current"] = FakeSynth("silence", 100, hasVolume=False)
+	elif current is None or current.name != name:
+		synth["current"] = FakeSynth(name)
 	return synth["starts"]
 
 

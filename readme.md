@@ -17,7 +17,7 @@ After the command the add-on always plays a short sound, so you know that it has
 Everything below is done only if it is turned on in the add-on settings. A sound is too quiet if its volume is lower than the "Increase the volume if it is lower than" setting; it is then raised to the "Set custom volume level" setting, but never below the minimum level.
 
 1. Speech mode: if the speech of NVDA is off, replaced by beeps or on demand, it is switched to talk. NVDA always starts in the talk mode, so this matters mostly for the command.
-2. Synthesizer: if no synthesizer has started, the add-on tries to start the synthesizer selected in the NVDA settings, once a second, as many times as set.
+2. Synthesizer: if no synthesizer has started and NVDA uses "No speech", the add-on tries to start the synthesizer selected in the NVDA settings, once a second, as many times as set, until any synthesizer speaks. If "No speech" itself is selected in the NVDA settings, e.g. by mistake, the default synthesizer of NVDA is started. If you use NVDA without speech on purpose, e.g. only with a braille display, turn off the "Repeat attempts to initialize the voice synthesizer driver" option.
 3. Output device: NVDA is switched to the default output device of Windows, so the sound is turned on where NVDA plays it.
 4. Windows audio devices: the default output device of Windows is unmuted and its too quiet volume is raised. If NVDA uses a specific output device and is not switched to the default one, that device is checked too. Each muted or too quiet channel of a device can be raised as well, e.g. after the balance has been turned to one side; the other channels are not changed.
 5. NVDA itself: the sound of NVDA is unmuted and its too quiet volume is raised on all active output devices, because Windows keeps the volume of a program for each device. Only the running copy of NVDA is changed, not another one, e.g. a portable copy. The add-on can also restore the muted channels of NVDA, raise the too quiet volume of the synthesizer voice and the too quiet volume of NVDA sounds.
@@ -45,7 +45,7 @@ To open the settings, open the NVDA menu (NVDA+N), go to "Preferences", "Setting
     * Turn up the volume of NVDA sounds - raise the too quiet beeps and sounds of NVDA before the sound of the add-on is played, so it is heard. Not available while the volume of NVDA sounds follows the voice in the NVDA audio settings. On by default.
     * Switch the speech mode of NVDA to talk. On by default.
     * Do not lower the volume of NVDA during calls - see "Calls". Off by default.
-    * Repeat attempts to initialize the voice synthesizer driver - start the synthesizer if it has not started. On by default.
+    * Repeat attempts to initialize the voice synthesizer driver - start the synthesizer if it has not started and NVDA uses "No speech" instead. On by default.
     * Number of retries (0 - infinitely) - how many times to try again, once a second. Available when the attempts are repeated.
 * Play sound when audio has been successfully turned on - play a short sound once after the add-on has changed something when NVDA starts. After the command, the sound is always played. On by default.
 * Use the default keyboard shortcut - turn the predefined shortcut NVDA+Windows+Shift+U of the command on or off, at once. Off by default.
