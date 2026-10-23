@@ -1,11 +1,13 @@
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Copyright (C) 2026
+# This file is distributed under the same license as the 'unmute' package.
+# FIRST AUTHOR <grisov.nvaccess@mailgw.com>, 2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 'unmute' '1.5.7'\n"
+"Project-Id-Version: 'unmute' '1.8.0'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2021-05-20 13:59+0300\n"
-"PO-Revision-Date: 2023-04-19 19:19+0200\n"
+"POT-Creation-Date: 2026-10-23 13:33+0200\n"
+"PO-Revision-Date: 2026-10-23 14:30+0200\n"
 "Last-Translator: Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>\n"
 "Language-Team: Ukrainian Language Team\n"
 "Language: uk_UA\n"
@@ -14,50 +16,104 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.10\n"
 
-#. Translators: Help message for a dialog.
-msgid ""
-"Select the initial sound system settings that will be set when NVDA starts:"
-msgstr ""
-"Виберіть початкові налаштування звукової системи, які будуть встановлені при "
-"запуску NVDA:"
+#. Translators: A setting: do the checks below when NVDA starts, otherwise only with the command
+msgid "&Unmute when NVDA starts"
+msgstr "&Вмикати звук під час запуску NVDA"
 
-#. Translators: A setting in addon settings dialog.
-msgid "Set &custom volume level:"
-msgstr "Встановити &власне значення рівня гучності:"
+#. Translators: The name of a group of settings: the volume levels
+msgid "Volume"
+msgstr "Гучність"
 
-#. Translators: A setting in addon settings dialog.
+#. Translators: A setting in the add-on settings
+msgid "Set custom &volume level:"
+msgstr "Встановити власне значення &рівня гучності:"
+
+#. Translators: A setting in the add-on settings
 msgid "Increase the volume if it is &lower than:"
 msgstr "Збільшувати гучність, якщо вона &нижча ніж:"
 
-#. Translators: A setting in addon settings dialog.
-msgid "&Repeat attempts to initialize the voice synthesizer driver"
-msgstr "&Повторювати спроби ініціалізувати драйвер синтезатора голосу"
+#. Translators: The name of a group of settings: the audio devices of Windows
+msgid "Windows audio devices"
+msgstr "Аудіопристрої Windows"
 
-#. Translators: A setting in addon settings dialog.
-msgid "&Number of retries (0 - infinitely):"
-msgstr "&Кількість повторних спроб (0 - нескінченна):"
-
-#. Translators: A setting in addon settings dialog.
+#. Translators: A setting in the add-on settings
 msgid "Switch to the default audio output &device"
-msgstr "Перемикати вивід звуку NVDA на &аудіо-пристрій за замовчуванням"
+msgstr "&Перемикати вивід звуку NVDA на аудіопристрій за замовчуванням"
 
-#. Translators: A setting in addon settings dialog.
+#. Translators: A setting: raise each muted channel of the audio devices
+msgid "Turn on the muted channels of audio d&evices"
+msgstr "Вмикати приглушені канали &аудіопристроїв"
+
+#. Translators: The name of a group of settings: the settings of NVDA itself
+msgid "Screen reader"
+msgstr "Програма екранного доступу"
+
+#. Translators: A setting, not available while NVDA sound split is enabled
+msgid "Turn on the muted c&hannels of NVDA"
+msgstr "Вмикати приглушені кана&ли NVDA"
+
+#. Translators: A setting: raise the too quiet voice of the synthesizer
+msgid "Turn up the volume of the s&ynthesizer voice"
+msgstr "Збільшувати гучність голосу с&интезатора"
+
+#. Translators: A setting, not available while the volume of NVDA sounds follows the voice
+msgid "&Turn up the volume of NVDA sounds"
+msgstr "Збільшувати гучність зв&уків NVDA"
+
+#. Translators: A setting: switch the speech mode of NVDA (NVDA+S) to talk
+msgid "Switch the speech &mode of NVDA to talk"
+msgstr "Вмикати режим «&мовлення» NVDA"
+
+#. Translators: A setting: keep the volume of NVDA when Windows lowers other sounds during calls
+msgid "Do not lo&wer the volume of NVDA during calls"
+msgstr "Не зменшувати гучність NVDA під час &дзвінків"
+
+#. Translators: A setting in the add-on settings
+msgid "&Repeat attempts to initialize the voice synthesizer driver"
+msgstr "Повторювати спроби &ініціалізувати драйвер синтезатора голосу"
+
+#. Translators: A setting in the add-on settings
+msgid "&Number of retries (0 - infinitely):"
+msgstr "Кількість повторних спро&б (0 - нескінченна):"
+
+#. Translators: A setting in the add-on settings
 msgid "Play &sound when audio has been successfully turned on"
-msgstr "Відтворювати &звук, коли аудіо було успішно увімкнено"
+msgstr "Від&творювати звук, коли аудіо було успішно увімкнено"
 
-#. Add-on summary, usually the user visible name of the addon.
-#. Translators: Summary for this add-on
-#. to be shown on installation and add-on information found in Add-ons Manager.
+#. Translators: A setting: bind the predefined keyboard shortcut of the command
+msgid "Use the default &keyboard shortcut"
+msgstr "Використовувати комбінацію клаві&ш за замовчуванням"
+
+#. Translators: The name of the command in the NVDA input gestures dialog
+msgid "Turn on the sound of Windows and NVDA"
+msgstr "Увімкнути звук Windows і NVDA"
+
+#. Add-on summary/title, usually the user visible name of the add-on
+#. Translators: Summary/title for this add-on
+#. to be shown on installation and add-on information found in add-on store
 msgid "Unmute Windows audio"
 msgstr "Автоувімкнення звуку Windows"
 
 #. Add-on description
-#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#. Translators: Long description to be shown for this add-on on add-on information from add-on store
 msgid ""
-"When NVDA starts, this add-on checks the status of the Windows sound system "
-"and, if the sound is turned off, turns it on."
+"Make sure you can hear NVDA: when NVDA starts or with a command, the add-on "
+"turns on the muted or too quiet sound of Windows and NVDA and starts the "
+"speech synthesizer if it has not started."
 msgstr ""
-"Коли NVDA запускається, цей додаток перевіряє стан звукової системи Windows "
-"і, якщо звук вимкнено, вмикає його."
+"Будьте певні, що чуєте NVDA: під час запуску NVDA або за командою додаток "
+"вмикає приглушений або занадто тихий звук Windows і NVDA та запускає "
+"синтезатор мовлення, якщо той не запустився."
+
+#. Brief changelog for this version
+#. Translators: what's new content for the add-on version to be shown in the add-on store
+msgid ""
+"A command to turn on the sound at any time, new options for the channels, "
+"voice, sounds and speech mode of NVDA and for calls, the sessions of NVDA on "
+"all output devices, and faster checks when NVDA starts."
+msgstr ""
+"Команда, щоб будь-коли увімкнути звук, нові опції для каналів, голосу, "
+"звуків і режиму мовлення NVDA та для дзвінків, сесії NVDA на всіх пристроях "
+"виводу і швидші перевірки під час запуску NVDA."
