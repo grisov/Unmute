@@ -22,10 +22,10 @@ addon_info = AddonInfo(
 	# Translators: Long description to be shown for this add-on on add-on information from add-on store
 	addon_description=_("""When NVDA starts, this add-on checks the status of the Windows sound system and, if the sound is turned off, turns it on."""),
 	# version
-	addon_version="1.7.0",
+	addon_version="1.8.0",
 	# Brief changelog for this version
 	# Translators: what's new content for the add-on version to be shown in the add-on store
-	addon_changelog=_("""Fully adapted the add-on for compatibility with NVDA 2026.3."""),
+	addon_changelog=_("""A command to turn on the sound at any time, new options for the channels, voice, sounds and speech mode of NVDA and for calls, the sessions of NVDA on all output devices, and faster checks when NVDA starts."""),
 	# Author(s)
 	addon_author="Oleksandr Gryshchenko <grisov.nvaccess@mailgw.com>",
 	# URL for the add-on documentation support
