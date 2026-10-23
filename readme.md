@@ -1,7 +1,7 @@
 # NVDA Unmute
 
 * Author: Oleksandr Gryshchenko
-* Version: 1.7
+* Version: 1.8
 * NVDA compatibility: 2026.1 and beyond
 * Download [stable version][1]
 
