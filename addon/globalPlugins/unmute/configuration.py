@@ -19,18 +19,18 @@ _addon = cast(Any, addonHandler).getCodeAddon()
 ADDON_NAME: str = _addon.name
 ADDON_SUMMARY: str = _addon.manifest["summary"]
 
-# The options of the add-on in the NVDA configuration
+# The options of the add-on in the NVDA configuration, in the order of the settings panel
 confspec: dict[str, str] = {
 	# Turn on the sound and initialize the synthesizer when NVDA starts, otherwise only with the command
 	"startup": "boolean(default=true)",
+	# Volume
 	"volume": "integer(default=20,min=0,max=100)",
 	"minlevel": "integer(default=5,min=0,max=100)",
-	"reinit": "boolean(default=true)",
-	"retries": "integer(default=0,min=0,max=10000000)",
+	# Windows audio devices
 	"switchdevice": "boolean(default=true)",
 	# Raise each channel of the audio devices that is lower than the minimum level
 	"devicechannels": "boolean(default=false)",
-	# Restore the channels of the audio sessions of NVDA if any of them is muted or too quiet
+	# Screen reader: restore the channels of the audio sessions of NVDA if any of them is muted or too quiet
 	"channels": "boolean(default=false)",
 	# Raise the volume of the voice of the synthesizer if it is lower than the minimum level
 	"synthvolume": "boolean(default=true)",
@@ -40,6 +40,9 @@ confspec: dict[str, str] = {
 	"speechmode": "boolean(default=true)",
 	# Do not let Windows lower the volume of NVDA during calls
 	"noducking": "boolean(default=false)",
+	# Synthesizer
+	"reinit": "boolean(default=true)",
+	"retries": "integer(default=0,min=0,max=10000000)",
 	"playsound": "boolean(default=true)",
 	# Bind the default gesture to the command of the add-on
 	"gestures": "boolean(default=false)",

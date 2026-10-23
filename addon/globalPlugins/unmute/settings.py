@@ -121,11 +121,11 @@ class UnmuteSettingsPanel(SettingsPanel):
 			wx.CheckBox(self, label=_("Do not lo&wer the volume of NVDA during calls")),
 		)
 		self._noDuckingChk.SetValue(getAddonConfig()["noducking"])
-		self._driverChk = addonHelper.addItem(
+		self._reinitChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("&Repeat attempts to initialize the voice synthesizer driver")),
 		)
-		self._driverChk.SetValue(getAddonConfig()["reinit"])
+		self._reinitChk.SetValue(getAddonConfig()["reinit"])
 		self._retriesCountSpin = addonHelper.addLabeledControl(
 			# Translators: A setting in addon settings dialog.
 			_("&Number of retries (0 - infinitely):"),
@@ -136,8 +136,8 @@ class UnmuteSettingsPanel(SettingsPanel):
 		)
 		# Disabled instead of hidden: when a labeled control is shown or hidden, NVDA sets the text of its label
 		# without the "&" sign, so the shortcut of the label stops working
-		self._retriesCountSpin.Enable(self._driverChk.GetValue())
-		self._driverChk.Bind(wx.EVT_CHECKBOX, self.onDriverChk)
+		self._retriesCountSpin.Enable(self._reinitChk.GetValue())
+		self._reinitChk.Bind(wx.EVT_CHECKBOX, self.onReinitChk)
 		self._switchDeviceChk = addonHelper.addItem(
 			# Translators: A setting in addon settings dialog.
 			wx.CheckBox(self, label=_("Switch to the default audio output &device")),
@@ -155,13 +155,13 @@ class UnmuteSettingsPanel(SettingsPanel):
 		)
 		self._gesturesChk.SetValue(getAddonConfig()["gestures"])
 
-	def onDriverChk(self, event: wx.PyEvent) -> None:
-		"""Performed when a "self._driverChk" check box is selected or removed:
+	def onReinitChk(self, event: wx.PyEvent) -> None:
+		"""Performed when the check box of the attempts to initialize the synthesizer is checked or unchecked:
 		the number of retries is available only when the attempts are repeated.
 
 		:param event: event binder object which processes changing of the wx.Checkbox
 		"""
-		self._retriesCountSpin.Enable(self._driverChk.GetValue())
+		self._retriesCountSpin.Enable(self._reinitChk.GetValue())
 
 	@override
 	def onSave(self) -> None:
@@ -178,7 +178,7 @@ class UnmuteSettingsPanel(SettingsPanel):
 			"soundsvolume": self._soundsVolumeChk.GetValue(),
 			"speechmode": self._speechModeChk.GetValue(),
 			"noducking": self._noDuckingChk.GetValue(),
-			"reinit": self._driverChk.GetValue(),
+			"reinit": self._reinitChk.GetValue(),
 			"retries": self._retriesCountSpin.GetValue(),
 			"switchdevice": self._switchDeviceChk.GetValue(),
 			"playsound": self._playSoundChk.GetValue(),
