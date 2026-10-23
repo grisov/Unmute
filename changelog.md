@@ -19,7 +19,7 @@
 - NVDA is switched to the default output device first, and the sound is turned on there. If NVDA uses a specific output device and the switching is turned off, that device is checked too.
 - A too quiet audio device, NVDA, its voice and its sounds are all raised to the custom volume level, at least the minimum level.
 - The settings are grouped: the volume, the Windows audio devices and the screen reader.
-- The sound of the add-on is played once, after all checks.
+- The sound of the add-on is played once, after all checks, whenever the add-on has changed something, also when it has only unmuted a device or NVDA or switched the speech mode.
 - The keyboard shortcut of the custom volume level in the add-on settings is now V, so all shortcuts of the settings are unique.
 - The add-on works with the audio devices directly instead of the pycaw helpers that read all properties of a device, so the checks when NVDA starts are faster.
 - Tested with NVDA 2026.3.
