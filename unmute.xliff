@@ -1,0 +1,664 @@
+<?xml version="1.0"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en">
+<file id="readme.md" original="https://raw.githubusercontent.com/grisov/Unmute/245cd235390a0ff83d904191abd285edf3a1a4bc/readme.md">
+<skeleton>
+# $(ID:97142e61-7146-42ef-a6e3-541c07600a03)
+
+* $(ID:a1bec2ee-91a7-4c05-8b90-ef666ba93dce)
+* $(ID:04c0183c-df62-4a60-8535-79ed8a3792b1)
+* $(ID:5cff6e3b-d49c-49a6-990d-873d1610b8f3)
+* $(ID:64a5c1d0-c683-41be-bd71-ffb0e47d0521)
+
+$(ID:cb22a09a-4de7-4ace-b287-ec83665ba3d4)
+
+## $(ID:e3aa4986-7c67-4d5a-91ce-7936207a8da4)
+* $(ID:6dbc9f2b-0df1-4085-914b-deffd239a087)
+* $(ID:72671d5f-b58d-4662-807d-24f9fb9354b2)
+
+$(ID:fdd56e36-ff45-4117-b598-05460aa26541)
+
+## $(ID:cc4af60f-1ee6-48ac-83c4-eb86ac292c03)
+$(ID:fc7582d8-28c1-4c03-aba2-43f90daf004f)
+
+1. $(ID:28333463-299f-4b77-b725-3a5189f30298)
+2. $(ID:ca6a069f-dec7-47ab-96e3-5d8b519efba5)
+3. $(ID:db667bb1-8359-4d81-94b1-ae17aec2f87a)
+4. $(ID:ceee2b6b-cee2-47d3-8214-955fe574c16d)
+5. $(ID:62bc9568-8f01-4699-adb1-9bb610839e44)
+
+$(ID:7dd43c0c-b8c3-4520-bf78-23aec9aa49b3)
+
+$(ID:c9446638-c191-4839-836d-2db17d5faaf7)
+
+## $(ID:73ebe2a7-281f-488a-bc91-55b3591051f5)
+$(ID:4cc60a15-b311-4548-b31c-1b8c99e9eaec)
+
+## $(ID:2ebe93d2-ad5d-4f2e-b306-63f7e5cdb933)
+$(ID:5abbf503-5da2-4c44-8c65-82415997b2be)
+
+* $(ID:31ade0e5-c7fe-44d9-b80b-8c47908bce4a)
+* $(ID:036fcaf5-1640-4c12-aa18-8b4374b0d8a9)
+    * $(ID:78e26e9a-9d29-4828-8cc5-fb6b6b5fec77)
+    * $(ID:7863f31d-d84d-459d-9903-3d7e631ab10f)
+* $(ID:754cdfc5-3769-497b-8d1d-db6625f67d5c)
+    * $(ID:ef9ae4c3-96fb-47cb-8b71-de6488de1036)
+    * $(ID:2a9e7962-5c1a-456d-9f1c-12693d0dff09)
+* $(ID:c61523ce-af60-480a-a90a-a4b0b31e79e2)
+    * $(ID:c9d1eafc-e71c-4e9b-968f-356e85e44f09)
+    * $(ID:42a49f7d-955c-4b85-afbe-3df1a5679074)
+    * $(ID:6bfb49c8-9b8f-4dea-999d-2bae1cdef683)
+    * $(ID:efee0aae-5546-4572-a3c9-993c7bb44e44)
+    * $(ID:595f48a6-0bc0-4926-8fea-13dced3b6093)
+    * $(ID:90ed8266-1dbd-4fec-8dfb-3331a88d0ee4)
+    * $(ID:faaa3726-d662-43e1-a295-aea42b2c6777)
+* $(ID:247baede-dedc-47ce-a227-46645925b1db)
+* $(ID:a7f78a42-8eac-4ae5-8c06-f71f36e44823)
+
+## $(ID:51ce9637-8f09-4ade-83e5-c695675b7217)
+$(ID:61aac022-02d8-4f6f-a207-bd114c4ad184)
+
+* $(ID:fe00190b-cb75-4532-8fe9-66fd907e1dfb)
+* $(ID:d50a4557-3eff-4581-8c89-1213fa7da658)
+* $(ID:2bdf723b-52b7-4233-9ed7-c891ea6b35a2)
+* $(ID:62f9927d-bc97-4972-b314-c0dae101c21c)
+* $(ID:a73455d8-c823-4a6b-964d-aa793369b611)
+* $(ID:a879296f-4886-4667-aee5-065c78109991)
+* $(ID:ce226183-adeb-42d2-8018-f23399af1032)
+* $(ID:c1b13437-d468-4f6e-a979-e133d7f543d7)
+
+## $(ID:d8119891-f757-4346-8a57-a42e9dffbe59)
+$(ID:ff1134db-01e7-4321-8154-aef359c14944)
+
+## $(ID:6ffcac8c-6ce7-476c-8c19-753d12eb8f04)
+$(ID:a9b8d942-6d33-401a-98be-0079a65d0ede)
+
+$(ID:e5da71c8-dfae-4a1e-a089-cf2b18850544)
+
+* $(ID:797bbe42-a901-4d5a-be41-7c2125a827db)
+* $(ID:7d4f4d00-152e-4b39-9d59-64e713a598b2)
+
+$(ID:79523d3e-1cd8-4868-af85-e7e748a849c9)
+
+1. $(ID:54b2d624-ac81-4f99-ae60-a8fc64f9244c)
+2. $(ID:3061c407-7f22-43fd-abd0-9619786cdee2)
+3. $(ID:42cbdbaa-2e55-4043-b2be-90f35318989f)
+4. $(ID:04703a89-190a-4d4a-9f75-2a639750915e)
+5. $(ID:667470ad-ec04-4018-8fab-a4c69a022589)
+
+$(ID:f7a463a1-612e-4749-9fc1-784941beee6f)
+$(ID:d0fba624-404b-4890-a72f-506369df5c63)
+
+</skeleton>
+<unit id="97142e61-7146-42ef-a6e3-541c07600a03">
+<notes>
+<note appliesTo="source">line: 2</note>
+<note appliesTo="source">prefix: # </note>
+</notes>
+<segment>
+<source>NVDA Unmute</source>
+</segment>
+</unit>
+<unit id="a1bec2ee-91a7-4c05-8b90-ef666ba93dce">
+<notes>
+<note appliesTo="source">line: 4</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Author: Oleksandr Gryshchenko</source>
+</segment>
+</unit>
+<unit id="04c0183c-df62-4a60-8535-79ed8a3792b1">
+<notes>
+<note appliesTo="source">line: 5</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Version: 1.8</source>
+</segment>
+</unit>
+<unit id="5cff6e3b-d49c-49a6-990d-873d1610b8f3">
+<notes>
+<note appliesTo="source">line: 6</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>NVDA compatibility: 2026.1 and beyond</source>
+</segment>
+</unit>
+<unit id="64a5c1d0-c683-41be-bd71-ffb0e47d0521">
+<notes>
+<note appliesTo="source">line: 7</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Installation: through the NVDA Add-on Store ([stable version][1])</source>
+</segment>
+</unit>
+<unit id="cb22a09a-4de7-4ace-b287-ec83665ba3d4">
+<notes>
+<note appliesTo="source">line: 9</note>
+</notes>
+<segment>
+<source>Make sure you can hear NVDA: when NVDA starts, the add-on turns on the muted or too quiet sound of Windows and NVDA and starts the speech synthesizer if it has not started. The same checks can be run at any time with a command.</source>
+</segment>
+</unit>
+<unit id="e3aa4986-7c67-4d5a-91ce-7936207a8da4">
+<notes>
+<note appliesTo="source">line: 11</note>
+<note appliesTo="source">prefix: ## </note>
+</notes>
+<segment>
+<source>When the add-on works</source>
+</segment>
+</unit>
+<unit id="6dbc9f2b-0df1-4085-914b-deffd239a087">
+<notes>
+<note appliesTo="source">line: 12</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>When NVDA starts. This can be turned off with the "Unmute when NVDA starts" option in the add-on settings.</source>
+</segment>
+</unit>
+<unit id="72671d5f-b58d-4662-807d-24f9fb9354b2">
+<notes>
+<note appliesTo="source">line: 13</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>With the "Turn on the sound of Windows and NVDA" command, at any time. The command is listed in the NVDA "Input gestures" dialog, in the "Unmute Windows audio" category. You can assign your own shortcut to it there, or turn on the predefined shortcut NVDA+Windows+Shift+U with the "Use the default keyboard shortcut" option in the add-on settings.</source>
+</segment>
+</unit>
+<unit id="fdd56e36-ff45-4117-b598-05460aa26541">
+<notes>
+<note appliesTo="source">line: 15</note>
+</notes>
+<segment>
+<source>After the command the add-on always plays a short sound, so you know that it has worked even if you could hear nothing before. When NVDA starts, the sound is played only if the add-on has changed something, e.g. it has unmuted a device, raised a volume or switched NVDA to the default output device.</source>
+</segment>
+</unit>
+<unit id="cc4af60f-1ee6-48ac-83c4-eb86ac292c03">
+<notes>
+<note appliesTo="source">line: 17</note>
+<note appliesTo="source">prefix: ## </note>
+</notes>
+<segment>
+<source>What the add-on checks</source>
+</segment>
+</unit>
+<unit id="fc7582d8-28c1-4c03-aba2-43f90daf004f">
+<notes>
+<note appliesTo="source">line: 18</note>
+</notes>
+<segment>
+<source>Everything below is done only if it is turned on in the add-on settings. A sound is too quiet if its volume is lower than the "Increase the volume if it is lower than" setting; it is then raised to the "Set custom volume level" setting, but never below the minimum level.</source>
+</segment>
+</unit>
+<unit id="28333463-299f-4b77-b725-3a5189f30298">
+<notes>
+<note appliesTo="source">line: 20</note>
+<note appliesTo="source">prefix: 1. </note>
+</notes>
+<segment>
+<source>Speech mode: if the speech of NVDA is off, replaced by beeps or on demand, it is switched to talk. NVDA always starts in the talk mode, so this matters mostly for the command.</source>
+</segment>
+</unit>
+<unit id="ca6a069f-dec7-47ab-96e3-5d8b519efba5">
+<notes>
+<note appliesTo="source">line: 21</note>
+<note appliesTo="source">prefix: 2. </note>
+</notes>
+<segment>
+<source>Synthesizer: if no synthesizer has started and NVDA uses "No speech", the add-on tries to start the synthesizer selected in the NVDA settings, once a second, as many times as set, until any synthesizer speaks. If "No speech" itself is selected in the NVDA settings, e.g. by mistake, the default synthesizer of NVDA is started. If you use NVDA without speech on purpose, e.g. only with a braille display, turn off the "Repeat attempts to initialize the voice synthesizer driver" option.</source>
+</segment>
+</unit>
+<unit id="db667bb1-8359-4d81-94b1-ae17aec2f87a">
+<notes>
+<note appliesTo="source">line: 22</note>
+<note appliesTo="source">prefix: 3. </note>
+</notes>
+<segment>
+<source>Output device: NVDA is switched to the default output device of Windows, so the sound is turned on where NVDA plays it.</source>
+</segment>
+</unit>
+<unit id="ceee2b6b-cee2-47d3-8214-955fe574c16d">
+<notes>
+<note appliesTo="source">line: 23</note>
+<note appliesTo="source">prefix: 4. </note>
+</notes>
+<segment>
+<source>Windows audio devices: the default output device of Windows is unmuted and its too quiet volume is raised. If NVDA uses a specific output device and is not switched to the default one, that device is checked too. Each muted or too quiet channel of a device can be raised as well, e.g. after the balance has been turned to one side; the other channels are not changed.</source>
+</segment>
+</unit>
+<unit id="62bc9568-8f01-4699-adb1-9bb610839e44">
+<notes>
+<note appliesTo="source">line: 24</note>
+<note appliesTo="source">prefix: 5. </note>
+</notes>
+<segment>
+<source>NVDA itself: the sound of NVDA is unmuted and its too quiet volume is raised on all active output devices, because Windows keeps the volume of a program for each device. Only the running copy of NVDA is changed, not another one, e.g. a portable copy. The add-on can also restore the muted channels of NVDA, raise the too quiet volume of the synthesizer voice and the too quiet volume of NVDA sounds.</source>
+</segment>
+</unit>
+<unit id="7dd43c0c-b8c3-4520-bf78-23aec9aa49b3">
+<notes>
+<note appliesTo="source">line: 26</note>
+</notes>
+<segment>
+<source>If the audio service of Windows is still starting after logging on, the add-on tries again for a few seconds.</source>
+</segment>
+</unit>
+<unit id="c9446638-c191-4839-836d-2db17d5faaf7">
+<notes>
+<note appliesTo="source">line: 28</note>
+</notes>
+<segment>
+<source>When NVDA uses a specific output device in its settings, it is switched to the default device every time NVDA starts, and the short sound is played every time. To avoid this, save the configuration of NVDA after it has been switched (NVDA+Control+C), or turn off the "Switch to the default audio output device" option.</source>
+</segment>
+</unit>
+<unit id="73ebe2a7-281f-488a-bc91-55b3591051f5">
+<notes>
+<note appliesTo="source">line: 30</note>
+<note appliesTo="source">prefix: ## </note>
+</notes>
+<segment>
+<source>Calls</source>
+</segment>
+</unit>
+<unit id="4cc60a15-b311-4548-b31c-1b8c99e9eaec">
+<notes>
+<note appliesTo="source">line: 31</note>
+</notes>
+<segment>
+<source>When a communication program starts a call, Windows lowers the volume of the other sounds by 80% by default, NVDA included. The "Do not lower the volume of NVDA during calls" option keeps the volume of NVDA unchanged. It concerns only the NVDA process: the communication settings of Windows stay the same, and the sound of the other programs is still lowered during calls.</source>
+</segment>
+</unit>
+<unit id="2ebe93d2-ad5d-4f2e-b306-63f7e5cdb933">
+<notes>
+<note appliesTo="source">line: 33</note>
+<note appliesTo="source">prefix: ## </note>
+</notes>
+<segment>
+<source>Add-on settings</source>
+</segment>
+</unit>
+<unit id="5abbf503-5da2-4c44-8c65-82415997b2be">
+<notes>
+<note appliesTo="source">line: 34</note>
+</notes>
+<segment>
+<source>To open the settings, open the NVDA menu (NVDA+N), go to "Preferences", "Settings..." and select the "Unmute Windows audio" category. The settings are saved in the base configuration profile of NVDA and apply at once, without restarting NVDA.</source>
+</segment>
+</unit>
+<unit id="31ade0e5-c7fe-44d9-b80b-8c47908bce4a">
+<notes>
+<note appliesTo="source">line: 36</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Unmute when NVDA starts - do everything turned on below when NVDA starts; otherwise only with the command. On by default.</source>
+</segment>
+</unit>
+<unit id="036fcaf5-1640-4c12-aa18-8b4374b0d8a9">
+<notes>
+<note appliesTo="source">line: 37</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Volume:</source>
+</segment>
+</unit>
+<unit id="78e26e9a-9d29-4828-8cc5-fb6b6b5fec77">
+<notes>
+<note appliesTo="source">line: 38</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Set custom volume level - the volume set for a too quiet audio device, NVDA, its voice or its sounds.</source>
+</segment>
+</unit>
+<unit id="7863f31d-d84d-459d-9903-3d7e631ab10f">
+<notes>
+<note appliesTo="source">line: 39</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Increase the volume if it is lower than - the minimum level: a lower volume is raised.</source>
+</segment>
+</unit>
+<unit id="754cdfc5-3769-497b-8d1d-db6625f67d5c">
+<notes>
+<note appliesTo="source">line: 40</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Windows audio devices:</source>
+</segment>
+</unit>
+<unit id="ef9ae4c3-96fb-47cb-8b71-de6488de1036">
+<notes>
+<note appliesTo="source">line: 41</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Switch to the default audio output device - switch NVDA to the default output device of Windows. On by default.</source>
+</segment>
+</unit>
+<unit id="2a9e7962-5c1a-456d-9f1c-12693d0dff09">
+<notes>
+<note appliesTo="source">line: 42</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Turn on the muted channels of audio devices - raise each too quiet channel of the audio devices. Off by default.</source>
+</segment>
+</unit>
+<unit id="c61523ce-af60-480a-a90a-a4b0b31e79e2">
+<notes>
+<note appliesTo="source">line: 43</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Screen reader:</source>
+</segment>
+</unit>
+<unit id="c9d1eafc-e71c-4e9b-968f-356e85e44f09">
+<notes>
+<note appliesTo="source">line: 44</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Turn on the muted channels of NVDA - if any channel of NVDA is too quiet, set all channels of NVDA to the full level, as NVDA does when sound split is turned off. Not available while NVDA sound split is enabled, because sound split sets the channels itself. Off by default.</source>
+</segment>
+</unit>
+<unit id="42a49f7d-955c-4b85-afbe-3df1a5679074">
+<notes>
+<note appliesTo="source">line: 45</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Turn up the volume of the synthesizer voice - raise the too quiet voice; the new volume is saved, as when it is changed with the synth settings ring. On by default.</source>
+</segment>
+</unit>
+<unit id="6bfb49c8-9b8f-4dea-999d-2bae1cdef683">
+<notes>
+<note appliesTo="source">line: 46</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Turn up the volume of NVDA sounds - raise the too quiet beeps and sounds of NVDA before the sound of the add-on is played, so it is heard. Not available while the volume of NVDA sounds follows the voice in the NVDA audio settings. On by default.</source>
+</segment>
+</unit>
+<unit id="efee0aae-5546-4572-a3c9-993c7bb44e44">
+<notes>
+<note appliesTo="source">line: 47</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Switch the speech mode of NVDA to talk. On by default.</source>
+</segment>
+</unit>
+<unit id="595f48a6-0bc0-4926-8fea-13dced3b6093">
+<notes>
+<note appliesTo="source">line: 48</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Do not lower the volume of NVDA during calls - see "Calls". Off by default.</source>
+</segment>
+</unit>
+<unit id="90ed8266-1dbd-4fec-8dfb-3331a88d0ee4">
+<notes>
+<note appliesTo="source">line: 49</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Repeat attempts to initialize the voice synthesizer driver - start the synthesizer if it has not started and NVDA uses "No speech" instead. On by default.</source>
+</segment>
+</unit>
+<unit id="faaa3726-d662-43e1-a295-aea42b2c6777">
+<notes>
+<note appliesTo="source">line: 50</note>
+<note appliesTo="source">prefix:     * </note>
+</notes>
+<segment>
+<source>Number of retries (0 - infinitely) - how many times to try again, once a second. Available when the attempts are repeated.</source>
+</segment>
+</unit>
+<unit id="247baede-dedc-47ce-a227-46645925b1db">
+<notes>
+<note appliesTo="source">line: 51</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Play sound when audio has been successfully turned on - play a short sound once after the add-on has changed something when NVDA starts. After the command, the sound is always played. On by default.</source>
+</segment>
+</unit>
+<unit id="a7f78a42-8eac-4ae5-8c06-f71f36e44823">
+<notes>
+<note appliesTo="source">line: 52</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Use the default keyboard shortcut - turn the predefined shortcut NVDA+Windows+Shift+U of the command on or off, at once. Off by default.</source>
+</segment>
+</unit>
+<unit id="51ce9637-8f09-4ade-83e5-c695675b7217">
+<notes>
+<note appliesTo="source">line: 54</note>
+<note appliesTo="source">prefix: ## </note>
+</notes>
+<segment>
+<source>Contributions</source>
+</segment>
+</unit>
+<unit id="61aac022-02d8-4f6f-a207-bd114c4ad184">
+<notes>
+<note appliesTo="source">line: 55</note>
+</notes>
+<segment>
+<source>We are very grateful to everyone who made the effort to develop, translate and maintain this add-on:</source>
+</segment>
+</unit>
+<unit id="fe00190b-cb75-4532-8fe9-66fd907e1dfb">
+<notes>
+<note appliesTo="source">line: 57</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Dang Manh Cuong - Vietnamese translation;</source>
+</segment>
+</unit>
+<unit id="d50a4557-3eff-4581-8c89-1213fa7da658">
+<notes>
+<note appliesTo="source">line: 58</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Cagri Dogan - Turkish translation;</source>
+</segment>
+</unit>
+<unit id="2bdf723b-52b7-4233-9ed7-c891ea6b35a2">
+<notes>
+<note appliesTo="source">line: 59</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Christianlm - Italian translation;</source>
+</segment>
+</unit>
+<unit id="62f9927d-bc97-4972-b314-c0dae101c21c">
+<notes>
+<note appliesTo="source">line: 60</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Cary Rowen - simplified Chinese translation;</source>
+</segment>
+</unit>
+<unit id="a73455d8-c823-4a6b-964d-aa793369b611">
+<notes>
+<note appliesTo="source">line: 61</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Stefan Banita - Polish translation;</source>
+</segment>
+</unit>
+<unit id="a879296f-4886-4667-aee5-065c78109991">
+<notes>
+<note appliesTo="source">line: 62</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Ivan Novegil Cancelas and Jose Manuel - Spanish and Galician translations;</source>
+</segment>
+</unit>
+<unit id="ce226183-adeb-42d2-8018-f23399af1032">
+<notes>
+<note appliesTo="source">line: 63</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Frank Niggemann - German translation;</source>
+</segment>
+</unit>
+<unit id="c1b13437-d468-4f6e-a979-e133d7f543d7">
+<notes>
+<note appliesTo="source">line: 64</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>Manolo - the sound of the add-on.</source>
+</segment>
+</unit>
+<unit id="d8119891-f757-4346-8a57-a42e9dffbe59">
+<notes>
+<note appliesTo="source">line: 66</note>
+<note appliesTo="source">prefix: ## </note>
+</notes>
+<segment>
+<source>Change log</source>
+</segment>
+</unit>
+<unit id="ff1134db-01e7-4321-8154-aef359c14944">
+<notes>
+<note appliesTo="source">line: 67</note>
+</notes>
+<segment>
+<source>The history of changes for each version of the add-on is published on the [Releases page][2] of the add-on repository.</source>
+</segment>
+</unit>
+<unit id="6ffcac8c-6ce7-476c-8c19-753d12eb8f04">
+<notes>
+<note appliesTo="source">line: 69</note>
+<note appliesTo="source">prefix: ## </note>
+</notes>
+<segment>
+<source>Altering of add-on source code</source>
+</segment>
+</unit>
+<unit id="a9b8d942-6d33-401a-98be-0079a65d0ede">
+<notes>
+<note appliesTo="source">line: 70</note>
+</notes>
+<segment>
+<source>You may clone this repo to make alterations to NVDA Unmute.</source>
+</segment>
+</unit>
+<unit id="e5da71c8-dfae-4a1e-a089-cf2b18850544">
+<notes>
+<note appliesTo="source">line: 72</note>
+</notes>
+<segment>
+<source>Requirements:</source>
+</segment>
+</unit>
+<unit id="797bbe42-a901-4d5a-be41-7c2125a827db">
+<notes>
+<note appliesTo="source">line: 74</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>[uv](https://docs.astral.sh/uv/) - manages Python and all development tools of the add-on;</source>
+</segment>
+</unit>
+<unit id="7d4f4d00-152e-4b39-9d59-64e713a598b2">
+<notes>
+<note appliesTo="source">line: 75</note>
+<note appliesTo="source">prefix: * </note>
+</notes>
+<segment>
+<source>[GNU Gettext tools](https://mlocati.github.io/articles/gettext-iconv-windows.html) (`msgfmt` and `xgettext` in the `PATH`) - compile translations and generate the template of translatable strings.</source>
+</segment>
+</unit>
+<unit id="79523d3e-1cd8-4868-af85-e7e748a849c9">
+<notes>
+<note appliesTo="source">line: 77</note>
+</notes>
+<segment>
+<source>Run the following commands from the root of the repository:</source>
+</segment>
+</unit>
+<unit id="54b2d624-ac81-4f99-ae60-a8fc64f9244c">
+<notes>
+<note appliesTo="source">line: 79</note>
+<note appliesTo="source">prefix: 1. </note>
+</notes>
+<segment>
+<source>`uv sync` - install the development dependencies;</source>
+</segment>
+</unit>
+<unit id="3061c407-7f22-43fd-abd0-9619786cdee2">
+<notes>
+<note appliesTo="source">line: 80</note>
+<note appliesTo="source">prefix: 2. </note>
+</notes>
+<segment>
+<source>`uv run prek run --all-files` - run all code checks: linting and formatting with ruff, type checking with pyright and other checks;</source>
+</segment>
+</unit>
+<unit id="42cbdbaa-2e55-4043-b2be-90f35318989f">
+<notes>
+<note appliesTo="source">line: 81</note>
+<note appliesTo="source">prefix: 3. </note>
+</notes>
+<segment>
+<source>`uv run python -m unittest discover -s tests -v` - run the unit tests;</source>
+</segment>
+</unit>
+<unit id="04703a89-190a-4d4a-9f75-2a639750915e">
+<notes>
+<note appliesTo="source">line: 82</note>
+<note appliesTo="source">prefix: 4. </note>
+</notes>
+<segment>
+<source>`uv run scons` - build the add-on, the created `.nvda-addon` file is placed in the root of the repository;</source>
+</segment>
+</unit>
+<unit id="667470ad-ec04-4018-8fab-a4c69a022589">
+<notes>
+<note appliesTo="source">line: 83</note>
+<note appliesTo="source">prefix: 5. </note>
+</notes>
+<segment>
+<source>`uv run scons pot` - generate the `.pot` file with all translatable strings of the add-on (optional).</source>
+</segment>
+</unit>
+<unit id="f7a463a1-612e-4749-9fc1-784941beee6f">
+<notes>
+<note appliesTo="source">line: 85</note>
+</notes>
+<segment>
+<source>[1]: https://addonstore.nvaccess.org/?channel=stable&amp;addonId=unmute</source>
+</segment>
+</unit>
+<unit id="d0fba624-404b-4890-a72f-506369df5c63">
+<notes>
+<note appliesTo="source">line: 86</note>
+</notes>
+<segment>
+<source>[2]: https://github.com/grisov/unmute/releases</source>
+</segment>
+</unit>
+</file>
+</xliff>
